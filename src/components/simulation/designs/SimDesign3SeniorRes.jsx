@@ -1,0 +1,1 @@
+export { SimDesign3SeniorRes as default } from '../SimDesigns345'

@@ -1,0 +1,253 @@
+/* src/styles/simdesign2.module.css */
+/* Design 2 — The Monitor (Junior Residency) */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600&family=DM+Sans:wght@300;400;500&family=Share+Tech+Mono&display=swap');
+
+.page {
+  background: #0a0f1a;
+  min-height: 100vh;
+  font-family: 'DM Sans', sans-serif;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 48px;
+  max-width: 1000px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Subtle ECG texture on dark background */
+.page::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='60' viewBox='0 0 320 60'%3E%3Cpolyline points='0,30 30,30 38,10 46,50 54,5 62,35 70,30 120,30 148,30 156,10 164,50 172,5 180,35 188,30 240,30 268,30 276,10 284,50 292,5 300,35 308,30 320,30' fill='none' stroke='%2300ff88' stroke-width='2'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 320px 60px;
+}
+.page > * { position: relative; z-index: 1; }
+
+/* TOP BAR */
+.topBar {
+  background: #0a1218;
+  border-bottom: 1px solid #1a2d3d;
+  padding: 0.55rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  flex-shrink: 0;
+}
+.statusDots { display: flex; gap: 4px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; }
+.topTitle {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.4);
+}
+.topClock {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.58rem;
+  color: rgba(255,255,255,0.2);
+  margin-left: auto;
+}
+
+/* VITALS STRIP */
+.vitalsStrip {
+  background: #060d16;
+  border-bottom: 1px solid #0d1f35;
+  padding: 0.5rem 1rem;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  flex-shrink: 0;
+}
+.vitalItem { text-align: center; }
+.vitalVal {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 500;
+  line-height: 1;
+}
+.vitalLabel {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.42rem;
+  color: #2d4a6b;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 2px;
+}
+
+/* SPLIT */
+.split {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  overflow: hidden;
+}
+.leftPanel {
+  padding: 0.9rem 1rem;
+  border-right: 1px solid #1a2d3d;
+  overflow-y: auto;
+}
+.rightPanel {
+  padding: 0.9rem 1rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+.panelHead {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  border-bottom: 1px solid;
+  padding-bottom: 0.4rem;
+  margin-bottom: 0.7rem;
+}
+.ecgWrap {
+  height: 52px;
+  margin-bottom: 0.8rem;
+  background: #060d16;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.scenarioText {
+  font-size: 0.78rem;
+  color: #4a7a6a;
+  line-height: 1.6;
+  margin-bottom: 0.8rem;
+}
+.audioRow {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.8rem;
+}
+.audioBtn {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  background: transparent;
+  border: 1px solid;
+  border-radius: 3px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.audioHint {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.52rem;
+  color: #2d4a6b;
+  text-transform: uppercase;
+}
+.question {
+  font-size: 0.82rem;
+  color: #c8d8e8;
+  font-weight: 500;
+  line-height: 1.55;
+  margin-bottom: 0.7rem;
+}
+.options { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+.option {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 10px;
+  background: #060d16;
+  border: 1px solid #1a2d3d;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  color: #4a7a6a;
+  transition: border-color 0.15s, color 0.15s;
+}
+.option:hover { color: #c8d8e8; }
+.optKey {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.6rem;
+  color: #2d4a6b;
+  flex-shrink: 0;
+  padding-top: 1px;
+}
+.optText { line-height: 1.4; }
+.explanation {
+  border-left: 3px solid;
+  padding: 0.7rem 0.9rem;
+  margin: 0.7rem 0;
+  background: rgba(0,0,0,0.3);
+  border-radius: 0 4px 4px 0;
+  animation: slideIn 0.3s ease;
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.expLabel {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 4px;
+}
+.expText { font-size: 0.78rem; color: #4a7a6a; line-height: 1.6; }
+.nextBtn {
+  width: 100%;
+  padding: 0.75rem;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  margin-top: 0.7rem;
+  transition: opacity 0.2s;
+}
+.nextBtn:hover { opacity: 0.88; }
+.footer {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 1rem;
+  background: rgba(8,15,20,0.97);
+  border-top: 1px solid #1a2d3d;
+  backdrop-filter: blur(6px);
+  z-index: 10;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.footLabel {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+.footBar { flex: 1; height: 2px; background: #1a2d3d; overflow: hidden; }
+.footBarFill { height: 100%; transition: width 1s linear, background 0.3s; }
+.footVal {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.7rem;
+  white-space: nowrap;
+  min-width: 32px;
+}
+.footCount {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.5rem;
+  color: #2d4a6b;
+  white-space: nowrap;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+@media (max-width: 640px) {
+  .split { grid-template-columns: 1fr; }
+  .leftPanel { border-right: none; border-bottom: 1px solid #1a2d3d; }
+  .vitalsStrip { grid-template-columns: repeat(3, 1fr); }
+}

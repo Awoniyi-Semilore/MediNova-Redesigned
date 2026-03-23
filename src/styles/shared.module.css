@@ -1,0 +1,209 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=DM+Sans:wght@300;400;500&family=Share+Tech+Mono&display=swap');
+
+.topbar {
+  background: #0d2d5e;
+  border-bottom: 2px solid #c62828;
+  padding: 0 2rem;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  flex-shrink: 0;
+}
+
+.tbLeft {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.tbBack {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255,255,255,0.55);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 5px;
+  padding: 4px 10px;
+  transition: color 0.2s, background 0.2s;
+}
+.tbBack:hover {
+  color: #fff;
+  background: rgba(255,255,255,0.14);
+}
+
+.tbSep {
+  width: 1px;
+  height: 20px;
+  background: rgba(255,255,255,0.15);
+}
+
+.tbCross {
+  width: 22px;
+  height: 22px;
+  background: #c62828;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  animation: crossPulse 2.5s infinite;
+}
+@keyframes crossPulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(198,40,40,0.5); }
+  50%      { box-shadow: 0 0 0 5px rgba(198,40,40,0); }
+}
+
+.tbLogo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.tbLogoAccent { color: #ef5350; }
+
+.tbSys {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.58rem;
+  color: rgba(255,255,255,0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.tbRight {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.tbLive {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.6rem;
+  color: #4caf50;
+  text-transform: uppercase;
+}
+.tbLiveDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #4caf50;
+  animation: blink 1.5s infinite;
+}
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50%      { opacity: 0.2; }
+}
+
+.tbClock {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.55);
+  min-width: 70px;
+}
+
+.themeToggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 20px;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+  user-select: none;
+}
+.themeToggle:hover { background: rgba(255,255,255,0.2); }
+
+.ttLabel {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.6rem;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  min-width: 28px;
+}
+
+.ttTrack {
+  width: 28px;
+  height: 14px;
+  border-radius: 7px;
+  background: rgba(255,255,255,0.25);
+  position: relative;
+  transition: background 0.3s;
+  flex-shrink: 0;
+}
+.ttTrackOn { background: #1565c0; }
+
+.ttThumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #fff;
+  transition: left 0.3s;
+}
+.ttThumbOn { left: 16px; }
+
+.tbNotif {
+  position: relative;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+  transition: background 0.2s;
+}
+.tbNotif:hover { background: rgba(255,255,255,0.2); }
+
+.tbNotifDot {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 6px;
+  height: 6px;
+  background: #c62828;
+  border-radius: 50%;
+}
+
+.tbAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #1565c0;
+  border: 2px solid rgba(255,255,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.85rem;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  flex-shrink: 0;
+  user-select: none;
+}
+.tbAvatar:hover {
+  border-color: rgba(255,255,255,0.5);
+  background: #1976d2;
+}

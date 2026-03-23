@@ -1,0 +1,1 @@
+export { ClassDebrief as default } from './SimDebrief'

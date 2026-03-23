@@ -1,0 +1,199 @@
+/* src/styles/simulation.module.css */
+/* SimulationOpening — full screen slideshow intro */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400;1,600&family=DM+Sans:wght@300;400;500&family=Share+Tech+Mono&display=swap');
+
+.opening {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  font-family: 'DM Sans', sans-serif;
+  transition: opacity 0.4s ease;
+}
+.openingFadeOut { opacity: 0; pointer-events: none; }
+
+/* Background image with Ken Burns */
+.openingBg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: opacity 0.8s ease;
+}
+.openingBgA {
+  animation: kenBurnsA 4s ease-out forwards;
+}
+.openingBgB {
+  animation: kenBurnsB 5s ease-out forwards;
+}
+@keyframes kenBurnsA {
+  from { transform: scale(1.08); }
+  to   { transform: scale(1); }
+}
+@keyframes kenBurnsB {
+  from { transform: scale(1) translateX(0); }
+  to   { transform: scale(1.05) translateX(-1%); }
+}
+
+.openingOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* Content layer */
+.openingContent {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.4rem 2rem;
+}
+
+/* Top bar */
+.openingTop { display: flex; flex-direction: column; gap: 4px; }
+.openingEyebrow {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: fadeSlideDown 0.6s ease forwards;
+}
+.openingDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  animation: blink 1.5s infinite;
+  flex-shrink: 0;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+.openingTrack {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.55rem;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+/* Centre */
+.openingCentre {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  max-width: 580px;
+}
+.openingSubsimTitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  color: #fff;
+  font-weight: 600;
+  line-height: 1.1;
+  text-shadow: 0 2px 24px rgba(0,0,0,0.5);
+  animation: fadeSlideUp 0.7s ease 0.2s both;
+}
+.openingScenario {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  color: rgba(255,255,255,0.7);
+  font-style: italic;
+  line-height: 1.7;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.4);
+  animation: fadeSlideUp 0.7s ease 0.4s both;
+}
+
+/* Vitals bar */
+.openingVitals {
+  display: flex;
+  gap: 0;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(8px);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.1);
+  align-self: flex-start;
+}
+.openingVitalsIn { animation: fadeSlideUp 0.5s ease forwards; }
+.openingVital {
+  padding: 0.5rem 0.9rem;
+  border-right: 1px solid rgba(255,255,255,0.07);
+  text-align: center;
+  animation: fadeSlideUp 0.4s ease both;
+}
+.openingVital:last-child { border-right: none; }
+.openingVitalVal {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.78rem;
+  font-weight: 500;
+  line-height: 1;
+}
+.openingVitalUnit { font-size: 0.5rem; margin-left: 1px; opacity: 0.6; }
+.openingVitalLabel {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.42rem;
+  color: rgba(255,255,255,0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 3px;
+}
+
+/* Bottom */
+.openingBottom { display: flex; align-items: center; justify-content: flex-end; }
+.openingSkip {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.58rem;
+  color: rgba(255,255,255,0.35);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.openingSkip:hover { color: rgba(255,255,255,0.7); }
+.openingCta {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  animation: fadeIn 0.6s ease forwards;
+}
+.openingCtaText {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.8);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+.openingCtaPulse {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1.5px solid;
+  animation: pulse 1.2s infinite;
+}
+@keyframes pulse {
+  0%   { transform: scale(1); opacity: 1; }
+  50%  { transform: scale(1.4); opacity: 0.5; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Shared animations */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeSlideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}

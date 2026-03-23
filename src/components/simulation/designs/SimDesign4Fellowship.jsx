@@ -1,0 +1,1 @@
+export { SimDesign4Fellowship as default } from '../SimDesigns345'

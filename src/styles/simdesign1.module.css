@@ -1,0 +1,340 @@
+/* src/styles/simdesign1.module.css */
+/* Design 1 — The Patient Chart (Clerkship) */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&family=Share+Tech+Mono&display=swap');
+
+/* ── PAGE ──────────────────────────────────────────────────────────────────── */
+.page {
+  background: #fdfaf6;
+  min-height: 100vh;
+  font-family: 'DM Sans', sans-serif;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 56px;
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* ECG background texture */
+.page::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='60' viewBox='0 0 320 60'%3E%3Cpolyline points='0,30 30,30 38,10 46,50 54,5 62,35 70,30 120,30 148,30 156,10 164,50 172,5 180,35 188,30 240,30 268,30 276,10 284,50 292,5 300,35 308,30 320,30' fill='none' stroke='%230d2d5e' stroke-width='2'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 320px 60px;
+}
+
+/* all children above the texture */
+.page > * { position: relative; z-index: 1; }
+
+/* ── TABS ─────────────────────────────────────────────────────────────────── */
+.tabs {
+  display: flex;
+  background: #f0ebe0;
+  border-bottom: 2px solid;
+  overflow-x: auto;
+  flex-shrink: 0;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 8px 14px;
+  color: #8d7a6a;
+  cursor: pointer;
+  border-right: 1px solid #d4cfc0;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: color 0.15s;
+  flex-shrink: 0;
+}
+.tab:hover { color: #5d4037; }
+.tabActive { background: #fdfaf6; border-bottom-color: #fdfaf6 !important; }
+.tabMechanics {
+  margin-left: auto;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.48rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 8px 12px;
+  color: #b0a090;
+  flex-shrink: 0;
+}
+
+/* ── CHART HEADER ─────────────────────────────────────────────────────────── */
+.chartHead {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+  padding: 0.9rem 1.4rem;
+  border-bottom: 1px solid #e8e2d5;
+  background: rgba(253,250,246,0.95);
+  flex-shrink: 0;
+}
+.patientName {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+.patientMeta {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.52rem;
+  color: #8d7a6a;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.chartInfo { text-align: right; }
+.chartNum {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 500;
+  margin-bottom: 3px;
+}
+.chartDate {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.48rem;
+  color: #b0a090;
+  text-transform: uppercase;
+}
+
+/* ── VITALS STRIP ─────────────────────────────────────────────────────────── */
+.vitalsStrip {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  border-bottom: 1px solid #e8e2d5;
+  flex-shrink: 0;
+  background: rgba(253,250,246,0.95);
+}
+.vitalCell {
+  padding: 8px 10px;
+  border-right: 1px solid #e8e2d5;
+  text-align: center;
+}
+.vitalCell:last-child { border-right: none; }
+.vitalVal {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 500;
+  line-height: 1;
+}
+.vitalLabel {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.42rem;
+  color: #b0a090;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 3px;
+}
+
+/* ── BODY ─────────────────────────────────────────────────────────────────── */
+.body {
+  flex: 1;
+  padding: 1rem 1.4rem 1rem;
+  overflow-y: auto;
+}
+
+.sectionLabel {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.52rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  border-bottom: 1px solid #e8e2d5;
+  padding-bottom: 4px;
+  margin-bottom: 0.7rem;
+  margin-top: 0.8rem;
+}
+.sectionLabel:first-child { margin-top: 0; }
+
+.note {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.95rem;
+  color: #3d2a1e;
+  line-height: 1.75;
+  font-style: italic;
+  padding-left: 0.9rem;
+  border-left: 2px solid;
+  margin-bottom: 0.9rem;
+}
+
+/* ── AUDIO PLAYER ─────────────────────────────────────────────────────────── */
+.audioPlayer {
+  background: #f5f0e8;
+  border: 1px solid #e8e2d5;
+  border-radius: 6px;
+  padding: 0.7rem 1rem;
+  margin-bottom: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+.audioLabel {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.55rem;
+  color: #8d7a6a;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  flex: 1;
+}
+.audioBtn {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 5px 12px;
+  background: transparent;
+  border: 1px solid;
+  border-radius: 3px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+
+/* ── QUESTION ─────────────────────────────────────────────────────────────── */
+.question {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #2c1810;
+  line-height: 1.65;
+  margin-bottom: 0.8rem;
+}
+
+/* ── OPTIONS ─────────────────────────────────────────────────────────────── */
+.options { display: flex; flex-direction: column; gap: 5px; margin-bottom: 0.8rem; }
+.option {
+  display: grid;
+  grid-template-columns: 26px 1fr auto;
+  gap: 8px;
+  align-items: start;
+  padding: 9px 11px;
+  background: rgba(255,255,255,0.9);
+  border: 1px solid #e8e2d5;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.option:hover { border-color: #b0a090; background: #fff; }
+.optionKey {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.6rem;
+  color: #b0a090;
+  padding-top: 1px;
+}
+.optionText { font-size: 0.8rem; color: #3d2a1e; line-height: 1.4; }
+.optionTick { color: #2e7d32; font-size: 0.85rem; }
+.optionCross { font-size: 0.85rem; }
+
+/* ── EXPLANATION ──────────────────────────────────────────────────────────── */
+.explanation {
+  padding: 0.8rem 1rem;
+  border-radius: 0 5px 5px 0;
+  border-left: 3px solid;
+  margin-bottom: 0.9rem;
+  animation: slideIn 0.3s ease;
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.explanationLabel {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 5px;
+}
+.explanationText { font-size: 0.8rem; color: #3d2a1e; line-height: 1.65; }
+
+/* ── NEXT BUTTON ──────────────────────────────────────────────────────────── */
+.nextBtn {
+  width: 100%;
+  padding: 0.82rem;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+}
+.nextBtn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+/* ── FOOTER TIMER ─────────────────────────────────────────────────────────── */
+.footer {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.6rem 1.4rem;
+  background: rgba(253,250,246,0.97);
+  border-top: 1px solid #e8e2d5;
+  backdrop-filter: blur(6px);
+  z-index: 10;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.footerTimerLabel {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.5rem;
+  color: #b0a090;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.footerBar {
+  flex: 1;
+  height: 3px;
+  background: #e8e2d5;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.footerBarFill { height: 100%; border-radius: 2px; }
+.footerTimerVal {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.72rem;
+  white-space: nowrap;
+  min-width: 32px;
+}
+.footerQCount {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.5rem;
+  color: #b0a090;
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .vitalsStrip { grid-template-columns: repeat(3, 1fr); }
+  .body { padding: 0.8rem 1rem; }
+  .chartHead { grid-template-columns: 1fr; }
+  .chartInfo { text-align: left; }
+}
+
+
+.audioBanner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.55rem 1.4rem;
+  background: rgba(13,45,94,0.95);
+  backdrop-filter: blur(8px);
+  animation: bannerIn 0.4s ease, bannerOut 0.4s ease 3.6s forwards;
+}

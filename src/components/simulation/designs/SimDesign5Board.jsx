@@ -1,0 +1,1 @@
+export { SimDesign5Board as default } from '../SimDesigns345'
