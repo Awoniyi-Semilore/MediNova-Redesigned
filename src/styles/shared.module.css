@@ -3,7 +3,7 @@
 .topbar {
   background: #0d2d5e;
   border-bottom: 2px solid #c62828;
-  padding: 0 2rem;
+  padding: 0 1rem;
   height: 56px;
   display: flex;
   align-items: center;
@@ -12,12 +12,18 @@
   top: 0;
   z-index: 30;
   flex-shrink: 0;
+  width: 100%;
+  max-width: 100vw;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .tbLeft {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.6rem;
+  flex-shrink: 0;
+  min-width: 0;
 }
 
 .tbBack {
@@ -33,8 +39,9 @@
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.15);
   border-radius: 5px;
-  padding: 4px 10px;
+  padding: 4px 8px;
   transition: color 0.2s, background 0.2s;
+  white-space: nowrap;
 }
 .tbBack:hover {
   color: #fff;
@@ -45,6 +52,7 @@
   width: 1px;
   height: 20px;
   background: rgba(255,255,255,0.15);
+  flex-shrink: 0;
 }
 
 .tbCross {
@@ -69,6 +77,8 @@
   color: #fff;
   font-weight: 600;
   letter-spacing: 0.04em;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 .tbLogoAccent { color: #ef5350; }
 
@@ -78,12 +88,16 @@
   color: rgba(255,255,255,0.45);
   text-transform: uppercase;
   letter-spacing: 0.1em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .tbRight {
   display: flex;
   align-items: center;
-  gap: 0.9rem;
+  gap: 0.5rem;
+  flex-shrink: 0;
 }
 
 .tbLive {
@@ -94,6 +108,7 @@
   font-size: 0.6rem;
   color: #4caf50;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 .tbLiveDot {
   width: 5px;
@@ -101,6 +116,7 @@
   border-radius: 50%;
   background: #4caf50;
   animation: blink 1.5s infinite;
+  flex-shrink: 0;
 }
 @keyframes blink {
   0%,100% { opacity: 1; }
@@ -111,7 +127,7 @@
   font-family: 'Share Tech Mono', monospace;
   font-size: 0.68rem;
   color: rgba(255,255,255,0.55);
-  min-width: 70px;
+  white-space: nowrap;
 }
 
 .themeToggle {
@@ -121,10 +137,11 @@
   background: rgba(255,255,255,0.1);
   border: 1px solid rgba(255,255,255,0.2);
   border-radius: 20px;
-  padding: 5px 12px;
+  padding: 5px 10px;
   cursor: pointer;
   transition: background 0.2s;
   user-select: none;
+  white-space: nowrap;
 }
 .themeToggle:hover { background: rgba(255,255,255,0.2); }
 
@@ -172,6 +189,7 @@
   background: rgba(255,255,255,0.1);
   border: 1px solid rgba(255,255,255,0.15);
   transition: background 0.2s;
+  flex-shrink: 0;
 }
 .tbNotif:hover { background: rgba(255,255,255,0.2); }
 
@@ -206,4 +224,25 @@
 .tbAvatar:hover {
   border-color: rgba(255,255,255,0.5);
   background: #1976d2;
+}
+
+/* ── MOBILE — hide non-essential items on small screens ── */
+@media (max-width: 480px) {
+  .topbar {
+    padding: 0 0.75rem;
+    gap: 0;
+  }
+
+  .tbLive { display: none; }
+  .tbClock { display: none; }
+  .themeToggle { display: none; }
+  .tbSys { display: none; }
+
+  .tbLeft { gap: 0.5rem; }
+  .tbRight { gap: 0.5rem; }
+}
+
+@media (max-width: 360px) {
+  .tbBack { display: none; }
+  .tbSep { display: none; }
 }
