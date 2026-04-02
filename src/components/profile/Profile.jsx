@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 import { useTheme } from '../../contexts/ThemeContext'
+import { useProgress } from '../../contexts/ProgressContext'
 import styles from '../../styles/profile.module.css'
 import TopBar from '../shared/TopBar'
 import ProfileHero from './ProfileHero'
@@ -9,26 +10,15 @@ import PerformanceReview from './PerformanceReview'
 import ProgressBreakdown from './ProgressBreakdown'
 import AccountSettings from './AccountSettings'
 
-const MOCK = {
-  streak: 7,
-  classesDone: 3,
-  total: 20,
-  avgScore: 84,
-  certificates: 2,
-  simsThisPeriod: 2,
-  simsTarget: 5,
-  urgentDone: 0,
-  urgentTotal: 2,
-  overallPct: 15,
-}
-
 export default function Profile() {
   const { currentUser } = useAuth()
   const { isDark } = useTheme()
-  const navigate = useNavigate()
+  const { streak, completedCount, overallProgress, avgScore, track, activeClass } = useProgress()
 
   const displayName = currentUser?.displayName || currentUser?.email?.split('@')[0] || 'Doctor'
   const themeClass = isDark ? styles.dark : styles.light
+
+  const activeTitle = activeClass ? `Class ${activeClass.num} Active` : 'Curriculum Starting'
 
   return (
     <div className={`${styles.page} ${themeClass}`}>
@@ -36,44 +26,45 @@ export default function Profile() {
 
       <ProfileHero
         name={displayName}
-        role="Attending Physician"
-        track="Physician Track"
-        activeClass="Class 03 Active"
-        staffId="MN-48291"
+        role={track === 'doctor' ? "Attending Physician" : "Head Nurse"}
+        track={track === 'doctor' ? "Physician Track" : "Nursing Track"}
+        activeClass={activeTitle}
+        photoURL={currentUser?.photoURL}
+        staffId={`MN-${1000 + (completedCount * 7)}`}
         email={currentUser?.email || ''}
         joined="March 2025"
       />
 
       <StatStrip
-        streak={MOCK.streak}
-        classesDone={MOCK.classesDone}
-        total={MOCK.total}
-        avgScore={MOCK.avgScore}
-        certificates={MOCK.certificates}
-        simsThisPeriod={MOCK.simsThisPeriod}
-        simsTarget={MOCK.simsTarget}
+        streak={streak}
+        classesDone={completedCount}
+        total={20}
+        avgScore={avgScore}
+        certificates={Math.floor(completedCount / 4)}
+        simsThisPeriod={completedCount % 5}
+        simsTarget={5}
       />
 
       <div className={styles.body}>
         <div className={styles.sectionLabel}>Clinical Performance Review</div>
         <PerformanceReview
           name={displayName}
-          simsThisPeriod={MOCK.simsThisPeriod}
-          simsTarget={MOCK.simsTarget}
-          simsUrgent={MOCK.urgentDone}
-          urgentTarget={MOCK.urgentTotal}
-          avgScore={MOCK.avgScore}
+          simsThisPeriod={completedCount % 5}
+          simsTarget={5}
+          simsUrgent={0}
+          urgentTarget={2}
+          avgScore={avgScore}
         />
 
         <div className={styles.sectionLabel}>Progress Breakdown</div>
         <ProgressBreakdown
-          simsThisPeriod={MOCK.simsThisPeriod}
-          simsTarget={MOCK.simsTarget}
-          avgScore={MOCK.avgScore}
-          urgentDone={MOCK.urgentDone}
-          urgentTotal={MOCK.urgentTotal}
-          overallPct={MOCK.overallPct}
-          streak={MOCK.streak}
+          simsThisPeriod={completedCount % 5}
+          simsTarget={5}
+          avgScore={avgScore}
+          urgentDone={0}
+          urgentTotal={2}
+          overallPct={overallProgress}
+          streak={streak}
         />
 
         <div className={styles.sectionLabel}>Account Settings</div>

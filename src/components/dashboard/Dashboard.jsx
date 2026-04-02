@@ -3,6 +3,8 @@ import { useAuth } from '../../contexts/AuthContext'
 import { useTheme } from '../../contexts/ThemeContext'
 import { useProgress } from '../../contexts/ProgressContext'
 import styles from '../../styles/dashboard.module.css'
+
+// Components
 import TopBar from '../shared/TopBar'
 import WelcomeStrip from './WelcomeStrip'
 import StreakBar from './StreakBar'
@@ -18,7 +20,7 @@ const TOUR_KEY = 'mn_tour_done'
 
 export default function Dashboard() {
   const { currentUser } = useAuth()
-  const { isDark } = useTheme()
+  const { isDark } = useTheme() // Assuming useTheme provides isDark
   const { activeClass, track, loading } = useProgress()
   const [showModal, setShowModal] = useState(false)
   const [showTour, setShowTour] = useState(false)
@@ -47,25 +49,27 @@ export default function Dashboard() {
     localStorage.setItem(TOUR_KEY, 'true')
   }
 
+  // This applies the .dark or .light class from your CSS
   const themeClass = isDark ? styles.dark : styles.light
+  
   const activeTitle = activeClass
     ? `Class ${activeClass.num} — ${activeClass.title}`
-    : 'Getting Started'
+    : 'Residency Initializing...'
 
   if (loading) return (
     <div className={`${styles.app} ${themeClass}`} style={{
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       minHeight: '100vh', fontFamily: 'Share Tech Mono, monospace',
-      fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em',
-      color: '#64b5f6'
+      color: '#1565c0'
     }}>
-      Loading your ward...
+      <div className={styles.tbLiveDot} style={{ marginRight: '10px' }} />
+      UPDATING CLINICAL RECORDS...
     </div>
   )
 
   return (
-    <div className={`${styles.app} ${themeClass}`} data-dashboard>
-      <TopBar pageTitle="Clinical Workstation · v2.4" />
+    <div className={`${styles.app} ${themeClass}`}>
+      <TopBar />
 
       <div className={styles.bgStrip}>
         <img
@@ -76,23 +80,33 @@ export default function Dashboard() {
         <div className={styles.bgOverlay} />
       </div>
 
-      <div className={styles.mainContent}>
+      <main className={styles.mainContent}>
         <WelcomeStrip
           name={displayName}
           track={track === 'doctor' ? 'Physician Track' : 'Nurse Track'}
           activeClass={activeTitle}
         />
+        
         <StreakBar />
+        
         <VitalsRow />
+
         <div className={styles.twoCol}>
-          <WardMap />
+          <div className={styles.colLeft}>
+            <WardMap />
+            {/* UrgentPages moved inside/below for better balance if needed, 
+                or kept at bottom per your previous code */}
+            <div style={{ marginTop: '1.1rem' }}>
+                <UrgentPages />
+            </div>
+          </div>
+          
           <div className={styles.colRight}>
             <ShiftBoard />
             <CertificateCase />
           </div>
         </div>
-        <UrgentPages />
-      </div>
+      </main>
 
       {showModal && (
         <WelcomeModal
@@ -100,6 +114,7 @@ export default function Dashboard() {
           onSkip={handleSkipModal}
         />
       )}
+      
       {showTour && (
         <TourHighlight onEnd={handleEndTour} />
       )}

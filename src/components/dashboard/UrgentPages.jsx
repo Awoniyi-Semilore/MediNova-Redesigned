@@ -1,14 +1,17 @@
+import { useNavigate } from 'react-router-dom'
 import styles from '../../styles/dashboard.module.css'
 
 const PAGES = [
-  { title: 'Daily ECG Challenge', sub: 'Identify the arrhythmia · 2 min · Expires tonight', locked: false },
-  { title: 'Drug Dosage Quiz', sub: '5 questions · Physician Track · Due 23:59', locked: false },
-  { title: 'Triage Ordering Drill', sub: 'Unlocks after Class 03 completes', locked: true },
+  { title: 'Daily ECG Challenge', sub: 'Identify the arrhythmia · 2 min', path: '/ward-map', locked: false },
+  { title: 'Drug Dosage Quiz', sub: '5 questions · Physician Track', path: '/ward-map', locked: false },
+  { title: 'Triage Ordering Drill', sub: 'Unlocks after Class 03 completes', path: '#', locked: true },
 ]
 
 export default function UrgentPages() {
+  const navigate = useNavigate()
+
   return (
-    <div className={styles.panel} id="urgentPanel">
+    <div className={styles.panel}>
       <div className={styles.panelHead}>
         <div className={styles.phLeft}>
           <div className={styles.phCross}>
@@ -19,17 +22,21 @@ export default function UrgentPages() {
           </div>
           <div className={styles.phTitle}>Urgent Pages</div>
         </div>
-        <div className={styles.phAction}>View All →</div>
+        <div className={styles.phAction} onClick={() => navigate('/ward-map')}>View All →</div>
       </div>
       <div className={styles.panelBody}>
         <div className={styles.urgList}>
           {PAGES.map((p) => (
             <div key={p.title} className={`${styles.urgItem} ${p.locked ? styles.urgLocked : ''}`}>
-              <div>
+              <div className={styles.urgContent}>
                 <div className={styles.urgTitle}>{p.title}</div>
                 <div className={styles.urgSub}>{p.sub}</div>
               </div>
-              <button className={styles.urgBtn} disabled={p.locked}>
+              <button 
+                className={styles.urgBtn} 
+                disabled={p.locked}
+                onClick={() => !p.locked && navigate(p.path)}
+              >
                 {p.locked ? 'Locked' : 'Start'}
               </button>
             </div>

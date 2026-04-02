@@ -1,9 +1,27 @@
 import { useMemo } from 'react'
+import { useAuth } from '../../contexts/AuthContext'
+import { useProgress } from '../../contexts/ProgressContext'
 import styles from '../../styles/onboarding.module.css'
 
-export default function CardNotice({ userData, onEnter }) {
-  const staffId = useMemo(() =>
-    'MN-' + Math.floor(10000 + Math.random() * 90000), [])
+export default function CardNotice({ onEnter }) {
+  const { currentUser } = useAuth()
+  const { completedCount, streak, track } = useProgress()
+
+  // Generate initials from email or name
+  const userData = useMemo(() => {
+    const name = currentUser?.displayName || currentUser?.email?.split('@')[0] || 'Doctor'
+    const initials = name.substring(0, 2).toUpperCase()
+    const role = track === 'doctor' ? 'Attending Physician' : 'Head Nurse'
+    return { name, initials, role }
+  }, [currentUser, track])
+
+  // Persistent Staff ID based on User ID
+  const staffId = useMemo(() => {
+    if (!currentUser) return 'MN-00000'
+    // Create a deterministic ID based on the UID string
+    const hash = currentUser.uid.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)
+    return `MN-${10000 + (hash % 90000)}`
+  }, [currentUser])
 
   return (
     <>
@@ -17,7 +35,7 @@ export default function CardNotice({ userData, onEnter }) {
           </div>
           <span className={styles.cardHospitalName}>Staff Notice Board</span>
         </div>
-        <span className={styles.cardBadge}>ACTIVE</span>
+        <span className={styles.cardBadge}>ACTIVE SESSION</span>
       </div>
 
       <div className={styles.ecgStrip}>
@@ -32,7 +50,7 @@ export default function CardNotice({ userData, onEnter }) {
       </div>
 
       <div className={styles.cardBody}>
-        <div className={styles.eyebrow}>Welcome Back</div>
+        <div className={styles.eyebrow}>Medical Staff Identity</div>
         <div className={styles.redBar} />
 
         <div className={styles.avatarRow}>
@@ -50,29 +68,29 @@ export default function CardNotice({ userData, onEnter }) {
         <div className={styles.vitalStrip}>
           <div className={styles.vitalBox}>
             <span className={styles.vitalVal}>20</span>
-            <span className={styles.vitalLabel}>Classes</span>
+            <span className={styles.vitalLabel}>Total</span>
           </div>
           <div className={styles.vitalBox}>
-            <span className={styles.vitalVal}>0</span>
-            <span className={styles.vitalLabel}>Completed</span>
+            <span className={styles.vitalVal}>{completedCount}</span>
+            <span className={styles.vitalLabel}>Done</span>
           </div>
           <div className={styles.vitalBox}>
-            <span className={styles.vitalVal}>0</span>
+            <span className={styles.vitalVal}>{streak}</span>
             <span className={styles.vitalLabel}>Streak</span>
           </div>
         </div>
 
         <div className={styles.notice}>
-          <div className={styles.noticeHead}>Notice from the Chief of Staff</div>
+          <div className={styles.noticeHead}>Chief of Staff Memo</div>
           <div className={styles.noticeBody}>
-            The Head of Department will be reviewing all staff progress this{' '}
-            <strong>Friday</strong>. Ensure your pending simulations are completed.
-            Put in your very best.
+            Welcome to your shift. Your performance is being logged. 
+            Ensure all <strong>Class Files</strong> are updated before the end of the week.
+            Clinical excellence is our only standard.
           </div>
         </div>
 
         <button className={styles.btnBlue} onClick={onEnter}>
-          Proceed to the Ward →
+          Proceed to Ward Map →
         </button>
       </div>
     </>

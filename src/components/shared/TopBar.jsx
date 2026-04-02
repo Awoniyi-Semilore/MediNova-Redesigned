@@ -59,7 +59,7 @@ export default function TopBar({ backLabel, backPath, pageTitle }) {
               <rect x="0" y="4" width="10" height="2"/>
             </svg>
           </div>
-          <div className={styles.tbLogo}>
+          <div className={styles.tbLogo} onClick={() => navigate('/dashboard')}>
             Medi<span className={styles.tbLogoAccent}>Nova</span>
           </div>
           {pageTitle && (

@@ -6,12 +6,12 @@ import TopBar from '../shared/TopBar'
 import styles from '../../styles/classdetail.module.css'
 
 const MECHANICS_LABELS = {
-  mcq:       'MCQ · Timed',
-  drag:      'Drag & Drop',
-  hotspot:   'Hotspot',
-  audio_mcq: 'Audio + MCQ',
-  text_input:'Text Input',
-  speech:    'Speech',
+  mcq:        'MCQ · Timed',
+  drag:       'Drag & Drop',
+  hotspot:    'Hotspot',
+  audio_mcq:  'Audio + MCQ',
+  text_input: 'Text Input',
+  speech:     'Speech',
 }
 
 function CrossIcon() {
@@ -27,14 +27,16 @@ export default function ClassDetail() {
   const { classId } = useParams()
   const navigate = useNavigate()
   const { isDark } = useTheme()
+  
+  // UPDATED: Use 'results' instead of 'progress'
   const {
     track,
     setTrack,
     classStatus,
     classScore,
     classAttempts,
-    progress,
-    CERTIFICATE_GROUPS,
+    results, // Corrected from 'progress'
+    CERTIFICATE_GROUPS = [], // Default to empty array to avoid undefined
     isCertEarned,
   } = useProgress()
 
@@ -52,54 +54,53 @@ export default function ClassDetail() {
   const attempts = classAttempts(cls.id)
   const level = LEVELS.find(l => l.id === cls.level)
 
-  // Accent colour — randomised from level pool but stable per class per session
   const accentColor = level?.colorPool[cls.id % level.colorPool.length] || '#1565c0'
 
-  // Track data
   const trackData = cls[track] || cls.doctor
   const sims = trackData?.sims || []
-  const desc = cls.description?.[track] || cls.description?.doctor || ''
+  const desc = cls.description 
+  ? (typeof cls.description === 'object' ? (cls.description[track] || cls.description.doctor) : cls.description)
+  : (cls.tagline || "Clinical documentation and briefing for this case are pending.");
 
-  // Attempt history for this class
-  const history = (progress.simHistory || [])
+  // FIXED: Filter from 'results' instead of 'progress.simHistory'
+  const history = (results || [])
     .filter(h => h.classId === cls.id)
+    .sort((a, b) => new Date(b.date) - new Date(a.date)) // Sort newest first
     .slice(0, 5)
 
-  // Certificate group for this class
-  const certGroup = CERTIFICATE_GROUPS.find(g => g.classIds.includes(cls.id))
-  const certEarned = certGroup ? isCertEarned(certGroup.id) : false
+  // FIXED: Added safety check for CERTIFICATE_GROUPS
+  const certGroup = (CERTIFICATE_GROUPS || []).find(g => g.classIds.includes(cls.id))
+  const certEarned = certGroup && typeof isCertEarned === 'function' ? isCertEarned(certGroup.id) : false
 
-  // Status badge
+  // Status badge helpers
   function statusBadgeClass() {
     if (status === 'done')   return `${styles.ssBadge} ${styles.badgeDone}`
-    if (status === 'active') return `${styles.ssBadge} ${styles.badgeActive}`
+    if (status === 'active' || status === 'next') return `${styles.ssBadge} ${styles.badgeActive}`
     return `${styles.ssBadge} ${styles.badgeLocked}`
   }
+  
   function statusLabel() {
     if (status === 'done')   return 'Completed'
-    if (status === 'active') return 'In Progress'
+    if (status === 'active' || status === 'next') return 'In Progress'
     return 'Locked'
   }
 
-  // Sim status
   function getSimStatus(si) {
     if (status === 'done')   return 'done'
-    if (status === 'active') return si === 0 ? 'active' : 'lock'
+    if (status === 'active' || status === 'next') return si === 0 ? 'active' : 'lock'
     return 'lock'
   }
+
   function simItemClass(s) {
     if (s === 'done')   return `${styles.simItem} ${styles.simItemDone}`
     if (s === 'active') return `${styles.simItem} ${styles.simItemActive}`
     return `${styles.simItem} ${styles.simItemLock}`
   }
 
-  // CTA logic
   const canEnter = status === 'active' || status === 'done' || status === 'next'
   const ctaLabel = status === 'done'
     ? 'Review Case File'
-    : status === 'active'
-    ? 'Continue Simulation →'
-    : status === 'next'
+    : status === 'active' || status === 'next'
     ? 'Begin Simulation →'
     : 'Locked — Complete Previous Case'
 
@@ -118,13 +119,8 @@ export default function ClassDetail() {
 
       {/* HERO */}
       <div className={styles.hero}>
-        {/* Use scenario image as background if available */}
         {cls.media?.images?.[0] && (
-          <img
-            className={styles.heroBg}
-            src={cls.media.images[0]}
-            alt={cls.title}
-          />
+          <img className={styles.heroBg} src={cls.media.images[0]} alt={cls.title} />
         )}
         <div
           className={styles.heroOverlay}
@@ -137,18 +133,12 @@ export default function ClassDetail() {
         <div className={styles.heroContent}>
           <div className={styles.heroLeft}>
             <div className={styles.heroLevel}>
-              <div
-                className={styles.heroLevelDot}
-                style={{ background: accentColor }}
-              />
-              {level?.label || cls.level}
-              &nbsp;·&nbsp;
-              {track === 'doctor' ? 'Physician Track' : 'Nurse Track'}
+              <div className={styles.heroLevelDot} style={{ background: accentColor }} />
+              {level?.label || cls.level} &nbsp;·&nbsp; {track === 'doctor' ? 'Physician Track' : 'Nurse Track'}
             </div>
             <div className={styles.heroNum}>Class {cls.num}</div>
             <div className={styles.heroTitle}>
-              {cls.title.split(' ')[0]}{' '}
-              <em>{cls.title.split(' ').slice(1).join(' ')}</em>
+              {cls.title.split(' ')[0]} <em>{cls.title.split(' ').slice(1).join(' ')}</em>
             </div>
             <div className={styles.heroTagline}>{cls.tagline}</div>
           </div>
@@ -156,7 +146,7 @@ export default function ClassDetail() {
             <div className={styles.heroXp}>+{cls.xpReward} XP on completion</div>
             <div className={styles.heroPassMark}>Pass mark: {cls.passMark}%</div>
             <div className={styles.heroTime}>
-              ~{cls.estimatedMinutes?.[track] || cls.estimatedMinutes?.doctor || 30} min
+              ~{cls.estimatedMinutes?.[track] || 30} min
             </div>
           </div>
         </div>
@@ -178,47 +168,24 @@ export default function ClassDetail() {
             <div className={styles.ssDivider} />
             <div className={styles.ssItem}>
               <span>Best Score</span>
-              <div className={styles.ssVal} style={{ color: accentColor }}>
-                {score}%
-              </div>
+              <div className={styles.ssVal} style={{ color: accentColor }}>{score}%</div>
             </div>
           </>
         )}
-        <div className={styles.ssDivider} />
-        <div className={styles.ssItem}>
-          <span>Certificate Group</span>
-          <div className={styles.ssVal} style={{ fontSize: '0.85rem' }}>
-            {certGroup?.label || '—'}
-            {certEarned && (
-              <span style={{ marginLeft: 6, color: '#f9a825' }}>★ Earned</span>
-            )}
-          </div>
-        </div>
       </div>
 
       <div className={styles.body}>
-
         {/* TRACK TOGGLE */}
         <div className={styles.trackToggle}>
           <span className={styles.ttLabel}>Viewing as:</span>
           <button
             className={`${styles.ttBtn} ${track === 'doctor' ? styles.ttBtnActive : ''}`}
             onClick={() => setTrack('doctor')}
-          >
-            Physician
-          </button>
+          > Physician </button>
           <button
             className={`${styles.ttBtn} ${track === 'nurse' ? styles.ttBtnActive : ''}`}
             onClick={() => setTrack('nurse')}
-          >
-            Nurse
-          </button>
-          <span
-            className={styles.ttNote}
-            onClick={() => navigate('/profile')}
-          >
-            Change default in profile →
-          </span>
+          > Nurse </button>
         </div>
 
         {/* DESCRIPTION */}
@@ -226,9 +193,7 @@ export default function ClassDetail() {
         <div className={styles.descCard}>
           <div className={styles.descHead}>
             <div className={styles.descCross}><CrossIcon /></div>
-            <div className={styles.descTitle}>
-              {track === 'doctor' ? 'Physician Track' : 'Nurse Track'} — Clinical Brief
-            </div>
+            <div className={styles.descTitle}>Clinical Brief</div>
           </div>
           <div className={styles.descBody}>
             <div className={styles.descText}>{desc}</div>
@@ -238,36 +203,20 @@ export default function ClassDetail() {
         {/* SIMS */}
         <div className={styles.sectionLabel}>Sub-Simulations</div>
         <div className={styles.simsCard}>
-          <div className={styles.simsHead}>
-            <div className={styles.simsHeadLeft}>
-              <div className={styles.descCross}><CrossIcon /></div>
-              <div className={styles.descTitle}>
-                {sims.length} Simulation{sims.length !== 1 ? 's' : ''} · {track === 'doctor' ? 'Physician' : 'Nurse'} Track
-              </div>
-            </div>
-          </div>
           <div className={styles.simsBody}>
             {sims.length === 0 ? (
-              <div className={styles.historyEmpty}>
-                Content coming soon for this track
-              </div>
-            ) : sims.map((sim, si) => {
-              const ss = getSimStatus(si)
-              return (
-                <div key={sim.id} className={simItemClass(ss)}>
+              <div className={styles.historyEmpty}>Coming soon</div>
+            ) : sims.map((sim, si) => (
+                <div key={sim.id} className={simItemClass(getSimStatus(si))}>
                   <div className={styles.simItemRow}>
                     <div className={styles.simNum}>{sim.id}</div>
                     <div className={styles.simInfo}>
                       <div className={styles.simTitle}>{sim.title}</div>
                       <div className={styles.simObj}>{sim.objective}</div>
                     </div>
-                    <div className={styles.simMechanics}>
-                      {MECHANICS_LABELS[sim.mechanics] || sim.mechanics}
-                    </div>
                   </div>
                 </div>
-              )
-            })}
+            ))}
           </div>
         </div>
 
@@ -276,35 +225,20 @@ export default function ClassDetail() {
           <>
             <div className={styles.sectionLabel}>Attempt History</div>
             <div className={styles.historyCard}>
-              <div className={styles.historyHead}>
-                <div className={styles.simsHeadLeft}>
-                  <div className={styles.descCross}><CrossIcon /></div>
-                  <div className={styles.descTitle}>Your Score History</div>
-                </div>
-              </div>
               <div className={styles.historyBody}>
-                {history.length === 0 ? (
-                  <div className={styles.historyEmpty}>No attempts recorded yet</div>
-                ) : (
-                  <div className={styles.historyList}>
-                    {history.map((h, i) => {
-                      const passed = h.score >= (cls.passMark || 70)
-                      const date = new Date(h.date)
-                      const dateStr = `${date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })} · ${date.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}`
-                      return (
-                        <div key={i} className={styles.historyItem}>
-                          <div className={styles.histDate}>{dateStr}</div>
-                          <div className={styles.histTrack}>
-                            {h.track === 'doctor' ? 'Physician' : 'Nurse'}
-                          </div>
-                          <div className={`${styles.histScore} ${passed ? styles.histScorePass : styles.histScoreFail}`}>
-                            {h.score}%
-                          </div>
-                        </div>
-                      )
-                    })}
-                  </div>
-                )}
+                <div className={styles.historyList}>
+                  {history.map((h, i) => (
+                    <div key={i} className={styles.historyItem}>
+                      <div className={styles.histDate}>
+                        {new Date(h.date).toLocaleDateString()}
+                      </div>
+                      <div className={styles.histTrack}>{h.track}</div>
+                      <div className={`${styles.histScore} ${h.score >= cls.passMark ? styles.histScorePass : styles.histScoreFail}`}>
+                        {h.score}%
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </>
@@ -314,20 +248,7 @@ export default function ClassDetail() {
         <div className={styles.ctaRow}>
           <div className={styles.ctaInfo}>
             <div className={styles.ctaTitle}>
-              {status === 'done'
-                ? 'Case file completed — review available'
-                : status === 'active'
-                ? 'Your simulation is in progress'
-                : status === 'next'
-                ? 'Ready to begin — this case is unlocked'
-                : 'Complete the previous case to unlock this floor'
-              }
-            </div>
-            <div className={styles.ctaSub}>
-              {canEnter
-                ? `~${cls.estimatedMinutes?.[track] || 30} minutes · Pass mark ${cls.passMark}% · +${cls.xpReward} XP`
-                : 'Locked until previous case is completed'
-              }
+              {status === 'done' ? 'Completed' : 'Ready to begin'}
             </div>
           </div>
           <button
@@ -339,7 +260,6 @@ export default function ClassDetail() {
             {ctaLabel}
           </button>
         </div>
-
       </div>
     </div>
   )

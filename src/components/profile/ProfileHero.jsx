@@ -1,9 +1,10 @@
 import styles from '../../styles/profile.module.css'
 
-export default function ProfileHero({ name, role, track, activeClass, staffId, email, joined }) {
+export default function ProfileHero({ name, role, track, activeClass, staffId, email, joined, photoURL }) {
   const parts = name?.trim().split(' ') || []
   const first = parts[0] || 'Doctor'
   const rest = parts.slice(1).join(' ')
+  
   const initials = parts.length >= 2
     ? parts[0][0].toUpperCase() + parts[parts.length - 1][0].toUpperCase()
     : (parts[0] || 'D').slice(0, 2).toUpperCase()
@@ -17,15 +18,26 @@ export default function ProfileHero({ name, role, track, activeClass, staffId, e
       <div className={styles.heroContent}>
         <div className={styles.avatarCol}>
           <div className={styles.avatarRing}>
-            <div className={styles.avatarInner}>{initials}</div>
+            <div className={styles.avatarInner}>
+              {/* If photoURL exists, show image. Otherwise show initials */}
+              {photoURL ? (
+                <img 
+                  src={photoURL} 
+                  alt="Profile" 
+                  style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} 
+                />
+              ) : (
+                initials
+              )}
+            </div>
           </div>
-          <button className={styles.avatarEditBtn}>
+          <div className={styles.avatarEditBtn} style={{ fontSize: '0.65rem', marginTop: '8px', opacity: 0.8 }}>
             <svg width="10" height="10" viewBox="0 0 16 16" fill="none"
               stroke="currentColor" strokeWidth="1.5">
               <path d="M11 2l3 3L5 14H2v-3L11 2z"/>
             </svg>
-            Edit Photo
-          </button>
+            Active Badge
+          </div>
         </div>
 
         <div className={styles.heroInfo}>

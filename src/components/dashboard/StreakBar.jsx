@@ -1,49 +1,31 @@
-import { useNavigate } from 'react-router-dom'
 import { useProgress } from '../../contexts/ProgressContext'
 import styles from '../../styles/dashboard.module.css'
 
-const TOTAL_STARS = 10
-
 export default function StreakBar() {
-  const { streak, totalXp, urgentCount } = useProgress()
-  const navigate = useNavigate()
+  const { streak } = useProgress()
 
-  // Generate staff ID from xp (stable per user session)
-  const staffId = `MN-${String(10000 + (totalXp % 90000)).padStart(5, '0')}`
+  // Fix: Add a fallback for the date so it doesn't crash during Firebase loading
+  const today = new Date().toLocaleDateString('en-US', { 
+    weekday: 'long', 
+    month: 'long', 
+    day: 'numeric' 
+  })
 
   return (
-    <div className={styles.streakBar} id="streakBar">
+    <div className={styles.streakBar}>
       <div className={styles.sbLeft}>
-        <div>
-          <div className={styles.sbLabelText}>Login Streak</div>
-          <div className={styles.sbStars}>
-            {Array.from({ length: TOTAL_STARS }).map((_, i) => (
-              <svg key={i} className={styles.star} viewBox="0 0 16 16">
-                <path
-                  className={i < streak ? styles.starOn : styles.starOff}
-                  d="M8 2l1.5 3 3.5.5-2.5 2.5.5 3.5L8 10l-3 1.5.5-3.5L3 5.5l3.5-.5z"
-                />
-              </svg>
-            ))}
-          </div>
+        <div className={styles.sbIcon}>
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+            <path d="M8 1L9.5 6H14.5L10.5 9L12 14L8 11L4 14L5.5 9L1.5 6H6.5L8 1Z" fill="#FFD700"/>
+          </svg>
         </div>
-        <div className={styles.sbCount}>
-          {streak} <span className={styles.sbCountSub}>Day Streak</span>
-        </div>
+        <span className={styles.sbDate}>{today}</span>
       </div>
-
+      
       <div className={styles.sbRight}>
-        <span className={styles.chip}>Staff ID: {staffId}</span>
-        <span className={styles.chip}>XP: {totalXp.toLocaleString()}</span>
-        {urgentCount > 0 && (
-          <span
-            className={`${styles.chip} ${styles.chipRed}`}
-            onClick={() => navigate('/ward-map')}
-            style={{ cursor: 'pointer' }}
-          >
-            {urgentCount} Urgent {urgentCount === 1 ? 'Page' : 'Pages'}
-          </span>
-        )}
+        <span className={styles.sbLabel}>CURRENT STREAK</span>
+        <span className={styles.sbCount}>{streak || 0}</span>
+        <div className={styles.sbFire}>🔥</div>
       </div>
     </div>
   )

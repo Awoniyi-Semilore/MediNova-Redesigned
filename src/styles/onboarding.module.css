@@ -644,8 +644,12 @@
 
 /* ── MOBILE ── */
 @media (max-width: 480px) {
+  .bg{
+    object-fit: fill;
+  }
+
   .stage {
-    max-width: 100%;
+    max-width: 95%;
     padding: 4rem 0.8rem 2.5rem;
   }
 
@@ -666,3 +670,5 @@
   }
   .cardBody { padding: 1rem 1rem 1rem; }
 }
+
+

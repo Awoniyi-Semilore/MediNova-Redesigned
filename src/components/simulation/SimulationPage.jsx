@@ -1,5 +1,3 @@
-// src/components/simulation/SimulationPage.jsx
-
 import { useState, useEffect, useRef, useMemo } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useProgress } from '../../contexts/ProgressContext'
@@ -28,34 +26,29 @@ export default function SimulationPage() {
   const navigate    = useNavigate()
   const { track, classStatus, recordSimResult } = useProgress()
 
-  // ── Find the class ────────────────────────────────────────────────────────
   const cls = useMemo(
     () => CURRICULUM.find(c => c.id === Number(classId)),
     [classId]
   )
 
-  // ── Colour — derived ONCE from cls.level, stable for the whole session ────
-  // useMemo so it runs synchronously after cls is resolved, not lazily
   const accentColor = useMemo(
     () => cls ? getSimColor(cls.level, cls.id) : '#1565c0',
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [cls?.id]   // only recompute if the class changes, not on every render
+    [cls?.id]
   )
   const theme = useMemo(
     () => cls ? getLevelTheme(cls.level) : getLevelTheme('clerkship'),
     [cls?.level]
   )
 
-  // ── Phase state ───────────────────────────────────────────────────────────
-  const [phase,              setPhase]              = useState('opening')
+  const [phase,               setPhase]               = useState('opening')
   const [currentSimIndex,    setCurrentSimIndex]    = useState(0)
   const [currentSubsimIndex, setCurrentSubsimIndex] = useState(0)
   const [answers,            setAnswers]            = useState([])
   const [simScore,           setSimScore]           = useState(null)
   const [activeVariant,      setActiveVariant]      = useState(null)
+  const [isSaving,           setIsSaving]           = useState(false) 
   const startTime = useRef(Date.now())
 
-  // Pick a random variant whenever the subsim changes
   useEffect(() => {
     if (!cls) return
     const td     = cls[track] || cls.doctor
@@ -69,7 +62,6 @@ export default function SimulationPage() {
     }
   }, [currentSimIndex, currentSubsimIndex, cls, track])
 
-  // ── Guards ────────────────────────────────────────────────────────────────
   if (!cls) return (
     <div style={{ padding: '4rem', textAlign: 'center', color: '#607d8b', fontFamily: 'sans-serif' }}>
       Class not found.
@@ -82,14 +74,12 @@ export default function SimulationPage() {
     return null
   }
 
-  // ── Derived values ────────────────────────────────────────────────────────
   const trackData     = cls[track] || cls.doctor
   const sims          = trackData?.sims || []
   const currentSim    = sims[currentSimIndex]
   const currentSubsim = currentSim?.subsims?.[currentSubsimIndex]
   const Design        = DESIGN_MAP[cls.level] || SimDesign1Clerkship
 
-  // ── Handlers ──────────────────────────────────────────────────────────────
   function handleOpeningComplete() { setPhase('question') }
 
   function handleAnswer(answer) {
@@ -118,24 +108,33 @@ export default function SimulationPage() {
       setCurrentSubsimIndex(0)
       setPhase('opening')
     } else {
+      if (isSaving) return
+      setIsSaving(true)
+      
       const total      = answers.length
       const correct    = answers.filter(a => a.correct).length
       const finalScore = total > 0 ? Math.round((correct / total) * 100) : 0
-      await recordSimResult({
-        classId:  cls.id,
-        simId:    currentSim?.id,
-        subsimId: currentSubsim?.id,
-        score:    finalScore,
-        timeMs:   Date.now() - startTime.current,
-        track,
-      })
-      setPhase('class_debrief')
+      
+      try {
+        await recordSimResult({
+          classId:  cls.id,
+          simId:    currentSim?.id,
+          subsimId: currentSubsim?.id,
+          score:    finalScore,
+          timeMs:   Date.now() - startTime.current,
+          track,
+        })
+        setPhase('class_debrief')
+      } catch (err) {
+        console.error("Failed to save simulation:", err)
+      } finally {
+        setIsSaving(false)
+      }
     }
   }
 
   function handleClassDebriefDone() { navigate('/ward-map') }
 
-  // ── Render ────────────────────────────────────────────────────────────────
   return (
     <>
       {phase === 'opening' && (

@@ -1,0 +1,104 @@
+.certCanvas {
+  width: 1000px; /* High res for printing */
+  height: 700px;
+  background: #fff;
+  padding: 30px;
+  color: #0d2d5e;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.outerFrame {
+  border: 15px double #0d2d5e;
+  height: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.innerFrame {
+  border: 1px solid #c62828;
+  height: 100%;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  background-image: radial-gradient(circle, rgba(198, 40, 40, 0.02) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.corner {
+  position: absolute;
+  font-family: 'Share Tech Mono', monospace;
+  color: #c62828;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+.tl { top: 10px; left: 10px; }
+.tr { top: 10px; right: 10px; }
+.bl { bottom: 10px; left: 10px; }
+.br { bottom: 10px; right: 10px; }
+
+.hospitalName {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.2rem;
+  letter-spacing: 2px;
+  margin: 10px 0 0;
+}
+
+.registryType {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.7rem;
+  color: #c62828;
+  letter-spacing: 3px;
+}
+
+.body { margin-top: 50px; text-align: center; }
+
+.preText {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.studentName {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3.5rem;
+  color: #0d2d5e;
+  margin: 15px 0;
+  text-transform: uppercase;
+  border-bottom: 2px solid #f1f5f9;
+}
+
+.achievementText {
+  max-width: 600px;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 20px auto;
+  font-style: italic;
+}
+
+.levelTitle {
+  font-family: 'Share Tech Mono', monospace;
+  background: #0d2d5e;
+  color: #fff;
+  padding: 10px 20px;
+  display: inline-block;
+  font-size: 1.2rem;
+}
+
+.footer {
+  margin-top: auto;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.sigGroup { width: 200px; text-align: center; }
+.signature { font-family: 'Cursive', sans-serif; font-size: 1.5rem; margin-bottom: 5px; }
+.sigLine { border-top: 1px solid #0d2d5e; margin-bottom: 5px; }
+.sigGroup span { font-size: 0.6rem; font-weight: bold; }
+
+.metaGroup { font-family: 'Share Tech Mono', monospace; font-size: 0.6rem; text-align: center; }
+.qrBox { width: 40px; height: 40px; border: 1px solid #ddd; margin: 5px auto; }

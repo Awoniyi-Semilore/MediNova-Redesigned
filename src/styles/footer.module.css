@@ -1,0 +1,256 @@
+.footer {
+  width: 100%;
+  background: #050b18; 
+  border-top: 1px solid rgba(198, 40, 40, 0.3);
+  padding: 4rem 2rem 2rem;
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  position: relative;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.mainGrid {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr;
+  gap: 4rem;
+  margin-bottom: 4rem;
+}
+
+/* ARCHITECT STORY SECTION */
+.storySection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.brandLink {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logoCross {
+  width: 28px;
+  height: 28px;
+  background: #c62828;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 15px rgba(198, 40, 40, 0.4);
+}
+
+.logoText {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.devLog {
+  background: rgba(255, 255, 255, 0.03);
+  border-left: 3px solid #ef5350;
+  padding: 1.5rem;
+  border-radius: 0 8px 8px 0;
+}
+
+.logTitle {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.7rem;
+  color: #ef5350;
+  margin-bottom: 0.8rem;
+  display: block;
+}
+
+.logText {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.logText strong {
+  color: #fff;
+}
+
+/* CTA COLUMN */
+.ctaSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.ctaHeading {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 2px;
+}
+
+.mainCtaBtn {
+  background: #c62828;
+  color: white;
+  border: none;
+  padding: 15px 25px;
+  border-radius: 6px;
+  font-family: 'Share Tech Mono', monospace;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  text-transform: uppercase;
+}
+
+.mainCtaBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(198, 40, 40, 0.6);
+}
+
+.socialRow {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.socialLink {
+  color: rgba(255,255,255,0.5);
+  font-size: 1.4rem;
+  transition: color 0.3s;
+}
+
+.socialLink:hover { color: #ef5350; }
+
+/* ECG ANIMATION */
+.ecgWrapper {
+  height: 50px;
+  opacity: 0.15;
+  margin: 3rem 0;
+}
+
+.ecgPath {
+  stroke: #4caf50;
+  stroke-width: 2;
+  fill: none;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: ecgFlow 6s linear infinite;
+}
+
+@keyframes ecgFlow { to { stroke-dashoffset: 0; } }
+
+/* BOTTOM STRIP */
+.bottomBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  padding-top: 2rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.4);
+}
+
+/* MODAL TERMINAL */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 12, 0.95);
+  backdrop-filter: blur(10px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal {
+  background: #0d1117;
+  border: 1px solid #30363d;
+  width: 100%;
+  max-width: 480px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.modalInner { padding: 2rem; }
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.modalHeader h2 {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 1rem;
+  color: #ef5350;
+}
+
+.inputGroup { margin-bottom: 1.5rem; }
+
+.inputGroup label {
+  display: block;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.6rem;
+  color: #8b949e;
+  margin-bottom: 8px;
+}
+
+.input, .textarea {
+  width: 100%;
+  background: #161b22;
+  border: 1px solid #30363d;
+  color: #fff;
+  padding: 12px;
+  border-radius: 6px;
+  outline: none;
+}
+
+.input:focus, .textarea:focus { border-color: #ef5350; }
+
+.submitGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.emailBtn { background: #fff; color: #000; border: none; padding: 12px; border-radius: 6px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.waBtn { background: #25d366; color: #fff; border: none; padding: 12px; border-radius: 6px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+
+@media (max-width: 850px) {
+  .mainGrid { grid-template-columns: 1fr; gap: 3rem; }
+  .bottomBar { flex-direction: column; gap: 1rem; text-align: center; }
+}
+
+.prototypeLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 1.5rem;
+  padding: 6px 12px;
+  background: rgba(239, 83, 80, 0.1);
+  border: 1px solid rgba(239, 83, 80, 0.3);
+  border-radius: 4px;
+  color: #ef5350;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.7rem;
+  text-decoration: none;
+  letter-spacing: 1px;
+  transition: all 0.2s ease;
+}
+
+.prototypeLink:hover {
+  background: #ef5350;
+  color: #fff;
+  box-shadow: 0 0 15px rgba(239, 83, 80, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Optional: Make the SVG bounce slightly on hover */
+.prototypeLink:hover svg {
+  transform: translate(2px, -2px);
+  transition: transform 0.2s ease;
+}

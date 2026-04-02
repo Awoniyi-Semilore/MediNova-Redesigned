@@ -39,11 +39,25 @@ export default function CaseFile({ cls, track }) {
   const { classStatus, classScore, classAttempts } = useProgress()
   const { isDark } = useTheme()
   const [open, setOpen] = useState(false)
-  const [openSims, setOpenSims] = useState(new Set())
 
   const status = cls.id === 20 ? 'chief' : classStatus(cls.id)
   const score = classScore(cls.id)
   const attempts = classAttempts(cls.id)
+
+  // --- HELPERS ---
+  
+  const getSimStatus = (index) => {
+    // If class is done, all sims are done. If class is locked, all are locked.
+    if (status === 'done') return 'done';
+    if (status === 'locked') return 'lock';
+    return "active"; 
+  };
+
+  const simItemClass = (ss) => {
+    if (ss === 'done') return `${styles.simItem} ${styles.siDone}`;
+    if (ss === 'active') return `${styles.simItem} ${styles.siActive}`;
+    return `${styles.simItem} ${styles.siLock}`;
+  };
 
   const progress = status === 'done' ? 100
     : status === 'active' ? Math.min(90, (attempts * 30))
@@ -73,21 +87,6 @@ export default function CaseFile({ cls, track }) {
     return 'Locked'
   }
 
-  function scClass(s) {
-    if (s === 'done')   return `${styles.simCard} ${styles.scDone}`
-    if (s === 'active') return `${styles.simCard} ${styles.scActive}`
-    return `${styles.simCard} ${styles.scLock}`
-  }
-
-  function toggleSim(simId, e) {
-    e.stopPropagation()
-    setOpenSims(prev => {
-      const next = new Set(prev)
-      next.has(simId) ? next.delete(simId) : next.add(simId)
-      return next
-    })
-  }
-
   function handleEnter(e) {
     e.stopPropagation()
     if (status === 'locked') return
@@ -97,7 +96,10 @@ export default function CaseFile({ cls, track }) {
   const trackData = cls[track] || cls.doctor
   const sims = trackData?.sims || []
 
-  const desc = cls.description?.[track] || cls.description?.doctor || ''
+  // Resolve description fallback
+  const desc = cls.description 
+    ? (typeof cls.description === 'object' ? (cls.description[track] || cls.description.doctor) : cls.description)
+    : (cls.tagline || "Clinical documentation pending...");
 
   return (
     <div className={cfClass()}>
@@ -145,10 +147,8 @@ export default function CaseFile({ cls, track }) {
       {open && (
         <div className={styles.caseBody}>
           <div className={styles.cbInner}>
-            {/* Description quote */}
             <div className={styles.cbQuote}>{desc}</div>
 
-            {/* Sub-simulations */}
             {sims.length > 0 && (
               <>
                 <div className={styles.cbSimsHd}>
@@ -158,51 +158,25 @@ export default function CaseFile({ cls, track }) {
 
                 <div className={styles.cbSims}>
                   {sims.map((sim, si) => {
-                    const simStatus = status === 'done' ? 'done'
-                      : status === 'active' && si === 0 ? 'active'
-                      : status === 'locked' ? 'lock' : 'lock'
-                    const simOpen = openSims.has(sim.id)
-                    const hasSubsims = sim.subsims?.length > 0 && simStatus !== 'lock'
-
+                    const ss = getSimStatus(si);
                     return (
-                      <div key={sim.id} className={scClass(simStatus)}>
-                        <div
-                          className={styles.simRow}
-                          onClick={hasSubsims ? (e) => toggleSim(sim.id, e) : undefined}
-                        >
-                          <div className={styles.srBadge}>{sim.id}</div>
-                          <div className={styles.srText}>
-                            <div className={styles.srName}>{sim.title}</div>
-                            <div className={styles.srSub}>{sim.objective}</div>
+                      <div key={sim.id || si} className={simItemClass(ss)}>
+                        <div className={styles.simItemRow}>
+                          {/* <div className={styles.simNum}>{si + 1}</div> */}
+                          <div className={styles.simInfo}>
+                            <div className={styles.simTitle}>{sim.title}</div>
+                            {/* <div className={styles.simObj}>
+                              <strong>Objective:</strong> {sim.task || sim.scenario}
+                            </div> */}
                           </div>
-                          <div className={styles.srPill}>
-                            {simStatus === 'done' ? 'Done' : simStatus === 'active' ? 'Active' : 'Locked'}
-                          </div>
-                          {hasSubsims && (
-                            <svg
-                              className={`${styles.chev} ${simOpen ? styles.chevOpen : ''}`}
-                              style={{ marginLeft: 8, flexShrink: 0 }}
-                              width="12" height="12" viewBox="0 0 16 16"
-                              fill="none" stroke="#90a4ae" strokeWidth="1.5"
-                            >
-                              <path d="M3 6l5 5 5-5"/>
-                            </svg>
-                          )}
+                          {/* {sim.questions && (
+                            <div className={styles.simMechanics}>
+                              {sim.questions.length} Qs
+                            </div>
+                          )} */}
                         </div>
-
-                        {/* Sub-sub items */}
-                        {hasSubsims && simOpen && (
-                          <div className={styles.subsubArea}>
-                            {sim.subsims.map((ss, ssi) => (
-                              <div key={ssi} className={styles.subsubRow}>
-                                <div className={styles.subsubDot} />
-                                <div className={styles.subsubText}>{ss.title || ss}</div>
-                              </div>
-                            ))}
-                          </div>
-                        )}
                       </div>
-                    )
+                    );
                   })}
                 </div>
               </>
@@ -223,31 +197,14 @@ export default function CaseFile({ cls, track }) {
                 }
               </div>
 
-              {status === 'active' && (
-                <button className={`${styles.cbBtn} ${styles.btnContinue}`} onClick={handleEnter}>
-                  Continue →
-                </button>
-              )}
-              {status === 'done' && (
-                <button className={`${styles.cbBtn} ${styles.btnReview}`} onClick={handleEnter}>
-                  Review Case
-                </button>
-              )}
-              {status === 'next' && (
-                <button className={`${styles.cbBtn} ${styles.btnContinue}`} onClick={handleEnter}>
-                  Begin →
-                </button>
-              )}
-              {status === 'chief' && (
-                <button
-                  className={`${styles.cbBtn} ${status === 'locked' ? styles.btnLocked : styles.btnChief}`}
-                  disabled={status === 'locked'}
+              {status !== 'locked' ? (
+                <button 
+                  className={`${styles.cbBtn} ${status === 'done' ? styles.btnReview : styles.btnContinue}`} 
                   onClick={handleEnter}
                 >
-                  Enter Exam →
+                  {status === 'done' ? 'Review Case' : status === 'chief' ? 'Enter Exam →' : 'Begin →'}
                 </button>
-              )}
-              {status === 'locked' && (
+              ) : (
                 <button className={`${styles.cbBtn} ${styles.btnLocked}`} disabled>
                   Locked
                 </button>

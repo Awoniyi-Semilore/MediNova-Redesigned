@@ -8,7 +8,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: sticky;
+  position: fixed;
   top: 0;
   z-index: 30;
   flex-shrink: 0;
@@ -79,6 +79,7 @@
   letter-spacing: 0.04em;
   white-space: nowrap;
   flex-shrink: 0;
+  cursor: pointer;
 }
 .tbLogoAccent { color: #ef5350; }
 
@@ -245,4 +246,19 @@
 @media (max-width: 360px) {
   .tbBack { display: none; }
   .tbSep { display: none; }
+}
+
+
+/* Update this part in your existing shared.module.css */
+@media (max-width: 480px) {
+  .themeToggle {
+    display: flex !important; /* Force display on mobile */
+    padding: 5px; /* Smaller padding */
+  }
+  .ttLabel {
+    display: none; /* Hide "DARK/LIGHT" text on mobile, keep just the switch */
+  }
+  .topbar {
+    padding: 0 0.5rem;
+  }
 }

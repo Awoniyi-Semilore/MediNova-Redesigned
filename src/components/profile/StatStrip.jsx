@@ -26,26 +26,26 @@ export default function StatStrip({ streak, classesDone, total, avgScore, certif
       <div className={styles.ssItem}>
         <div className={styles.ssLbl}>Classes Done</div>
         <div className={styles.ssVal}>{classesDone}<small>/{total}</small></div>
-        <div className={`${styles.ssChg} ${styles.chgUp}`}>↑ 1 this week</div>
+        <div className={`${styles.ssChg} ${styles.chgUp}`}>↑ Latest Unit</div>
       </div>
 
       <div className={styles.ssItem}>
         <div className={styles.ssLbl}>Average Score</div>
         <div className={styles.ssVal}>{avgScore}<small>%</small></div>
-        <div className={`${styles.ssChg} ${styles.chgUp}`}>↑ 6% vs last</div>
+        <div className={`${styles.ssChg} ${styles.chgUp}`}>Clinical Grade</div>
       </div>
 
       <div className={styles.ssItem}>
         <div className={styles.ssLbl}>Certificates</div>
-        <div className={styles.ssVal}>{certificates}<small>/{total}</small></div>
-        <div className={`${styles.ssChg} ${styles.chgNt}`}>{total - certificates} remaining</div>
+        <div className={styles.ssVal}>{certificates}<small>/5</small></div>
+        <div className={`${styles.ssChg} ${styles.chgNt}`}>Next at {Math.ceil((classesDone + 1) / 4) * 4}</div>
       </div>
 
       <div className={styles.ssItem}>
-        <div className={styles.ssLbl}>Sims This Period</div>
+        <div className={styles.ssLbl}>Rotation Progress</div>
         <div className={styles.ssVal}>{simsThisPeriod}<small>/{simsTarget}</small></div>
         <div className={`${styles.ssChg} ${simsThisPeriod < simsTarget ? styles.chgDn : styles.chgUp}`}>
-          {simsThisPeriod < simsTarget ? 'Below target' : 'On track'}
+          {simsThisPeriod < simsTarget ? 'In Rotation' : 'Completed'}
         </div>
       </div>
     </div>
