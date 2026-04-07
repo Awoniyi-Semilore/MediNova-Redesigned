@@ -1,0 +1,36 @@
+:root {
+  /* Brand Colors */
+  --medinova-navy: #0d2d5e;
+  --medinova-cream: #fdfaf6;
+  --medinova-gold: #8d7a6a;
+  --medinova-success: #2e7d32;
+  --medinova-monitor-bg: #0a0f1a;
+  --medinova-monitor-accent: #00ff88;
+
+  /* Typography */
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-sans: 'DM Sans', sans-serif;
+  --font-mono: 'Share Tech Mono', monospace;
+}
+
+/* Move all @imports here to prevent CSS Module Flash */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400;1,600&family=DM+Sans:wght@300;400;500&family=Share+Tech+Mono&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--medinova-cream);
+  color: #333;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Professional Scrollbar for B2B Dashboards */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.1);
+  border-radius: 10px;
+}

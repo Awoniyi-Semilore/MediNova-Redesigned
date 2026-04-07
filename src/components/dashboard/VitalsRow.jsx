@@ -1,8 +1,8 @@
 import { useProgress } from '../../contexts/ProgressContext'
-import styles from '../../styles/dashboard.module.css' // Ensure the path is correct
+import styles from '../../styles/dashboard.module.css'
 
 export default function VitalsRow() {
-  const { results, streak, avgScore } = useProgress()
+  const { results, streak, avgScore, completedCount } = useProgress()
 
   return (
     <div className={styles.vitals}>
@@ -16,7 +16,7 @@ export default function VitalsRow() {
       {/* Cases Solved */}
       <div className={`${styles.vc} ${styles.vcGreen}`}>
         <div className={styles.vcLabel}>Cases Solved</div>
-        <div className={styles.vcVal}>{new Set(results?.map(r => r.classId)).size || 0}<small>/20</small></div>
+        <div className={styles.vcVal}>{completedCount || 0}<small>/20</small></div>
         <div className={`${styles.vcChg} ${styles.chgUp}`}>Total Progress</div>
       </div>
 

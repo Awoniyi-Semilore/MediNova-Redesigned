@@ -6,50 +6,48 @@ export default function ProfileHero({ name, role, track, activeClass, staffId, e
   const rest = parts.slice(1).join(' ')
   
   const initials = parts.length >= 2
-    ? parts[0][0].toUpperCase() + parts[parts.length - 1][0].toUpperCase()
-    : (parts[0] || 'D').slice(0, 2).toUpperCase()
+    ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+    : (parts[0]?.slice(0, 2) || 'MN').toUpperCase()
 
   return (
     <div className={styles.hero}>
+      {/* Background Hospital Cross Decoration */}
       <svg className={styles.heroBgCross} viewBox="0 0 300 300" fill="none">
-        <rect x="130" y="0" width="40" height="300" fill="white"/>
-        <rect x="0" y="130" width="300" height="40" fill="white"/>
+        <rect x="135" y="0" width="30" height="300" fill="currentColor" fillOpacity="0.03"/>
+        <rect x="0" y="135" width="300" height="30" fill="currentColor" fillOpacity="0.03"/>
       </svg>
+      
       <div className={styles.heroContent}>
         <div className={styles.avatarCol}>
           <div className={styles.avatarRing}>
             <div className={styles.avatarInner}>
-              {/* If photoURL exists, show image. Otherwise show initials */}
               {photoURL ? (
-                <img 
-                  src={photoURL} 
-                  alt="Profile" 
-                  style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} 
-                />
+                <img src={photoURL} alt="Profile" className={styles.heroAvatarImg} />
               ) : (
-                initials
+                <span className={styles.heroInitials}>{initials}</span>
               )}
             </div>
           </div>
-          <div className={styles.avatarEditBtn} style={{ fontSize: '0.65rem', marginTop: '8px', opacity: 0.8 }}>
-            <svg width="10" height="10" viewBox="0 0 16 16" fill="none"
-              stroke="currentColor" strokeWidth="1.5">
-              <path d="M11 2l3 3L5 14H2v-3L11 2z"/>
-            </svg>
-            Active Badge
+          <div className={styles.avatarBadgeLabel}>
+            <div className={styles.badgePulse} />
+            Active Duty
           </div>
         </div>
 
         <div className={styles.heroInfo}>
-          <div className={styles.heroEyebrow}>MediNova Teaching Hospital · Staff Dossier</div>
+          <div className={styles.heroEyebrow}>MediNova Teaching Hospital · Authorized Personnel</div>
           <div className={styles.heroName}>
             {first} <span className={styles.heroNameAccent}>{rest}</span>
           </div>
           <div className={styles.heroRole}>
-            {role} · {track} · {activeClass}
+            {role} <span className={styles.heroRoleDivider}>/</span> {track} <span className={styles.heroRoleDivider}>/</span> {activeClass}
           </div>
           <div className={styles.heroId}>
-            Staff ID: {staffId} &nbsp;·&nbsp; Joined: {joined} &nbsp;·&nbsp; {email}
+            <span className={styles.idLabel}>ID:</span> {staffId} 
+            <span className={styles.idSep}>·</span> 
+            <span className={styles.idLabel}>SINCE:</span> {joined}
+            <span className={styles.idSep}>·</span> 
+            {email}
           </div>
         </div>
 

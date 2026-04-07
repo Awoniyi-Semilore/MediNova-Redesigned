@@ -91,7 +91,7 @@ export default function WardMapPage() {
 
         {/* MAIN CONTENT AREA */}
         <div className={styles.content} style={{ paddingTop: '2rem' }}>
-          <div className={styles.wingsContainer}>
+          <div className={styles.board}>
             {groupedCases.map(group => (
               <CaseFileGroup 
                 key={group.id}

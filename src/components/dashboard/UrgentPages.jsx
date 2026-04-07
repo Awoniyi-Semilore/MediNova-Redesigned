@@ -1,17 +1,34 @@
 import { useNavigate } from 'react-router-dom'
+import { useProgress } from '../../contexts/ProgressContext'
 import styles from '../../styles/dashboard.module.css'
-
-const PAGES = [
-  { title: 'Daily ECG Challenge', sub: 'Identify the arrhythmia · 2 min', path: '/ward-map', locked: false },
-  { title: 'Drug Dosage Quiz', sub: '5 questions · Physician Track', path: '/ward-map', locked: false },
-  { title: 'Triage Ordering Drill', sub: 'Unlocks after Class 03 completes', path: '#', locked: true },
-]
 
 export default function UrgentPages() {
   const navigate = useNavigate()
+  const { completedCount } = useProgress()
+
+  const PAGES = [
+    { 
+      title: 'Daily ECG Challenge', 
+      sub: 'Identify the arrhythmia · 2 min', 
+      path: '/drills/ecg', 
+      locked: false 
+    },
+    { 
+      title: 'Drug Dosage Quiz', 
+      sub: 'Physician Calculation Track', 
+      path: '/drills/meds', 
+      locked: false 
+    },
+    { 
+      title: 'Triage Ordering Drill', 
+      sub: 'Unlocks after 5 Cases completed', 
+      path: '/drills/triage', 
+      locked: completedCount < 5 
+    },
+  ]
 
   return (
-    <div className={styles.panel}>
+    <div className={styles.panel} id="urgentPanel">
       <div className={styles.panelHead}>
         <div className={styles.phLeft}>
           <div className={styles.phCross}>

@@ -251,3 +251,109 @@
   .leftPanel { border-right: none; border-bottom: 1px solid #1a2d3d; }
   .vitalsStrip { grid-template-columns: repeat(3, 1fr); }
 }
+
+
+
+
+/* src/styles/simdesign2.module.css */
+
+.page {
+  background: var(--medinova-monitor-bg);
+  min-height: 100vh;
+  font-family: var(--font-sans);
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 50px;
+  max-width: 1200px; /* Wider for residency level */
+  margin: 0 auto;
+  color: #fff;
+}
+
+/* ❌ FIX: High-Visibility Monitor ECG */
+.page::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  opacity: 0.06;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='60' viewBox='0 0 320 60'%3E%3Cpolyline points='0,30 30,30 38,10 46,50 54,5 62,35 70,30 120,30 148,30 156,10 164,50 172,5 180,35 188,30 240,30 268,30 276,10 284,50 292,5 300,35 308,30 320,30' fill='none' stroke='%2300ff88' stroke-width='1.5'/%3E%3C/svg%3E");
+}
+
+/* ── SPLIT PANEL ── */
+.split {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr; /* Weighted split */
+  gap: 1px; /* Creates a clean border look */
+  background: #1a2d3d; /* Border color */
+  overflow: hidden;
+}
+
+.leftPanel, .rightPanel {
+  background: var(--medinova-monitor-bg);
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+/* ── VITALS ── */
+.vitalVal {
+  font-family: var(--font-mono);
+  font-size: 1.4rem;
+  color: var(--medinova-monitor-accent);
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+}
+
+.vitalLabel {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: #4a7a6a;
+  text-transform: uppercase;
+}
+
+/* ── OPTIONS ── */
+.option {
+  background: #0d1621;
+  border: 1px solid #1a2d3d;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  gap: 12px;
+}
+
+.option:hover {
+  background: #152333;
+  border-color: var(--medinova-monitor-accent);
+}
+
+.optionSelected {
+  border-color: var(--medinova-monitor-accent);
+  box-shadow: inset 0 0 15px rgba(0, 255, 136, 0.1);
+}
+
+/* ── EXPLANATION ── */
+.explanation {
+  border-left: 4px solid var(--medinova-monitor-accent);
+  background: rgba(0, 255, 136, 0.05);
+  padding: 1.2rem;
+  margin-top: 1.5rem;
+  border-radius: 0 8px 8px 0;
+  animation: slideIn 0.4s ease-out;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Mobile Overrides */
+@media (max-width: 800px) {
+  .split {
+    grid-template-columns: 1fr;
+  }
+  .leftPanel {
+    border-bottom: 1px solid #1a2d3d;
+  }
+}

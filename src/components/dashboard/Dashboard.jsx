@@ -20,7 +20,7 @@ const TOUR_KEY = 'mn_tour_done'
 
 export default function Dashboard() {
   const { currentUser } = useAuth()
-  const { isDark } = useTheme() // Assuming useTheme provides isDark
+  const { isDark } = useTheme() 
   const { activeClass, track, loading } = useProgress()
   const [showModal, setShowModal] = useState(false)
   const [showTour, setShowTour] = useState(false)
@@ -49,11 +49,10 @@ export default function Dashboard() {
     localStorage.setItem(TOUR_KEY, 'true')
   }
 
-  // This applies the .dark or .light class from your CSS
   const themeClass = isDark ? styles.dark : styles.light
   
   const activeTitle = activeClass
-    ? `Class ${activeClass.num} — ${activeClass.title}`
+    ? `Class ${activeClass.id} — ${activeClass.title}`
     : 'Residency Initializing...'
 
   if (loading) return (
@@ -68,7 +67,8 @@ export default function Dashboard() {
   )
 
   return (
-    <div className={`${styles.app} ${themeClass}`}>
+    // CRITICAL: data-dashboard attribute added for TourHighlight positioning
+    <div className={`${styles.app} ${themeClass}`} data-dashboard>
       <TopBar />
 
       <div className={styles.bgStrip}>
@@ -94,8 +94,6 @@ export default function Dashboard() {
         <div className={styles.twoCol}>
           <div className={styles.colLeft}>
             <WardMap />
-            {/* UrgentPages moved inside/below for better balance if needed, 
-                or kept at bottom per your previous code */}
             <div style={{ marginTop: '1.1rem' }}>
                 <UrgentPages />
             </div>

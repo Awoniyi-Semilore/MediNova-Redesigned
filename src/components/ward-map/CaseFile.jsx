@@ -199,7 +199,12 @@ export default function CaseFile({ cls, track }) {
 
               {status !== 'locked' ? (
                 <button 
-                  className={`${styles.cbBtn} ${status === 'done' ? styles.btnReview : styles.btnContinue}`} 
+                  className={`
+                    ${styles.cbBtn} 
+                    ${status === 'done' ? styles.btnReview : 
+                      status === 'chief' ? styles.btnChief : 
+                      styles.btnContinue}
+                  `} 
                   onClick={handleEnter}
                 >
                   {status === 'done' ? 'Review Case' : status === 'chief' ? 'Enter Exam →' : 'Begin →'}

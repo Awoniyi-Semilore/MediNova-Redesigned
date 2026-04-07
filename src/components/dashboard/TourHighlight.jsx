@@ -3,9 +3,9 @@ import styles from '../../styles/dashboard.module.css'
 
 const HIGHLIGHTS = [
   { id: 'streakBar', title: 'Login Streak & Vitals', body: 'Your gold stars show consecutive daily logins. The stat cards show live progress — classes done, average score, certificates, and urgent pages.' },
-  { id: 'wardPanel', title: 'Ward Map', body: 'All 20 class floors at a glance. Green = completed, blue = active, yellow = next up, grey = locked. Click any cell to jump to that floor.' },
+  { id: 'wardPanel', title: 'Ward Map', body: 'All clinical class floors at a glance. Green = completed, blue = active, yellow = next up, grey = locked. Click any cell to jump to that floor.' },
   { id: 'shiftPanel', title: 'Shift Board', body: 'Your detailed class list. The active class glows blue. Complete it to unlock the next one. Each shift contains multiple sub-simulations.' },
-  { id: 'trophyPanel', title: 'Trophy Case', body: 'Every completed class earns a certificate. Gold stars are earned, grey are locked. All 20 can be downloaded and shared to LinkedIn.' },
+  // Trophy Case removed from highlights
   { id: 'urgentPanel', title: 'Urgent Pages', body: 'Daily challenges that expire at midnight. Fast, focused drills — ECG reads, drug quizzes, triage drills. Complete them to keep your streak alive.' },
 ]
 
@@ -17,21 +17,35 @@ export default function TourHighlight({ onEnd }) {
 
   useEffect(() => {
     positionHighlight(idx)
+    // Re-position on window resize to keep highlights accurate
+    window.addEventListener('resize', () => positionHighlight(idx))
+    return () => window.removeEventListener('resize', () => positionHighlight(idx))
   }, [idx])
 
   function positionHighlight(i) {
     const el = document.getElementById(HIGHLIGHTS[i].id)
     const container = document.querySelector('[data-dashboard]')
-    if (!el || !container) return
+    
+    if (!el || !container) {
+      // If an element is missing, skip to next or end tour
+      if (i < HIGHLIGHTS.length - 1) setIdx(i + 1)
+      else onEnd()
+      return
+    }
+
     const elRect = el.getBoundingClientRect()
     const cRect = container.getBoundingClientRect()
+    
     const top = elRect.top - cRect.top - 4
     const left = elRect.left - cRect.left - 4
     const width = elRect.width + 8
     const height = elRect.height + 8
+    
     setBox({ top, left, width, height })
+    
+    // Positioning tooltip below the highlight
     const tipTop = top + height + 12
-    const tipLeft = Math.min(left, cRect.width - 260)
+    const tipLeft = Math.min(left, cRect.width - 280) // 280 is approx tooltip width
     setTip({ top: tipTop, left: Math.max(8, tipLeft) })
   }
 
@@ -56,9 +70,9 @@ export default function TourHighlight({ onEnd }) {
           <div className={styles.hlNav}>
             <span className={styles.hlStep}>{idx + 1} of {HIGHLIGHTS.length}</span>
             <div className={styles.hlBtns}>
-              <button className={styles.hlSkipBtn} onClick={skip}>Skip Tour</button>
+              <button className={styles.hlSkipBtn} onClick={skip}>Skip</button>
               <button className={styles.hlNextBtn} onClick={next}>
-                {idx === HIGHLIGHTS.length - 1 ? 'Done ✓' : 'Next →'}
+                {idx === HIGHLIGHTS.length - 1 ? 'Finish ✓' : 'Next →'}
               </button>
             </div>
           </div>

@@ -1,17 +1,17 @@
 import { useProgress } from '../../contexts/ProgressContext'
+import { CURRICULUM } from '../../data/curriculum'
 import styles from '../../styles/dashboard.module.css'
 
 export default function CertificateCase() {
-  const { results, completedCount } = useProgress()
+  const { completedCount } = useProgress()
 
   const totalCompleted = completedCount || 0
-  const totalRequired = 20
+  const totalRequired = CURRICULUM.length // Dynamically scale to curriculum size
   const progressPercent = Math.min(Math.round((totalCompleted / totalRequired) * 100), 100)
   const isCertified = totalCompleted >= totalRequired
 
   return (
     <div className={styles.panel}>
-      {/* Reusing Panel Header logic for consistency */}
       <div className={styles.panelHead}>
         <div className={styles.phLeft}>
           <div className={styles.phCross}>
@@ -28,7 +28,7 @@ export default function CertificateCase() {
 
       <div className={styles.panelBody}>
         <p className={styles.urgSub} style={{ marginBottom: '1rem', lineHeight: '1.5' }}>
-          Complete all <strong>20 clinical cases</strong> to unlock your official 
+          Complete all <strong>{totalRequired} clinical cases</strong> to unlock your official 
           MediNova Board Certification and final residency transcript.
         </p>
         

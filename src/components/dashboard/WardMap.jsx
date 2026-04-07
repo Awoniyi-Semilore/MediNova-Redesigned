@@ -8,13 +8,14 @@ export default function WardMap() {
   const { classStatus, overallProgress } = useProgress()
 
   function getCellClass(cls) {
-    const s = classStatus(cls.id)
-    if (cls.id === 20) return `${styles.wc} ${styles.wcChief}`
+    const s = classStatus(cls.id) // 'done', 'next', or 'locked'
+    
+    // special styling for the final board exam (floor 20)
+    if (cls.id === 20 && s !== 'done') return `${styles.wc} ${styles.wcChief}`
+    
     if (s === 'done')   return `${styles.wc} ${styles.wcDone}`
-    if (s === 'active') return `${styles.wc} ${styles.wcNow}`
-    // next up = first locked after active
-    const activeId = CURRICULUM.find(c => classStatus(c.id) === 'active')?.id || 1
-    if (cls.id === activeId + 1) return `${styles.wc} ${styles.wcNext}`
+    if (s === 'next')   return `${styles.wc} ${styles.wcNow}` 
+    
     return `${styles.wc} ${styles.wcLock}`
   }
 
@@ -30,12 +31,7 @@ export default function WardMap() {
           </div>
           <div className={styles.phTitle}>Ward Map — 20 Floors</div>
         </div>
-        <div
-          className={styles.phAction}
-          onClick={() => navigate('/ward-map')}
-        >
-          Full Map →
-        </div>
+        <div className={styles.phAction} onClick={() => navigate('/ward-map')}>Full Map →</div>
       </div>
 
       <div className={styles.panelBody}>
@@ -44,11 +40,12 @@ export default function WardMap() {
             <div
               key={cls.id}
               className={getCellClass(cls)}
-              onClick={() => navigate(`/class/${cls.id}`)}
+              onClick={() => classStatus(cls.id) !== 'locked' && navigate(`/class/${cls.id}`)}
               title={cls.title}
+              style={{ cursor: classStatus(cls.id) === 'locked' ? 'not-allowed' : 'pointer' }}
             >
-              <span className={styles.wn}>{cls.num}</span>
-              <span className={styles.wl}>{cls.title.split(' ').slice(0, 2).join(' ')}</span>
+              <span className={styles.wn}>{cls.id}</span>
+              <span className={styles.wl}>{cls.title.split(' ').slice(0, 1).join(' ')}</span>
             </div>
           ))}
         </div>
@@ -57,7 +54,7 @@ export default function WardMap() {
           <span>{overallProgress}%</span>
         </div>
         <div className={styles.progTrack}>
-          <div className={styles.progFill} style={{ width: `${overallProgress}%` }} />
+          <div className={styles.progFill} style={{ width: `${overallProgress}%`, transition: 'width 0.5s ease' }} />
         </div>
       </div>
     </div>

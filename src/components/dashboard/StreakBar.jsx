@@ -4,7 +4,6 @@ import styles from '../../styles/dashboard.module.css'
 export default function StreakBar() {
   const { streak } = useProgress()
 
-  // Fix: Add a fallback for the date so it doesn't crash during Firebase loading
   const today = new Date().toLocaleDateString('en-US', { 
     weekday: 'long', 
     month: 'long', 
@@ -12,7 +11,7 @@ export default function StreakBar() {
   })
 
   return (
-    <div className={styles.streakBar}>
+    <div className={styles.streakBar} id="streakBar">
       <div className={styles.sbLeft}>
         <div className={styles.sbIcon}>
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none">

@@ -197,3 +197,99 @@
   from { opacity: 0; }
   to   { opacity: 1; }
 }
+
+
+
+
+/* src/styles/simulation.module.css */
+
+.opening {
+  position: fixed;
+  inset: 0;
+  z-index: 9999; /* Ensure it stays above everything */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-sans);
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  background: #000;
+}
+
+/* ❌ FIX: visibility:hidden prevents the "invisible wall" bug where 
+   users can't click the simulation after the intro fades. */
+.openingFadeOut { 
+  opacity: 0; 
+  pointer-events: none; 
+  visibility: hidden; 
+}
+
+.openingBg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: opacity 1.2s ease;
+  will-change: transform; /* Hardware acceleration for smoother Ken Burns */
+}
+
+.openingBgA { animation: kenBurnsA 8s ease-out forwards; }
+.openingBgB { animation: kenBurnsB 8s ease-out forwards; }
+
+@keyframes kenBurnsA {
+  from { transform: scale(1.15); }
+  to   { transform: scale(1); }
+}
+
+@keyframes kenBurnsB {
+  from { transform: scale(1); }
+  to   { transform: scale(1.1) translateX(-2%); }
+}
+
+.openingContent {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2rem;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.4), transparent, rgba(0,0,0,0.8));
+}
+
+.openingSubsimTitle {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 5vw, 3.5rem); /* Fluid typography */
+  color: #fff;
+  font-weight: 600;
+  line-height: 1;
+  text-shadow: 0 4px 30px rgba(0,0,0,0.7);
+  animation: fadeSlideUp 0.8s ease 0.3s both;
+}
+
+/* Shared animations corrected for professional feel */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.openingVitals {
+  display: flex;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 4px;
+  align-self: flex-start;
+  animation: fadeSlideUp 0.8s ease 0.6s both;
+}
+
+.openingVital {
+  padding: 0.8rem 1.2rem;
+  border-right: 1px solid rgba(255,255,255,0.1);
+  text-align: center;
+}
+
+.openingVitalVal {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  color: #fff;
+}

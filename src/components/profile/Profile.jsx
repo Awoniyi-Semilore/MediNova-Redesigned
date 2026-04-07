@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 import { useTheme } from '../../contexts/ThemeContext'
 import { useProgress } from '../../contexts/ProgressContext'
@@ -18,7 +17,11 @@ export default function Profile() {
   const displayName = currentUser?.displayName || currentUser?.email?.split('@')[0] || 'Doctor'
   const themeClass = isDark ? styles.dark : styles.light
 
-  const activeTitle = activeClass ? `Class ${activeClass.num} Active` : 'Curriculum Starting'
+  const activeTitle = activeClass ? `Class ${activeClass.id} Active` : 'Curriculum Starting'
+  
+  // Calculate relative rotation progress (e.g., progress within the current set of 5 classes)
+  const rotationProgress = completedCount % 5
+  const rotationTarget = 5
 
   return (
     <div className={`${styles.page} ${themeClass}`}>
@@ -32,7 +35,7 @@ export default function Profile() {
         photoURL={currentUser?.photoURL}
         staffId={`MN-${1000 + (completedCount * 7)}`}
         email={currentUser?.email || ''}
-        joined="March 2025"
+        joined={currentUser?.metadata?.creationTime ? new Date(currentUser.metadata.creationTime).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : "March 2026"}
       />
 
       <StatStrip
@@ -41,25 +44,25 @@ export default function Profile() {
         total={20}
         avgScore={avgScore}
         certificates={Math.floor(completedCount / 4)}
-        simsThisPeriod={completedCount % 5}
-        simsTarget={5}
+        simsThisPeriod={rotationProgress}
+        simsTarget={rotationTarget}
       />
 
       <div className={styles.body}>
         <div className={styles.sectionLabel}>Clinical Performance Review</div>
         <PerformanceReview
           name={displayName}
-          simsThisPeriod={completedCount % 5}
-          simsTarget={5}
-          simsUrgent={0}
+          simsThisPeriod={rotationProgress}
+          simsTarget={rotationTarget}
+          simsUrgent={0} // To be linked to UrgentPages context later
           urgentTarget={2}
           avgScore={avgScore}
         />
 
-        <div className={styles.sectionLabel}>Progress Breakdown</div>
+        <div className={styles.sectionLabel}>Dossier Breakdown</div>
         <ProgressBreakdown
-          simsThisPeriod={completedCount % 5}
-          simsTarget={5}
+          simsThisPeriod={rotationProgress}
+          simsTarget={rotationTarget}
           avgScore={avgScore}
           urgentDone={0}
           urgentTotal={2}
@@ -67,7 +70,7 @@ export default function Profile() {
           streak={streak}
         />
 
-        <div className={styles.sectionLabel}>Account Settings</div>
+        <div className={styles.sectionLabel}>System Configuration</div>
         <AccountSettings currentUser={currentUser} />
       </div>
     </div>

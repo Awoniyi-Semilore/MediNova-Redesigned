@@ -7,9 +7,12 @@ export default function ShiftBoard() {
   const navigate = useNavigate()
   const { classStatus, activeClass } = useProgress()
 
+  // Ensure we have a valid index for slicing the list
+  const activeIdx = CURRICULUM.findIndex(c => c.id === activeClass?.id)
+  const safeIdx = activeIdx === -1 ? 0 : activeIdx
+  
   // Show active class + 2 before + 2 after
-  const activeIdx = CURRICULUM.findIndex(c => c.id === activeClass?.id) || 0
-  const start = Math.max(0, activeIdx - 2)
+  const start = Math.max(0, safeIdx - 2)
   const visible = CURRICULUM.slice(start, start + 5)
 
   return (
@@ -26,7 +29,8 @@ export default function ShiftBoard() {
         </div>
         <div
           className={styles.phAction}
-          onClick={() => navigate(`/class/${activeClass?.id}`)}
+          style={{ cursor: 'pointer' }}
+          onClick={() => navigate(`/class/${activeClass?.id || CURRICULUM[0].id}`)}
         >
           Continue →
         </div>
@@ -35,18 +39,21 @@ export default function ShiftBoard() {
       <div className={styles.panelBody}>
         <div className={styles.shiftList}>
           {visible.map(cls => {
-            const s = classStatus(cls.id)
+            const s = classStatus(cls.id) // Returns 'done', 'next', or 'locked'
+            
             const rowCls = s === 'done'
               ? styles.srDone
-              : s === 'active'
+              : s === 'next'
               ? styles.srActive
               : styles.srLock
+
             const tagCls = s === 'done'
               ? styles.tagDone
-              : s === 'active'
+              : s === 'next'
               ? styles.tagActive
               : styles.tagLocked
-            const tagLabel = s === 'done' ? 'Done' : s === 'active' ? 'Active' : 'Locked'
+
+            const tagLabel = s === 'done' ? 'Done' : s === 'next' ? 'Active' : 'Locked'
 
             return (
               <div
@@ -55,10 +62,10 @@ export default function ShiftBoard() {
                 onClick={() => s !== 'locked' && navigate(`/class/${cls.id}`)}
                 style={{ cursor: s === 'locked' ? 'default' : 'pointer' }}
               >
-                <div className={styles.srNum}>{cls.num}</div>
+                <div className={styles.srNum}>{cls.id}</div>
                 <div className={styles.srInfo}>
                   <div className={styles.srName}>{cls.title}</div>
-                  <div className={styles.srSub}>{cls.subtitle}</div>
+                  <div className={styles.srSub}>{cls.level.replace('_', ' ')}</div>
                 </div>
                 <span className={`${styles.srTag} ${tagCls}`}>{tagLabel}</span>
               </div>

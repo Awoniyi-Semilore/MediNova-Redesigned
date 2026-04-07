@@ -338,3 +338,142 @@
   backdrop-filter: blur(8px);
   animation: bannerIn 0.4s ease, bannerOut 0.4s ease 3.6s forwards;
 }
+
+
+/* src/styles/simdesign1.module.css */
+
+.page {
+  background: var(--medinova-cream);
+  min-height: 100vh;
+  font-family: var(--font-sans);
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 70px; /* Increased to prevent footer overlap */
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  box-shadow: 0 0 40px rgba(0,0,0,0.03); /* Adds professional depth */
+}
+
+/* ❌ FIX: Improved ECG Texture Performance */
+.page::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='60' viewBox='0 0 320 60'%3E%3Cpolyline points='0,30 30,30 38,10 46,50 54,5 62,35 70,30 120,30 148,30 156,10 164,50 172,5 180,35 188,30 240,30 268,30 276,10 284,50 292,5 300,35 308,30 320,30' fill='none' stroke='%230d2d5e' stroke-width='2'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 320px 60px;
+}
+
+.page > * { position: relative; z-index: 1; }
+
+/* ── TABS ── */
+.tabs {
+  display: flex;
+  background: #f0ebe0;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE */
+}
+.tabs::-webkit-scrollbar { display: none; }
+
+.tab {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 12px 20px;
+  color: var(--medinova-gold);
+  cursor: pointer;
+  border-right: 1px solid #e2ddd0;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.tabActive { 
+  background: var(--medinova-cream); 
+  color: var(--medinova-navy);
+  font-weight: 600;
+}
+
+/* ── VITALS STRIP ── */
+.vitalsStrip {
+  display: grid;
+  /* ❌ FIX: Responsive Grid to prevent text squashing */
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  border-bottom: 1px solid #eee5d8;
+  background: rgba(255,255,255,0.5);
+}
+
+.vitalCell {
+  padding: 12px;
+  border-right: 1px solid #eee5d8;
+  text-align: center;
+}
+
+.vitalVal {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--medinova-navy);
+}
+
+/* ── OPTIONS ── */
+.options { display: flex; flex-direction: column; gap: 8px; margin-top: 1rem; }
+
+.option {
+  display: grid;
+  grid-template-columns: 30px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 14px;
+  background: #fff;
+  border: 1px solid #e8e2d5;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.option:hover { 
+  border-color: var(--medinova-gold); 
+  transform: translateX(4px); 
+}
+
+.optionSelected {
+  border-color: var(--medinova-navy);
+  background: #f8faff;
+}
+
+/* ── FOOTER ── */
+.footer {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  max-width: 900px;
+  margin: 0 auto;
+  background: rgba(253,250,246,0.98);
+  backdrop-filter: blur(10px);
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #e8e2d5;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  z-index: 100;
+}
+
+.footerBar {
+  flex: 1;
+  height: 4px;
+  background: #e8e2d5;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.footerBarFill {
+  height: 100%;
+  background: var(--medinova-navy);
+  transition: width 1s linear;
+}

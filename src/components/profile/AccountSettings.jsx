@@ -13,21 +13,14 @@ import styles from '../../styles/profile.module.css'
 export default function AccountSettings({ currentUser }) {
   const { track, updateTrack } = useProgress()
   
-  // PROFILE STATE
   const [displayName, setDisplayName] = useState(currentUser?.displayName || '')
-  const [email] = useState(currentUser?.email || '')
   const [localTrack, setLocalTrack] = useState(track || 'doctor')
   const [profileMsg, setProfileMsg] = useState('')
+  const [profileLoading, setProfileLoading] = useState(false)
   
-  // AVATAR LOGIC
   const spriteOptions = ['lorelei', 'adventurer', 'avataaars', 'bottts', 'initials']
   const [spriteIndex, setSpriteIndex] = useState(0)
   const [avatarUrl, setAvatarUrl] = useState(currentUser?.photoURL || null)
-
-  // Sync initials fallback for the preview if no image is generated yet
-  const initials = displayName 
-    ? displayName.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() 
-    : '??'
 
   useEffect(() => {
     const seed = displayName.trim() || currentUser?.email || 'User'
@@ -48,7 +41,10 @@ export default function AccountSettings({ currentUser }) {
   const [pwdLoading, setPwdLoading] = useState(false)
 
   async function handleSaveProfile() {
-    setProfileMsg('Processing...')
+    if (!displayName.trim()) return setProfileMsg('Name cannot be empty.')
+    setProfileLoading(true)
+    setProfileMsg('Updating clinical records...')
+    
     try {
       await updateProfile(auth.currentUser, { 
         displayName: displayName,
@@ -59,13 +55,14 @@ export default function AccountSettings({ currentUser }) {
         await updateTrack(localTrack)
       }
 
-      setProfileMsg('Clinical record updated.')
-      setTimeout(() => setProfileMsg(''), 3000)
-      // Force a reload or state refresh if your parent component doesn't auto-update
-      window.location.reload(); 
+      setProfileMsg('Dossier updated successfully.')
+      setTimeout(() => {
+        setProfileMsg('')
+        setProfileLoading(false)
+      }, 2000)
     } catch (error) {
-      console.error(error)
-      setProfileMsg('Update failed.')
+      setProfileMsg('Update failed. Try re-logging.')
+      setProfileLoading(false)
     }
   }
 
@@ -81,7 +78,7 @@ export default function AccountSettings({ currentUser }) {
       setPwdMsg('Password updated.')
       setCurrentPwd(''); setNewPwd(''); setConfirmPwd('')
     } catch (e) {
-      setPwdMsg('Authentication failed.')
+      setPwdMsg('Auth failed. Check current password.')
     } finally {
       setPwdLoading(false)
       setTimeout(() => setPwdMsg(''), 4000)
@@ -102,7 +99,6 @@ export default function AccountSettings({ currentUser }) {
         
         <div className={styles.cardBody}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '2rem' }}>
-            {/* MATCHING THE PROFILEHERO STYLE */}
             <div className={styles.avatarRing} onClick={handleNextSprite} style={{ cursor: 'pointer' }}>
                <div className={styles.avatarInner}>
                   <img src={avatarUrl} alt="Preview" style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
@@ -111,7 +107,7 @@ export default function AccountSettings({ currentUser }) {
                  <svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
                </div>
             </div>
-            <p style={{ fontSize: '0.6rem', color: '#90a4ae', marginTop: '10px', fontFamily: 'monospace' }}>CLICK CIRCLE TO ROTATE AVATAR STYLE</p>
+            <p style={{ fontSize: '0.6rem', color: '#90a4ae', marginTop: '10px', fontFamily: 'monospace' }}>CLICK TO ROTATE STYLE</p>
           </div>
 
           <div className={styles.fGroup}>
@@ -128,8 +124,10 @@ export default function AccountSettings({ currentUser }) {
               </select>
             </div>
           </div>
-          {profileMsg && <div style={{ fontSize: '0.7rem', color: '#2e7d32', margin: '0.5rem 0' }}>{profileMsg}</div>}
-          <button className={styles.btnPrimary} onClick={handleSaveProfile}>Update Profile</button>
+          {profileMsg && <div style={{ fontSize: '0.7rem', color: profileMsg.includes('failed') ? '#c62828' : '#2e7d32', margin: '0.5rem 0' }}>{profileMsg}</div>}
+          <button className={styles.btnPrimary} onClick={handleSaveProfile} disabled={profileLoading}>
+            {profileLoading ? 'Syncing...' : 'Update Profile'}
+          </button>
         </div>
       </div>
 

@@ -33,22 +33,27 @@ export default function SimulationPage() {
 
   const accentColor = useMemo(
     () => cls ? getSimColor(cls.level, cls.id) : '#1565c0',
-    [cls?.id]
+    [cls?.id, cls?.level]
   )
   const theme = useMemo(
     () => cls ? getLevelTheme(cls.level) : getLevelTheme('clerkship'),
     [cls?.level]
   )
 
-  const [phase,               setPhase]               = useState('opening')
-  const [currentSimIndex,    setCurrentSimIndex]    = useState(0)
-  const [currentSubsimIndex, setCurrentSubsimIndex] = useState(0)
-  const [answers,            setAnswers]            = useState([])
-  const [simScore,           setSimScore]           = useState(null)
-  const [activeVariant,      setActiveVariant]      = useState(null)
-  const [isSaving,           setIsSaving]           = useState(false) 
+  const [phase,              setPhase]               = useState('opening')
+  const [currentSimIndex,    setCurrentSimIndex]     = useState(0)
+  const [currentSubsimIndex, setCurrentSubsimIndex]  = useState(0)
+  
+  // STATS MANAGEMENT
+  const [allAnswers,         setAllAnswers]          = useState([]) // For Class Debrief (Total)
+  const [currentSimAnswers,  setCurrentSimAnswers]   = useState([]) // For Sim Debrief (Current)
+  const [simScore,           setSimScore]            = useState(null)
+  
+  const [activeVariant,      setActiveVariant]       = useState(null)
+  const [isSaving,           setIsSaving]            = useState(false) 
   const startTime = useRef(Date.now())
 
+  // Logic to pick variants
   useEffect(() => {
     if (!cls) return
     const td     = cls[track] || cls.doctor
@@ -62,15 +67,12 @@ export default function SimulationPage() {
     }
   }, [currentSimIndex, currentSubsimIndex, cls, track])
 
-  if (!cls) return (
-    <div style={{ padding: '4rem', textAlign: 'center', color: '#607d8b', fontFamily: 'sans-serif' }}>
-      Class not found.
-    </div>
-  )
+  if (!cls) return <div style={{ padding: '4rem', textAlign: 'center' }}>Class not found.</div>
 
+  // Safety check for locked content
   const status = classStatus(cls.id)
   if (status === 'locked') {
-    navigate(`/class/${cls.id}`)
+    navigate(`/ward-map`) // Better to go back to map than class info
     return null
   }
 
@@ -80,49 +82,52 @@ export default function SimulationPage() {
   const currentSubsim = currentSim?.subsims?.[currentSubsimIndex]
   const Design        = DESIGN_MAP[cls.level] || SimDesign1Clerkship
 
-  function handleOpeningComplete() { setPhase('question') }
-
-  function handleAnswer(answer) {
-    setAnswers(prev => [...prev, answer])
+  function handleOpeningComplete() { 
+    setPhase('question') 
   }
 
-  function handleSimComplete(simAnswers) {
-    const total   = simAnswers.length
-    const correct = simAnswers.filter(a => a.correct).length
+  function handleAnswer(answer) {
+    setCurrentSimAnswers(prev => [...prev, answer])
+    setAllAnswers(prev => [...prev, answer])
+  }
+
+  function handleSimComplete() {
+    const total   = currentSimAnswers.length
+    const correct = currentSimAnswers.filter(a => a.correct).length
     setSimScore(total > 0 ? Math.round((correct / total) * 100) : 0)
     setPhase('sim_debrief')
   }
 
   async function handleSimDebriefContinue() {
-    const td           = cls[track] || cls.doctor
-    const allSims      = td?.sims || []
-    const thisSim      = allSims[currentSimIndex]
-    const moreSubsims  = currentSubsimIndex < (thisSim?.subsims?.length || 1) - 1
-    const moreSims     = currentSimIndex < allSims.length - 1
+    const moreSubsims  = currentSubsimIndex < (currentSim?.subsims?.length || 1) - 1
+    const moreSims     = currentSimIndex < sims.length - 1
 
     if (moreSubsims) {
       setCurrentSubsimIndex(s => s + 1)
+      setCurrentSimAnswers([]) // Reset for next sub-sim
       setPhase('opening')
     } else if (moreSims) {
       setCurrentSimIndex(s => s + 1)
       setCurrentSubsimIndex(0)
+      setCurrentSimAnswers([]) // Reset for next sim
       setPhase('opening')
     } else {
+      // FINAL SAVING LOGIC
       if (isSaving) return
       setIsSaving(true)
       
-      const total      = answers.length
-      const correct    = answers.filter(a => a.correct).length
+      const total      = allAnswers.length
+      const correct    = allAnswers.filter(a => a.correct).length
       const finalScore = total > 0 ? Math.round((correct / total) * 100) : 0
       
       try {
         await recordSimResult({
           classId:  cls.id,
-          simId:    currentSim?.id,
-          subsimId: currentSubsim?.id,
           score:    finalScore,
-          timeMs:   Date.now() - startTime.current,
-          track,
+          answers:  allAnswers, // Save EVERYTHING to Firebase
+          track:    track,
+          level:    cls.level,
+          completedAt: new Date().toISOString()
         })
         setPhase('class_debrief')
       } catch (err) {
@@ -133,58 +138,40 @@ export default function SimulationPage() {
     }
   }
 
-  function handleClassDebriefDone() { navigate('/ward-map') }
-
   return (
     <>
       {phase === 'opening' && (
         <SimulationOpening
-          cls={cls}
-          sim={currentSim}
-          subsim={currentSubsim}
-          variant={activeVariant}
-          accentColor={accentColor}
-          theme={theme}
-          track={track}
-          onComplete={handleOpeningComplete}
+          cls={cls} sim={currentSim} subsim={currentSubsim}
+          variant={activeVariant} accentColor={accentColor}
+          theme={theme} track={track} onComplete={handleOpeningComplete}
         />
       )}
 
       {phase === 'question' && (
         <Design
-          cls={cls}
-          sim={currentSim}
-          subsim={currentSubsim}
-          variant={activeVariant}
-          accentColor={accentColor}
-          theme={theme}
-          track={track}
-          onAnswer={handleAnswer}
+          cls={cls} sim={currentSim} subsim={currentSubsim}
+          variant={activeVariant} accentColor={accentColor}
+          theme={theme} track={track} onAnswer={handleAnswer}
           onSimComplete={handleSimComplete}
         />
       )}
 
       {phase === 'sim_debrief' && (
         <SimulationDebrief
-          cls={cls}
-          sim={currentSim}
-          subsim={currentSubsim}
-          answers={answers}
-          score={simScore}
-          accentColor={accentColor}
-          theme={theme}
-          level={cls.level}
-          onContinue={handleSimDebriefContinue}
+          cls={cls} sim={currentSim} subsim={currentSubsim}
+          answers={currentSimAnswers} // Pass ONLY current subsim answers
+          score={simScore} accentColor={accentColor}
+          theme={theme} level={cls.level} onContinue={handleSimDebriefContinue}
         />
       )}
 
       {phase === 'class_debrief' && (
         <ClassDebrief
           cls={cls}
-          answers={answers}
-          track={track}
-          accentColor={accentColor}
-          onDone={handleClassDebriefDone}
+          answers={allAnswers} // Pass ALL answers for the final report
+          track={track} accentColor={accentColor}
+          onDone={() => navigate('/ward-map')}
         />
       )}
     </>
