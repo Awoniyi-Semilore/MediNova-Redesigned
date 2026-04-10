@@ -1,3 +1,5 @@
+//src/components/dashboard/Dashboard.jsx
+
 import { useState, useEffect } from 'react'
 import { useAuth } from '../../contexts/AuthContext'
 import { useTheme } from '../../contexts/ThemeContext'

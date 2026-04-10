@@ -1,24 +1,19 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useProgress } from '../../contexts/ProgressContext'
-import { useTheme } from '../../contexts/ThemeContext'
 import styles from '../../styles/wardmap.module.css'
 
+// Status icons for case numbers
 function NumIcon({ status }) {
   if (status === 'done') return (
-    <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="#2e7d32" strokeWidth="2.5">
+    <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="#4caf50" strokeWidth="2.5">
       <path d="M3 8l4 4 6-6"/>
     </svg>
   )
-  if (status === 'active') return (
+  if (status === 'active' || status === 'next') return (
     <svg width="9" height="9" viewBox="0 0 16 16">
-      <circle cx="8" cy="8" r="6" fill="#1565c0"/>
+      <circle cx="8" cy="8" r="6" fill="#0d2d5e"/>
       <circle cx="8" cy="8" r="2.5" fill="#fff"/>
-    </svg>
-  )
-  if (status === 'next') return (
-    <svg width="11" height="11" viewBox="0 0 16 16" fill="#f9a825">
-      <path d="M5 3l6 5-6 5V3z"/>
     </svg>
   )
   if (status === 'chief') return (
@@ -26,8 +21,9 @@ function NumIcon({ status }) {
       <path d="M8 2l1.5 3 3.5.5-2.5 2.5.5 3.5L8 10l-3 1.5.5-3.5L3 5.5l3.5-.5z"/>
     </svg>
   )
+  // Locked icon
   return (
-    <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="#cfd8dc" strokeWidth="1.5">
+    <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="#90a4ae" strokeWidth="1.5">
       <rect x="5" y="7" width="6" height="6" rx="1"/>
       <path d="M6 7V5a2 2 0 0 1 4 0v2"/>
     </svg>
@@ -37,76 +33,65 @@ function NumIcon({ status }) {
 export default function CaseFile({ cls, track }) {
   const navigate = useNavigate()
   const { classStatus, classScore, classAttempts } = useProgress()
-  const { isDark } = useTheme()
   const [open, setOpen] = useState(false)
 
-  const status = cls.id === 20 ? 'chief' : classStatus(cls.id)
+  const status = cls.id === 20 || cls.isFinal ? 'chief' : classStatus(cls.id)
   const score = classScore(cls.id)
   const attempts = classAttempts(cls.id)
-
-  // --- HELPERS ---
   
-  const getSimStatus = (index) => {
-    // If class is done, all sims are done. If class is locked, all are locked.
-    if (status === 'done') return 'done';
-    if (status === 'locked') return 'lock';
-    return "active"; 
-  };
+  // Calculate accuracy for display
+  const accuracy = score !== null ? score : 0
+  
+  // Determine accuracy color
+  const getAccuracyClass = () => {
+    if (status === 'locked') return ''
+    if (accuracy >= 80) return styles.accuracyHigh
+    if (accuracy >= 60) return styles.accuracyMedium
+    if (attempts > 0) return styles.accuracyLow
+    return ''
+  }
 
-  const simItemClass = (ss) => {
-    if (ss === 'done') return `${styles.simItem} ${styles.siDone}`;
-    if (ss === 'active') return `${styles.simItem} ${styles.siActive}`;
-    return `${styles.simItem} ${styles.siLock}`;
-  };
-
-  const progress = status === 'done' ? 100
-    : status === 'active' ? Math.min(90, (attempts * 30))
-    : 0
-
+  // Get CSS class for case file
   function cfClass() {
-    if (status === 'chief')  return `${styles.caseFile} ${styles.cfChief}`
-    if (status === 'done')   return `${styles.caseFile} ${styles.cfDone}`
-    if (status === 'active') return `${styles.caseFile} ${styles.cfActive}`
-    if (status === 'next')   return `${styles.caseFile} ${styles.cfNext}`
-    return `${styles.caseFile} ${styles.cfLock}`
+    let base = styles.caseFile
+    if (status === 'chief') base += ` ${styles.cfChief}`
+    if (status === 'locked') base += ` ${styles.cfLock}`
+    return base
   }
 
-  function tagClass() {
-    if (status === 'chief')  return `${styles.chbTag} ${styles.tgChief}`
-    if (status === 'done')   return `${styles.chbTag} ${styles.tgDone}`
-    if (status === 'active') return `${styles.chbTag} ${styles.tgActive}`
-    if (status === 'next')   return `${styles.chbTag} ${styles.tgNext}`
-    return `${styles.chbTag} ${styles.tgLock}`
+  // Get button styling based on status
+  function getButtonClass() {
+    if (status === 'locked') return `${styles.cbBtn} ${styles.btnLocked}`
+    if (status === 'chief') return `${styles.cbBtn} ${styles.btnChief}`
+    if (status === 'done') return `${styles.cbBtn} ${styles.btnDone}`
+    return `${styles.cbBtn} ${styles.btnContinue}`
   }
 
-  function tagLabel() {
-    if (status === 'chief')  return 'Final Exam'
-    if (status === 'done')   return 'Completed'
-    if (status === 'active') return 'In Progress'
-    if (status === 'next')   return 'Next Up'
-    return 'Locked'
+  // Get button text based on status
+  function getButtonText() {
+    if (status === 'locked') return '🔒 Locked'
+    if (status === 'done') return 'Re-examine Case'
+    if (status === 'chief') return 'Start Board Exam'
+    return 'Begin Case'
   }
 
-  function handleEnter(e) {
-    e.stopPropagation()
+  // Handle click - don't navigate if locked
+  function handleNavigate() {
     if (status === 'locked') return
     navigate(`/class/${cls.id}`)
   }
 
-  const trackData = cls[track] || cls.doctor
-  const sims = trackData?.sims || []
-
-  // Resolve description fallback
-  const desc = cls.description 
-    ? (typeof cls.description === 'object' ? (cls.description[track] || cls.description.doctor) : cls.description)
-    : (cls.tagline || "Clinical documentation pending...");
+  // Toggle open state - don't open if locked
+  function handleToggle() {
+    if (status === 'locked') return
+    setOpen(o => !o)
+  }
 
   return (
     <div className={cfClass()}>
-      {/* HEADER ROW */}
-      <div className={styles.caseHeader} onClick={() => setOpen(o => !o)}>
+      <div className={styles.caseHeader} onClick={handleToggle}>
         <div className={styles.chNum}>
-          <div className={styles.chN}>{cls.num}</div>
+          <div className={styles.chN}>{String(cls.num || cls.id).padStart(2, '0')}</div>
           <div className={styles.chIcon}>
             <NumIcon status={status} />
           </div>
@@ -115,109 +100,70 @@ export default function CaseFile({ cls, track }) {
         <div className={styles.chBody}>
           <div className={styles.chbInfo}>
             <div className={styles.chbName}>{cls.title}</div>
-            <div className={styles.chbMeta}>{cls.subtitle}</div>
+            <div className={styles.chbMeta}>{cls.subtitle || 'Patient Admission File'}</div>
           </div>
 
           <div className={styles.chbRight}>
-            <div className={styles.chbProg}>
-              <div className={styles.chbpRow}>
-                <span>Progress</span>
-                <span>{progress}%</span>
+            {/* Circular accuracy indicator - replaces progress bar */}
+            <div className={styles.chbAccuracy}>
+              <div className={`${styles.accuracyCircle} ${getAccuracyClass()}`}>
+                {status === 'locked' ? '—' : `${accuracy}%`}
               </div>
-              <div className={styles.chbpTrack}>
-                <div className={styles.chbpFill} style={{ width: `${progress}%` }} />
-              </div>
+              <div className={styles.accuracyLabel}>Accuracy</div>
             </div>
-            <div className={tagClass()}>{tagLabel()}</div>
+            
+            <div className={`${styles.chbTag} ${styles['tg' + status.charAt(0).toUpperCase() + status.slice(1)]}`}>
+              {status === 'chief' ? 'Board Exam' : status}
+            </div>
           </div>
-        </div>
-
-        <div className={styles.chChev}>
-          <svg
-            className={`${styles.chev} ${open ? styles.chevOpen : ''}`}
-            width="14" height="14" viewBox="0 0 16 16"
-            fill="none" stroke="#90a4ae" strokeWidth="1.5"
-          >
-            <path d="M3 6l5 5 5-5"/>
-          </svg>
         </div>
       </div>
 
-      {/* ACCORDION BODY */}
-      {open && (
+      {open && status !== 'locked' && (
         <div className={styles.caseBody}>
           <div className={styles.cbInner}>
-            <div className={styles.cbQuote}>{desc}</div>
-
-            {sims.length > 0 && (
-              <>
-                <div className={styles.cbSimsHd}>
-                  Sub-Simulations · {sims.length} Case{sims.length > 1 ? 's' : ''}
-                  <div className={styles.cbSimsLine} />
-                </div>
-
-                <div className={styles.cbSims}>
-                  {sims.map((sim, si) => {
-                    const ss = getSimStatus(si);
-                    return (
-                      <div key={sim.id || si} className={simItemClass(ss)}>
-                        <div className={styles.simItemRow}>
-                          {/* <div className={styles.simNum}>{si + 1}</div> */}
-                          <div className={styles.simInfo}>
-                            <div className={styles.simTitle}>{sim.title}</div>
-                            {/* <div className={styles.simObj}>
-                              <strong>Objective:</strong> {sim.task || sim.scenario}
-                            </div> */}
-                          </div>
-                          {/* {sim.questions && (
-                            <div className={styles.simMechanics}>
-                              {sim.questions.length} Qs
-                            </div>
-                          )} */}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </>
-            )}
-
-            {/* Footer */}
+            <div className={styles.cbQuote}>
+              {cls.tagline || "Initial clinical briefing available for review."}
+            </div>
             <div className={styles.cbFoot}>
               <div className={styles.cbfInfo}>
-                {score !== null
-                  ? <>Best score: <strong>{score}%</strong></>
-                  : status === 'active'
-                  ? <>{progress}% complete — <strong>in progress</strong></>
-                  : status === 'locked'
-                  ? 'Complete previous case to unlock'
-                  : status === 'next'
-                  ? 'Ready to begin'
-                  : '—'
-                }
+                {score !== null 
+                  ? `Highest Competency: ${score}% · ${attempts} attempt${attempts !== 1 ? 's' : ''}` 
+                  : "No attempts logged."}
               </div>
-
-              {status !== 'locked' ? (
-                <button 
-                  className={`
-                    ${styles.cbBtn} 
-                    ${status === 'done' ? styles.btnReview : 
-                      status === 'chief' ? styles.btnChief : 
-                      styles.btnContinue}
-                  `} 
-                  onClick={handleEnter}
-                >
-                  {status === 'done' ? 'Review Case' : status === 'chief' ? 'Enter Exam →' : 'Begin →'}
-                </button>
-              ) : (
-                <button className={`${styles.cbBtn} ${styles.btnLocked}`} disabled>
-                  Locked
-                </button>
-              )}
+              <button 
+                className={getButtonClass()}
+                onClick={handleNavigate}
+                disabled={status === 'locked'}
+              >
+                {getButtonText()}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {/* Locked message when locked and expanded */}
+      {open && status === 'locked' && (
+        <div className={styles.caseBody}>
+          <div className={styles.cbInner}>
+            <div className={styles.cbQuote} style={{ borderLeftColor: '#90a4ae' }}>
+              This case is locked. Complete the previous case to unlock access.
+            </div>
+            <div className={styles.cbFoot}>
+              <div className={styles.cbfInfo}>
+                Prerequisites not met
+              </div>
+              <button 
+                className={getButtonClass()}
+                disabled={true}
+              >
+                🔒 Locked
+              </button>
             </div>
           </div>
         </div>
       )}
     </div>
   )
-}
+};

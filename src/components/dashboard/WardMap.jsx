@@ -1,3 +1,5 @@
+// src/components/dashboard/WardMap.jsx
+
 import { useNavigate } from 'react-router-dom'
 import { useProgress } from '../../contexts/ProgressContext'
 import { CURRICULUM } from '../../data/curriculum'

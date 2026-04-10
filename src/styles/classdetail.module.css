@@ -477,7 +477,7 @@
 .ctaBtn:hover { transform: translateY(-1px); }
 .ctaBtnPrimary { background: #1565c0; color: #fff; }
 .ctaBtnPrimary:hover { background: #1976d2; }
-.ctaBtnDisabled { background: #f5f7fa; color: #b0bec5; cursor: not-allowed; }
+.ctaBtnDisabled { background: #f5f7fa; color: #b0bec5; cursor: not-allowed; padding: 0;}
 .ctaBtnDisabled:hover { transform: none; }
 .dark .ctaBtnDisabled { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.2); }
 

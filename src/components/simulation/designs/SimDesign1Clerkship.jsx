@@ -2,7 +2,7 @@
 // Design: The Patient Chart — cream paper with ECG texture
 // Used for: Clerkship (Classes 01–04)
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import styles from '../../../styles/simdesign1.module.css';
 
 const TABS = ['Presenting Complaint', 'Past History', 'Medications', 'Examination'];
@@ -12,6 +12,18 @@ const MECHANICS_LABEL = {
   hotspot: 'Hotspot',
   audio_mcq: 'Audio + MCQ',
 };
+
+// Helper to get audio source with fallbacks
+function getAudioSource(cls, subsim, sim) {
+  const subsimId = subsim?.id || '';
+  const simId = sim?.id || '';
+  
+  if (cls?.media?.audio?.[subsimId]) return cls.media.audio[subsimId];
+  if (cls?.media?.audio?.[simId]) return cls.media.audio[simId];
+  if (subsim?.audio) return subsim.audio;
+  if (sim?.audio) return sim.audio;
+  return null;
+}
 
 export default function SimDesign1Clerkship({
   cls,
@@ -39,46 +51,71 @@ export default function SimDesign1Clerkship({
   const audioRef = useRef(null);
   const timerRef = useRef(null);
   const startTimeRef = useRef(Date.now());
+  const revealedRef = useRef(false); // Track revealed state in ref for timer access
 
-  const q = questions[qIndex];
+  // Safely get current question
+  const q = questions[qIndex] || null;
   const vitals = variant?.vitals;
-  const subsimId = subsim?.id || '';
-  const audioSrc = cls?.media?.audio?.[subsimId] || subsim?.audio || null;
-  const hasAudio = !!(audioSrc || sim?.mechanics === 'audio_mcq' || subsim?.mechanics === 'audio_mcq');
+  
+  const audioSrc = getAudioSource(cls, subsim, sim);
+  const hasVoice = !!audioSrc;
+  const hasAudio = hasVoice;
 
-  // Initial Audio Setup
+  // Keep revealedRef in sync
   useEffect(() => {
-    if (hasAudio) {
+    revealedRef.current = revealed;
+  }, [revealed]);
+
+  // Audio Setup - Fixed to set both banner and indicator
+  useEffect(() => {
+    if (hasVoice) {
       setShowBanner(true);
       setShowIndicator(true);
       const timer = setTimeout(() => setShowBanner(false), 4000);
       return () => clearTimeout(timer);
     }
-  }, [hasAudio]);
+  }, [hasVoice]);
 
   // Question Reset Logic
   useEffect(() => {
-    if (!q?.options) return;
+    if (!q?.options) {
+      console.warn('No question or options available at index:', qIndex);
+      return;
+    }
     setShuffledOptions([...q.options].sort(() => Math.random() - 0.5));
     setSelected(null);
     setRevealed(false);
+    revealedRef.current = false;
     setTimerPaused(false);
     setTimeLeft(q.timeLimit || 30);
     startTimeRef.current = Date.now();
-  }, [qIndex, subsim]);
+  }, [qIndex, subsim, q?.id]);
 
-  // Unified Timer Control
+  // Timer Effect - Fixed to not call handleReveal during render
   useEffect(() => {
-    if (revealed || timerPaused) {
-      if (timerRef.current) clearInterval(timerRef.current);
+    // Clear any existing timer first
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+    
+    // Don't start timer if no question, already revealed, or paused
+    if (!q || revealed || timerPaused) {
       return;
     }
 
     timerRef.current = setInterval(() => {
       setTimeLeft((t) => {
         if (t <= 1) {
+          // Time's up - use functional update and schedule reveal outside render
           clearInterval(timerRef.current);
-          handleReveal(null);
+          timerRef.current = null;
+          // Use setTimeout to move reveal out of render phase
+          setTimeout(() => {
+            if (!revealedRef.current) {
+              handleReveal(null);
+            }
+          }, 0);
           return 0;
         }
         return t - 1;
@@ -86,24 +123,32 @@ export default function SimDesign1Clerkship({
     }, 1000);
 
     return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
     };
-  }, [qIndex, revealed, timerPaused]);
+  }, [q?.id, revealed, timerPaused]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Sync Timer with Audio Playback
   useEffect(() => {
     setTimerPaused(audioPlaying);
   }, [audioPlaying]);
 
-  function handleSelect(opt) {
-    if (revealed) return;
-    setSelected(opt.id);
-    handleReveal(opt);
-  }
-
-  function handleReveal(opt) {
+  // FIX: Use useCallback to ensure stable function reference
+  const handleReveal = useCallback((opt) => {
+    // Prevent multiple calls
+    if (revealedRef.current) return;
+    revealedRef.current = true;
+    
+    // FIX: Guard against undefined q
+    if (!q) {
+      console.error('handleReveal called but q is undefined');
+      return;
+    }
+    
     setRevealed(true);
-    if (audioRef.current) audioRef.current.pause(); // Stop audio on answer
+    if (audioRef.current) audioRef.current.pause();
     
     const timeMs = Date.now() - startTimeRef.current;
     const answer = {
@@ -112,42 +157,186 @@ export default function SimDesign1Clerkship({
       correct: opt?.correct || false,
       timeMs,
     };
-    onAnswer(answer);
+    
+    // Schedule onAnswer call outside of render phase
+    setTimeout(() => {
+      onAnswer(answer);
+    }, 0);
+    
     setAllAnswers((prev) => [...prev, answer]);
-  }
+  }, [q, onAnswer]);
 
-  function handleNext() {
+  // FIX: Use useCallback for handleSelect
+  const handleSelect = useCallback((opt) => {
+    if (revealed || !q) return;
+    setSelected(opt.id);
+    // Clear timer before revealing
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+    handleReveal(opt);
+  }, [revealed, q, handleReveal]);
+
+  // FIX: Use useCallback for handleNext
+  const handleNext = useCallback(() => {
     if (qIndex < questions.length - 1) {
       setQIndex((i) => i + 1);
     } else {
       onSimComplete([...allAnswers]);
     }
-  }
+  }, [qIndex, questions.length, allAnswers, onSimComplete]);
 
   const timerPct = (timeLeft / (q?.timeLimit || 30)) * 100;
   const timerColor = timeLeft <= 5 ? '#c0392b' : timeLeft <= 10 ? '#e67e22' : accentColor;
 
-  if (!q) return null;
+  // Get tab content based on active tab
+  const getTabContent = () => {
+    switch(activeTab) {
+      case 0: // Presenting Complaint
+        return subsim?.scenario || 'No presenting complaint recorded.';
+      case 1: // Past History
+        return variant?.history || 'No significant past medical history.';
+      case 2: // Medications
+        return variant?.medications || 'No current medications listed.';
+      case 3: // Examination
+        return variant?.examination || 'Examination findings not documented.';
+      default:
+        return '';
+    }
+  };
+
+  // FIX: Early return with loading state if no question available
+  if (!q) {
+    return (
+      <div style={{ 
+        minHeight: '100vh', 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center',
+        background: '#fdfaf6'
+      }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: '1.2rem', color: '#2c1810', marginBottom: '1rem' }}>
+            Loading question...
+          </div>
+          <div style={{ fontSize: '0.9rem', color: '#607d8b' }}>
+            {questions.length === 0 ? 'No questions available' : `Question ${qIndex + 1} of ${questions.length}`}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.page}>
-      {/* Audio UI */}
+      {/* Audio Banner - Fixed with inline styles for reliability */}
       {showBanner && (
-        <div className={styles.audioBanner}>
-          <span className={styles.audioBannerIcon}>🔊</span>
-          <span className={styles.audioBannerText}>Audio playing — check volume</span>
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 50,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '0.6rem',
+          padding: '0.55rem 1.4rem',
+          background: 'rgba(13,45,94,0.95)',
+          backdropFilter: 'blur(8px)',
+          animation: 'bannerSlideIn 0.4s ease',
+        }}>
+          <span style={{fontSize: '1rem'}}>🔊</span>
+          <span style={{
+            fontFamily: "'Share Tech Mono',monospace",
+            fontSize: '0.6rem',
+            color: 'rgba(255,255,255,0.9)',
+            textTransform: 'uppercase',
+            letterSpacing: '0.12em'
+          }}>Audio playing — check volume</span>
         </div>
       )}
 
       {showIndicator && (
-        <div className={styles.audioIndicator}>
-          <div className={styles.audioIndicatorDot} style={{ background: audioPlaying ? '#4caf50' : '#90a4ae' }} />
-          <span className={styles.audioIndicatorText}>{audioPlaying ? 'Playing…' : 'Audio Ready'}</span>
+        <div style={{
+          position: 'fixed',
+          bottom: 80,
+          right: 16,
+          zIndex: 40,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 5,
+          padding: '5px 10px',
+          background: 'rgba(13,45,94,0.88)',
+          border: '1px solid rgba(255,255,255,0.15)',
+          borderRadius: 20
+        }}>
+          <div style={{
+            width: 6,
+            height: 6,
+            borderRadius: '50%',
+            background: audioPlaying ? '#4caf50' : '#90a4ae',
+            animation: audioPlaying ? 'audioBlink 1.2s infinite' : 'none'
+          }}/>
+          <span style={{
+            fontFamily: "'Share Tech Mono',monospace",
+            fontSize: '0.5rem',
+            color: 'rgba(255,255,255,0.7)',
+            textTransform: 'uppercase',
+            letterSpacing: '0.08em'
+          }}>{audioPlaying ? 'Playing…' : 'Audio Ready'}</span>
         </div>
       )}
 
+      {/* Navigation Header */}
+      <div style={{
+        background: '#0d2d5e',
+        padding: '0.8rem 1.4rem',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        borderBottom: `2px solid ${accentColor}`,
+        position: 'sticky',
+        top: 0,
+        zIndex: 10
+      }}>
+        <button 
+          onClick={() => window.history.back()}
+          style={{
+            background: 'transparent',
+            border: '1px solid rgba(255,255,255,0.3)',
+            color: '#fff',
+            padding: '0.4rem 0.8rem',
+            borderRadius: 4,
+            cursor: 'pointer',
+            fontFamily: "'Share Tech Mono',monospace",
+            fontSize: '0.6rem',
+            textTransform: 'uppercase',
+            letterSpacing: '0.1em'
+          }}
+        >
+          ← Back
+        </button>
+        <div style={{
+          fontFamily: "'Cormorant Garamond',serif",
+          color: '#fff',
+          fontSize: '1rem'
+        }}>
+          {cls?.title}
+        </div>
+        <div style={{
+          fontFamily: "'Share Tech Mono',monospace",
+          fontSize: '0.55rem',
+          color: 'rgba(255,255,255,0.6)',
+          textTransform: 'uppercase'
+        }}>
+          {track === 'doctor' ? 'Physician' : 'Nurse'} Track
+        </div>
+      </div>
+
       {/* Tabs Section */}
-      <div className={styles.tabs} style={{ borderBottomColor: accentColor }}>
+      <div className={styles.tabs} style={{ borderBottomColor: accentColor, marginTop: showBanner ? '40px' : 0 }}>
         {TABS.map((t, i) => (
           <div
             key={t}
@@ -170,12 +359,12 @@ export default function SimDesign1Clerkship({
               : 'Active Patient'}
           </div>
           <div className={styles.patientMeta}>
-            {cls.title} · {track === 'doctor' ? 'Physician' : 'Nurse'} · {subsim?.title}
+            {cls?.title} · {track === 'doctor' ? 'Physician' : 'Nurse'} · {subsim?.title}
           </div>
         </div>
         <div className={styles.chartInfo}>
           <div className={styles.chartNum} style={{ color: accentColor }}>
-            Chart #{String(cls.id).padStart(2, '0')}-{sim?.id}
+            Chart #{String(cls?.id || 0).padStart(2, '0')}-{sim?.id}
           </div>
           <div className={styles.chartDate}>
             Q{qIndex + 1} of {questions.length}
@@ -201,11 +390,35 @@ export default function SimDesign1Clerkship({
         </div>
       )}
 
+      {/* Tab Content Display */}
+      <div style={{
+        background: 'rgba(240,235,224,0.5)',
+        padding: '0.8rem 1.4rem',
+        borderBottom: '1px solid #e8e2d5',
+        fontFamily: "'Cormorant Garamond',serif",
+        fontSize: '0.9rem',
+        color: '#3d2a1e',
+        fontStyle: 'italic',
+        lineHeight: 1.6
+      }}>
+        <span style={{
+          fontFamily: "'Share Tech Mono',monospace",
+          fontSize: '0.5rem',
+          textTransform: 'uppercase',
+          color: accentColor,
+          marginRight: '0.5rem',
+          fontStyle: 'normal'
+        }}>
+          {TABS[activeTab]}:
+        </span>
+        {getTabContent()}
+      </div>
+
       {/* Decision Area */}
       <div className={styles.body}>
         <div className={styles.sectionLabel} style={{ color: accentColor }}>Clinician's Note</div>
         <div className={styles.note} style={{ borderLeftColor: accentColor }}>
-          "{subsim?.scenario}"
+          "{subsim?.scenario || 'No scenario available'}"
         </div>
 
         {hasAudio && (
@@ -229,7 +442,7 @@ export default function SimDesign1Clerkship({
         )}
 
         <div className={styles.sectionLabel} style={{ color: accentColor }}>Clinical Decision Required</div>
-        <div className={styles.question}>{q.stem}</div>
+        <div className={styles.question}>{q?.stem || 'Question loading...'}</div>
 
         <div className={styles.options}>
           {shuffledOptions.map((opt, i) => {
@@ -263,7 +476,7 @@ export default function SimDesign1Clerkship({
               borderLeftColor: shuffledOptions.find(o => o.id === selected)?.correct ? '#2e7d32' : accentColor 
             }}>
             <div className={styles.explanationText}>
-              {shuffledOptions.find(o => o.id === selected)?.explanation}
+              {shuffledOptions.find(o => o.id === selected)?.explanation || 'No explanation available'}
             </div>
           </div>
         )}
@@ -291,6 +504,18 @@ export default function SimDesign1Clerkship({
           {revealed ? '--' : `0:${String(timeLeft).padStart(2, '0')}`}
         </span>
       </div>
+
+      {/* Global styles for animations */}
+      <style>{`
+        @keyframes bannerSlideIn {
+          from { opacity: 0; transform: translateY(-100%); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes audioBlink {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.2; }
+        }
+      `}</style>
     </div>
   );
 }

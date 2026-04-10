@@ -28,19 +28,19 @@ export default function ClassDetail() {
   const navigate = useNavigate()
   const { isDark } = useTheme()
   
-  // UPDATED: Use 'results' instead of 'progress'
   const {
     track,
     setTrack,
     classStatus,
     classScore,
     classAttempts,
-    results, // Corrected from 'progress'
-    CERTIFICATE_GROUPS = [], // Default to empty array to avoid undefined
+    results,
+    CERTIFICATE_GROUPS = [],
     isCertEarned,
   } = useProgress()
 
-  const cls = CURRICULUM.find(c => c.id === Number(classId))
+  // FIXED: IDs are usually strings like 'class01'. Removed Number()
+  const cls = CURRICULUM.find(c => String(c.id) === String(classId));
   const themeClass = isDark ? styles.dark : styles.light
 
   if (!cls) return (
@@ -49,12 +49,16 @@ export default function ClassDetail() {
     </div>
   )
 
-  const status = classStatus(cls.id)
-  const score = classScore(cls.id)
-  const attempts = classAttempts(cls.id)
+  const status = typeof classStatus === 'function' ? classStatus(cls.id) : 'locked'
+  const score = typeof classScore === 'function' ? classScore(cls.id) : null
+  const attempts = typeof classAttempts === 'function' ? classAttempts(cls.id) : 0
   const level = LEVELS.find(l => l.id === cls.level)
 
-  const accentColor = level?.colorPool[cls.id % level.colorPool.length] || '#1565c0'
+  // Extract numeric part of ID for color calculation if it's a string like 'class02'
+  const idNum = typeof cls.id === 'string' 
+  ? (parseInt(cls.id.replace(/\D/g, '')) || 0) 
+  : cls.id;
+  const accentColor = level?.colorPool ? level.colorPool[idNum % level.colorPool.length] : '#1565c0'
 
   const trackData = cls[track] || cls.doctor
   const sims = trackData?.sims || []
@@ -62,17 +66,14 @@ export default function ClassDetail() {
   ? (typeof cls.description === 'object' ? (cls.description[track] || cls.description.doctor) : cls.description)
   : (cls.tagline || "Clinical documentation and briefing for this case are pending.");
 
-  // FIXED: Filter from 'results' instead of 'progress.simHistory'
   const history = (results || [])
     .filter(h => h.classId === cls.id)
-    .sort((a, b) => new Date(b.date) - new Date(a.date)) // Sort newest first
+    .sort((a, b) => new Date(b.date) - new Date(a.date))
     .slice(0, 5)
 
-  // FIXED: Added safety check for CERTIFICATE_GROUPS
-  const certGroup = (CERTIFICATE_GROUPS || []).find(g => g.classIds.includes(cls.id))
+  const certGroup = (CERTIFICATE_GROUPS || []).find(g => g.classIds?.includes(cls.id))
   const certEarned = certGroup && typeof isCertEarned === 'function' ? isCertEarned(certGroup.id) : false
 
-  // Status badge helpers
   function statusBadgeClass() {
     if (status === 'done')   return `${styles.ssBadge} ${styles.badgeDone}`
     if (status === 'active' || status === 'next') return `${styles.ssBadge} ${styles.badgeActive}`
@@ -117,7 +118,6 @@ export default function ClassDetail() {
         pageTitle={`Case ${cls.num}`}
       />
 
-      {/* HERO */}
       <div className={styles.hero}>
         {cls.media?.images?.[0] && (
           <img className={styles.heroBg} src={cls.media.images[0]} alt={cls.title} />
@@ -152,7 +152,6 @@ export default function ClassDetail() {
         </div>
       </div>
 
-      {/* STATUS STRIP */}
       <div className={styles.statusStrip}>
         <div className={styles.ssItem}>
           <span>Status</span>
@@ -175,7 +174,6 @@ export default function ClassDetail() {
       </div>
 
       <div className={styles.body}>
-        {/* TRACK TOGGLE */}
         <div className={styles.trackToggle}>
           <span className={styles.ttLabel}>Viewing as:</span>
           <button
@@ -188,7 +186,6 @@ export default function ClassDetail() {
           > Nurse </button>
         </div>
 
-        {/* DESCRIPTION */}
         <div className={styles.sectionLabel}>Case Briefing</div>
         <div className={styles.descCard}>
           <div className={styles.descHead}>
@@ -200,7 +197,6 @@ export default function ClassDetail() {
           </div>
         </div>
 
-        {/* SIMS */}
         <div className={styles.sectionLabel}>Sub-Simulations</div>
         <div className={styles.simsCard}>
           <div className={styles.simsBody}>
@@ -220,7 +216,6 @@ export default function ClassDetail() {
           </div>
         </div>
 
-        {/* ATTEMPT HISTORY */}
         {attempts > 0 && (
           <>
             <div className={styles.sectionLabel}>Attempt History</div>
@@ -244,7 +239,6 @@ export default function ClassDetail() {
           </>
         )}
 
-        {/* CTA */}
         <div className={styles.ctaRow}>
           <div className={styles.ctaInfo}>
             <div className={styles.ctaTitle}>

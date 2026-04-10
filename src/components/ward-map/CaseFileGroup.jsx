@@ -1,3 +1,5 @@
+//src/components/ward-map/CaseFileGroup.jsx
+
 import CaseFile from './CaseFile'
 import styles from '../../styles/wardmap.module.css'
 import { useProgress } from '../../contexts/ProgressContext'
@@ -19,4 +21,4 @@ export default function CaseFileGroup({ group, classes, track }) {
       ))}
     </div>
   )
-}
+};

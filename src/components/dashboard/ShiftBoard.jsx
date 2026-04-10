@@ -1,3 +1,5 @@
+//src/components/dashboard/ShiftBoard.jsx
+
 import { useNavigate } from 'react-router-dom'
 import { useProgress } from '../../contexts/ProgressContext'
 import { CURRICULUM } from '../../data/curriculum'
@@ -65,7 +67,7 @@ export default function ShiftBoard() {
                 <div className={styles.srNum}>{cls.id}</div>
                 <div className={styles.srInfo}>
                   <div className={styles.srName}>{cls.title}</div>
-                  <div className={styles.srSub}>{cls.level.replace('_', ' ')}</div>
+                  <div className={styles.srSub}>{cls.level?.replace('_', ' ') ?? 'General Series'}</div>
                 </div>
                 <span className={`${styles.srTag} ${tagCls}`}>{tagLabel}</span>
               </div>

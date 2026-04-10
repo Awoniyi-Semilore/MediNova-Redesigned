@@ -9,11 +9,11 @@ export const handleCertificateGeneration = async (element, userData, levelInfo) 
   try {
     // 1. Capture the hidden HTML as an image
     const canvas = await html2canvas(element, { scale: 2 });
-    const imgData = canvas.toDataURL('image/png');
+    const imgData = canvas.toDataURL('image/jpeg');
 
     // 2. Create PDF
     const pdf = new jsPDF('l', 'px', [1000, 700]);
-    pdf.addImage(imgData, 'PNG', 0, 0, 1000, 700);
+    pdf.addImage(imgData, 'jpeg', 0, 0, 1000, 700);
     pdf.save(`MediNova_Cert_${levelInfo.name.replace(/\s+/g, '_')}.pdf`);
 
     // 3. Update Firebase so it shows in the Dashboard

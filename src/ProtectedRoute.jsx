@@ -1,10 +1,20 @@
+// src/ProtectedRoute.jsx
 import { Navigate } from 'react-router-dom'
 import { useAuth } from './contexts/AuthContext'
 import { useProgress } from './contexts/ProgressContext'
 
 export default function ProtectedRoute({ children }) {
   const { currentUser, loading: authLoading } = useAuth()
-  const { loading: progressLoading } = useProgress()
+  
+  // Safely access progress - handle case where provider isn't ready yet
+  let progressLoading = false
+  try {
+    const progress = useProgress()
+    progressLoading = progress?.loading ?? false
+  } catch (e) {
+    // ProgressProvider not mounted yet - treat as loading
+    progressLoading = true
+  }
 
   // Show a professional medical loader while verifying identity
   if (authLoading || progressLoading) {

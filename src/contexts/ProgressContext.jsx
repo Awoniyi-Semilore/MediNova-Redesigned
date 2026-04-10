@@ -1,4 +1,6 @@
-import { createContext, useContext, useState, useEffect, useMemo } from 'react'
+// src/contexts/ProgressContext.jsx
+
+import { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react'
 import { db } from '../lib/firebase'
 import { doc, getDoc, setDoc, updateDoc, onSnapshot, arrayUnion } from 'firebase/firestore'
 import { useAuth } from './AuthContext'
@@ -13,7 +15,6 @@ export function ProgressProvider({ children }) {
   const [track, setTrack] = useState('doctor')
   const [loading, setLoading] = useState(true)
 
-  // 1. Setup Sync with Firebase
   useEffect(() => {
     if (authLoading) return
     if (!currentUser) {
@@ -29,6 +30,7 @@ export function ProgressProvider({ children }) {
         setStreak(data.streak || 0)
         setTrack(data.track || 'doctor')
       } else {
+        // Create new user document
         setDoc(userRef, {
           email: currentUser.email,
           results: [],
@@ -38,107 +40,169 @@ export function ProgressProvider({ children }) {
         })
       }
       setLoading(false)
-    }, () => setLoading(false))
+    }, (err) => {
+      console.error('Firebase snapshot error:', err)
+      setLoading(false)
+    })
 
     return () => unsubscribe()
   }, [currentUser, authLoading])
 
   // --- CORE LOGIC ---
 
-  const classScore = (id) => {
-    const classResults = results.filter(r => r.classId === id)
-    return classResults.length > 0 ? Math.max(...classResults.map(r => r.score || 0)) : null
-  }
+  const classScore = useCallback((id) => {
+    const normalizedId = String(id)
+    const classResults = results.filter(r => String(r.classId) === normalizedId)
+    return classResults.length > 0 
+      ? Math.max(...classResults.map(r => r.score || 0)) 
+      : null
+  }, [results])
 
-  /**
-   * LEVEL LOGIC: Checks if all classes in a specific level are passed
-   */
-  const isLevelComplete = (levelName) => {
+  const classAttempts = useCallback((id) => {
+    const normalizedId = String(id)
+    return results.filter(r => String(r.classId) === normalizedId).length
+  }, [results])
+
+  const isLevelComplete = useCallback((levelName) => {
     const levelClasses = CURRICULUM.filter(c => c.level === levelName)
     return levelClasses.every(c => (classScore(c.id) || 0) >= (c.passMark || 70))
-  }
+  }, [classScore])
 
-  /**
-   * ADVANCED PROGRESSION: 
-   * Ensures user completes classes in order AND passes the previous one.
-   */
-  const classStatus = (id) => {
-    const score = classScore(id)
-    const currentClass = CURRICULUM.find(c => c.id === id)
-    if (score !== null && score >= (currentClass?.passMark || 70)) return 'done'
+  const classStatus = useCallback((id) => {
+    const normalizedId = typeof id === 'string' ? parseInt(id, 10) : id
+    const score = classScore(normalizedId)
+    const currentClass = CURRICULUM.find(c => c.id === normalizedId)
+    
+    if (!currentClass) return 'locked'
+    
+    // If passed, always allow access
+    if (score !== null && score >= (currentClass?.passMark || 70)) {
+      return 'done'
+    }
 
-    // Logic for 'next' (Unlocking)
-    const currentIndex = CURRICULUM.findIndex(c => c.id === id)
-    if (currentIndex === 0) return 'next' // First class is always open
+    // First class is always available
+    const currentIndex = CURRICULUM.findIndex(c => c.id === normalizedId)
+    if (currentIndex === 0) return 'next'
 
+    // Check previous class
     const prevClass = CURRICULUM[currentIndex - 1]
     const prevScore = classScore(prevClass.id)
     
-    // If previous class is passed, this one is 'next'. Otherwise 'locked'.
     return (prevScore !== null && prevScore >= (prevClass.passMark || 70)) ? 'next' : 'locked'
-  }
+  }, [classScore])
 
-  /**
-   * SAVE RESULTS:
-   * Handles Firebase update and Streak logic.
-   */
-  const recordSimResult = async (newResult) => {
-    if (!currentUser) return
-    const userRef = doc(db, 'users', currentUser.uid)
-    const todayStr = new Date().toISOString().split('T')[0]
-    
-    let updatedStreak = streak
-    const docSnap = await getDoc(userRef)
-    const lastDate = docSnap.data()?.lastActivityDate
+  // Get active class (next available)
+  const activeClass = useMemo(() => {
+    for (const cls of CURRICULUM) {
+      const status = classStatus(cls.id)
+      if (status === 'next') return cls
+    }
+    return null
+  }, [classStatus])
 
-    // Streak Logic
-    if (!lastDate) {
-      updatedStreak = 1
-    } else if (lastDate !== todayStr) {
-      const yesterday = new Date()
-      yesterday.setDate(yesterday.getDate() - 1)
-      const yesterdayStr = yesterday.toISOString().split('T')[0]
-      updatedStreak = (lastDate === yesterdayStr) ? streak + 1 : 1
+  const recordSimResult = useCallback(async (newResult) => {
+    if (!currentUser) {
+      console.error('No current user, cannot save result')
+      return
     }
 
-    // Prepare result object with deep answer history for the PDF/Review
+    const userRef = doc(db, 'users', currentUser.uid)
+    
+    // Get current data first
+    const docSnap = await getDoc(userRef)
+    const userData = docSnap.data() || {}
+    const currentStreak = userData.streak || 0
+    const lastDate = userData.lastActivityDate
+    
+    // Calculate dates properly
+    const now = new Date()
+    const todayStr = now.toISOString().split('T')[0]
+    
+    // Calculate yesterday's date string
+    const yesterday = new Date(now)
+    yesterday.setDate(yesterday.getDate() - 1)
+    const yesterdayStr = yesterday.toISOString().split('T')[0]
+    
+    let updatedStreak = currentStreak
+
+    if (!lastDate) {
+      // First activity ever
+      updatedStreak = 1
+    } else if (lastDate === todayStr) {
+      // Already active today, keep streak
+      updatedStreak = currentStreak
+    } else if (lastDate === yesterdayStr) {
+      // Was active yesterday, increment streak
+      updatedStreak = currentStreak + 1
+    } else {
+      // Streak broken, start new
+      updatedStreak = 1
+    }
+
+    // Normalize classId to STRING for consistency
     const finalResult = {
       ...newResult,
+      classId: String(newResult.classId),
+      score: Math.round(newResult.score || 0),
       date: new Date().toISOString(),
-      // Ensure we keep only the best attempts or a clean history
     }
 
-    await updateDoc(userRef, {
-      results: arrayUnion(finalResult),
-      streak: updatedStreak,
-      lastActivityDate: todayStr
-    })
-  }
+    try {
+      await updateDoc(userRef, {
+        results: arrayUnion(finalResult),
+        streak: updatedStreak,
+        lastActivityDate: todayStr
+      })
+      console.log('✅ Saved result, streak:', updatedStreak)
+    } catch (err) {
+      console.error('❌ Firebase save failed:', err)
+      throw err
+    }
+  }, [currentUser])
 
-  // --- COMPUTED STATS ---
-  const completedCount = useMemo(() => 
-    new Set(results.filter(r => r.score >= 70).map(r => r.classId)).size
-  , [results])
+  const unlockNextClass = useCallback(async (completedClassId) => {
+    console.log('Unlocking next after class:', completedClassId)
+    // Next class is automatically available via classStatus logic
+  }, [])
 
-  const overallProgress = useMemo(() => 
-    Math.round((completedCount / CURRICULUM.length) * 100)
-  , [completedCount])
+  const completedCount = useMemo(() => {
+    return new Set(results.filter(r => r.score >= 70).map(r => r.classId)).size
+  }, [results])
+
+  const overallProgress = useMemo(() => {
+    return Math.round((completedCount / CURRICULUM.length) * 100)
+  }, [completedCount])
 
   const value = { 
     results, 
     streak, 
     track, 
-    setTrack: (t) => updateDoc(doc(db, 'users', currentUser.uid), { track: t }), 
+    activeClass,  // ADDED: activeClass
+    setTrack: (t) => {
+        setTrack(t);
+        if (currentUser) {
+          updateDoc(doc(db, 'users', currentUser.uid), { track: t })
+            .catch(err => console.error('Track update failed:', err))
+        }
+    }, 
     completedCount, 
     overallProgress, 
     classStatus, 
     classScore, 
-    isLevelComplete, // Needed for Download Certificate button
+    classAttempts,
+    isLevelComplete, 
     recordSimResult, 
+    unlockNextClass,
     loading 
   }
 
   return <ProgressContext.Provider value={value}>{children}</ProgressContext.Provider>
 }
 
-export const useProgress = () => useContext(ProgressContext)
+export const useProgress = () => {
+  const context = useContext(ProgressContext)
+  if (!context) {
+    throw new Error('useProgress must be used within a ProgressProvider')
+  }
+  return context
+}

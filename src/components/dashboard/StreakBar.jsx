@@ -1,3 +1,5 @@
+//src/components/dashboard/StreakBar.jsx
+
 import { useProgress } from '../../contexts/ProgressContext'
 import styles from '../../styles/dashboard.module.css'
 
