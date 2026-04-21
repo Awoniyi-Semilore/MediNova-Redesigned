@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider } from './contexts/AuthContext'
 import { ThemeProvider } from './contexts/ThemeContext'
@@ -5,8 +6,6 @@ import { NotificationProvider } from './contexts/NotificationContext'
 import { ProgressProvider } from './contexts/ProgressContext'
 
 import ProtectedRoute from './ProtectedRoute'
-
-// 🔐 IMPORT LOCK SYSTEM (UPDATED)
 import { isTeachingHospitalAllowed } from './utils/medinovaGate'
 
 // Pages
@@ -22,7 +21,21 @@ import SimulationPage from './components/simulation/SimulationPage'
    🔐 ACCESS GUARD WRAPPER
 ========================= */
 function RequireAccess({ children }) {
-  const allowed = isTeachingHospitalAllowed()
+  const [checked, setChecked] = useState(false)
+  const [allowed, setAllowed] = useState(false)
+
+  useEffect(() => {
+    // small delay ensures sessionStorage is written after redirect
+    const timer = setTimeout(() => {
+      setAllowed(isTeachingHospitalAllowed())
+      setChecked(true)
+    }, 100)
+
+    return () => clearTimeout(timer)
+  }, [])
+
+  // ⏳ prevent flicker / false redirect
+  if (!checked) return null
 
   if (!allowed) {
     return (
