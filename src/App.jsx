@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { AuthProvider } from './contexts/AuthContext'
+import { useEffect, useState } from 'react'
+
+import { AuthProvider, useAuth } from './contexts/AuthContext'
 import { ThemeProvider } from './contexts/ThemeContext'
 import { NotificationProvider } from './contexts/NotificationContext'
 import { ProgressProvider } from './contexts/ProgressContext'
 
 import ProtectedRoute from './ProtectedRoute'
-import { isTeachingHospitalAllowed } from './utils/medinovaGate'
 
 // Pages
 import OnboardingFlow from './components/onboarding/OnboardingFlow'
@@ -18,28 +18,18 @@ import ClassDetail from './components/ward-map/ClassDetail'
 import SimulationPage from './components/simulation/SimulationPage'
 
 /* =========================
-   🔐 ACCESS GUARD WRAPPER
+   SIMPLE AUTH GATE (FIREBASE ONLY)
 ========================= */
 function RequireAccess({ children }) {
-  const session = JSON.parse(
-    sessionStorage.getItem("medinova_session") || "null"
-  );
+  const { currentUser, loading } = useAuth()
 
-  if (!session) {
-    return (
-      <Navigate to="https://medinova-core.vercel.app/" replace />
-    );
+  if (loading) return null
+
+  if (!currentUser) {
+    return <Navigate to="/" replace />
   }
 
-  const allowed = ["learner", "care", "supervisor"].includes(session.role);
-
-  if (!allowed) {
-    return (
-      <Navigate to="https://medinova-core.vercel.app/" replace />
-    );
-  }
-
-  return children;
+  return children
 }
 
 export default function App() {
@@ -54,70 +44,46 @@ export default function App() {
 
                 <Routes>
 
-                  {/* 🔐 PUBLIC ENTRY (LOCKED) */}
-                  <Route
-                    path="/"
-                    element={
-                      <RequireAccess>
-                        <OnboardingFlow />
-                      </RequireAccess>
-                    }
-                  />
+                  {/* PUBLIC */}
+                  <Route path="/" element={<OnboardingFlow />} />
 
-                  {/* 🧠 PROTECTED ROUTES */}
+                  {/* PROTECTED */}
                   <Route path="/dashboard" element={
                     <ProtectedRoute>
-                      <RequireAccess>
-                        <Dashboard />
-                        <Footer />
-                      </RequireAccess>
+                      <Dashboard />
+                      <Footer />
                     </ProtectedRoute>
                   } />
 
                   <Route path="/profile" element={
                     <ProtectedRoute>
-                      <RequireAccess>
-                        <Profile />
-                        <Footer />
-                      </RequireAccess>
+                      <Profile />
+                      <Footer />
                     </ProtectedRoute>
                   } />
 
                   <Route path="/ward-map" element={
                     <ProtectedRoute>
-                      <RequireAccess>
-                        <WardMapPage />
-                        <Footer />
-                      </RequireAccess>
+                      <WardMapPage />
+                      <Footer />
                     </ProtectedRoute>
                   } />
 
                   <Route path="/simulation/:classId" element={
                     <ProtectedRoute>
-                      <RequireAccess>
-                        <SimulationPage />
-                      </RequireAccess>
+                      <SimulationPage />
                     </ProtectedRoute>
                   } />
 
                   <Route path="/class/:classId" element={
                     <ProtectedRoute>
-                      <RequireAccess>
-                        <ClassDetail />
-                        <Footer />
-                      </RequireAccess>
+                      <ClassDetail />
+                      <Footer />
                     </ProtectedRoute>
                   } />
 
-                  {/* ❌ CATCH ALL */}
-                  <Route
-                    path="*"
-                    element={
-                      <RequireAccess>
-                        <Navigate to="/" />
-                      </RequireAccess>
-                    }
-                  />
+                  {/* CATCH ALL */}
+                  <Route path="*" element={<Navigate to="/" replace />} />
 
                 </Routes>
 
