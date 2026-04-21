@@ -1,33 +1,32 @@
-const GATE_KEY = "medinova_gate_access";
+const SESSION_KEY = "medinova_session";
 
-export function unlockTeachingHospital(user) {
-  sessionStorage.setItem(GATE_KEY, JSON.stringify({
-    allowed: true,
-    role: user.role,
-    hospital: user.hospitalId,
-    time: Date.now()
-  }));
-}
-
-export function isTeachingHospitalAllowed() {
-  const data = sessionStorage.getItem(GATE_KEY);
-  if (!data) return false;
+export function getTeachingSession() {
+  const data = sessionStorage.getItem(SESSION_KEY);
+  if (!data) return null;
 
   try {
     const parsed = JSON.parse(data);
 
+    // optional expiry (24h)
     const expired = Date.now() - parsed.time > 24 * 60 * 60 * 1000;
     if (expired) {
-      sessionStorage.removeItem(GATE_KEY);
-      return false;
+      sessionStorage.removeItem(SESSION_KEY);
+      return null;
     }
 
-    return parsed.allowed === true;
+    return parsed;
   } catch {
-    return false;
+    return null;
   }
 }
 
+export function isTeachingHospitalAllowed() {
+  const session = getTeachingSession();
+  if (!session) return false;
+
+  return ["learner", "care", "supervisor"].includes(session.role);
+}
+
 export function lockTeachingHospital() {
-  sessionStorage.removeItem(GATE_KEY);
+  sessionStorage.removeItem(SESSION_KEY);
 }
