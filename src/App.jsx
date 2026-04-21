@@ -6,7 +6,7 @@ import { ProgressProvider } from './contexts/ProgressContext'
 
 import ProtectedRoute from './ProtectedRoute'
 
-// 🔐 IMPORT LOCK SYSTEM
+// 🔐 IMPORT LOCK SYSTEM (UPDATED)
 import { isTeachingHospitalAllowed } from './utils/medinovaGate'
 
 // Pages
@@ -18,59 +18,88 @@ import WardMapPage from './components/ward-map/WardMapPage'
 import ClassDetail from './components/ward-map/ClassDetail'
 import SimulationPage from './components/simulation/SimulationPage'
 
+/* =========================
+   🔐 ACCESS GUARD WRAPPER
+========================= */
+function RequireAccess({ children }) {
+  const allowed = isTeachingHospitalAllowed()
+
+  if (!allowed) {
+    return (
+      <Navigate
+        to="https://medinova-core.vercel.app/"
+        replace
+      />
+    )
+  }
+
+  return children
+}
+
 export default function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
         <NotificationProvider>
           <ProgressProvider>
+
             <BrowserRouter>
               <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
 
                 <Routes>
 
-                  {/* 🔐 PUBLIC ROUTE (LOCKED) */}
+                  {/* 🔐 PUBLIC ENTRY (LOCKED) */}
                   <Route
                     path="/"
                     element={
-                      isTeachingHospitalAllowed()
-                        ? <OnboardingFlow />
-                        : <Navigate to="https://medinova-core.vercel.app/" replace />
+                      <RequireAccess>
+                        <OnboardingFlow />
+                      </RequireAccess>
                     }
                   />
 
                   {/* 🧠 PROTECTED ROUTES */}
                   <Route path="/dashboard" element={
                     <ProtectedRoute>
-                      <Dashboard />
-                      <Footer />
+                      <RequireAccess>
+                        <Dashboard />
+                        <Footer />
+                      </RequireAccess>
                     </ProtectedRoute>
                   } />
 
                   <Route path="/profile" element={
                     <ProtectedRoute>
-                      <Profile />
-                      <Footer />
+                      <RequireAccess>
+                        <Profile />
+                        <Footer />
+                      </RequireAccess>
                     </ProtectedRoute>
                   } />
 
                   <Route path="/ward-map" element={
                     <ProtectedRoute>
-                      <WardMapPage />
-                      <Footer />
+                      <RequireAccess>
+                        <WardMapPage />
+                        <Footer />
+                      </RequireAccess>
                     </ProtectedRoute>
                   } />
 
                   <Route path="/simulation/:classId" element={
                     <ProtectedRoute>
-                      <SimulationPage />
+                      <RequireAccess>
+                        <SimulationPage />
+                      </RequireAccess>
                     </ProtectedRoute>
                   } />
 
                   <Route path="/class/:classId" element={
                     <ProtectedRoute>
-                      <ClassDetail />
-                      <Footer />
+                      <RequireAccess>
+                        <ClassDetail />
+                        <Footer />
+                      </RequireAccess>
                     </ProtectedRoute>
                   } />
 
@@ -78,9 +107,9 @@ export default function App() {
                   <Route
                     path="*"
                     element={
-                      isTeachingHospitalAllowed()
-                        ? <Navigate to="/" />
-                        : <Navigate to="https://medinova-core.vercel.app/" />
+                      <RequireAccess>
+                        <Navigate to="/" />
+                      </RequireAccess>
                     }
                   />
 
@@ -88,6 +117,7 @@ export default function App() {
 
               </div>
             </BrowserRouter>
+
           </ProgressProvider>
         </NotificationProvider>
       </AuthProvider>
