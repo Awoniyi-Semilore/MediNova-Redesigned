@@ -1,8 +1,5 @@
 const GATE_KEY = "medinova_gate_access";
 
-/* =========================
-   UNLOCK FROM CORE
-========================= */
 export function unlockTeachingHospital(user) {
   sessionStorage.setItem(GATE_KEY, JSON.stringify({
     allowed: true,
@@ -12,9 +9,6 @@ export function unlockTeachingHospital(user) {
   }));
 }
 
-/* =========================
-   CHECK ACCESS
-========================= */
 export function isTeachingHospitalAllowed() {
   const data = sessionStorage.getItem(GATE_KEY);
   if (!data) return false;
@@ -22,7 +16,6 @@ export function isTeachingHospitalAllowed() {
   try {
     const parsed = JSON.parse(data);
 
-    // 24h expiry
     const expired = Date.now() - parsed.time > 24 * 60 * 60 * 1000;
     if (expired) {
       sessionStorage.removeItem(GATE_KEY);
@@ -35,9 +28,6 @@ export function isTeachingHospitalAllowed() {
   }
 }
 
-/* =========================
-   LOCK
-========================= */
 export function lockTeachingHospital() {
   sessionStorage.removeItem(GATE_KEY);
 }
