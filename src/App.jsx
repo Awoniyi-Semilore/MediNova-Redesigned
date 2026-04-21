@@ -3,8 +3,13 @@ import { AuthProvider } from './contexts/AuthContext'
 import { ThemeProvider } from './contexts/ThemeContext'
 import { NotificationProvider } from './contexts/NotificationContext'
 import { ProgressProvider } from './contexts/ProgressContext'
+
 import ProtectedRoute from './ProtectedRoute'
 
+// 🔐 IMPORT LOCK SYSTEM
+import { isTeachingHospitalAllowed } from './utils/medinovaGate'
+
+// Pages
 import OnboardingFlow from './components/onboarding/OnboardingFlow'
 import Dashboard from './components/dashboard/Dashboard'
 import Profile from './components/profile/Profile'
@@ -21,18 +26,27 @@ export default function App() {
           <ProgressProvider>
             <BrowserRouter>
               <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-                <Routes>
-                  {/* Public Route - Usually no footer here to keep focus on login */}
-                  <Route path="/" element={<OnboardingFlow />} />
 
-                  {/* Protected Clinical Routes */}
+                <Routes>
+
+                  {/* 🔐 PUBLIC ROUTE (LOCKED) */}
+                  <Route
+                    path="/"
+                    element={
+                      isTeachingHospitalAllowed()
+                        ? <OnboardingFlow />
+                        : <Navigate to="https://medinova-core.vercel.app/" replace />
+                    }
+                  />
+
+                  {/* 🧠 PROTECTED ROUTES */}
                   <Route path="/dashboard" element={
                     <ProtectedRoute>
                       <Dashboard />
                       <Footer />
                     </ProtectedRoute>
                   } />
-                  
+
                   <Route path="/profile" element={
                     <ProtectedRoute>
                       <Profile />
@@ -50,7 +64,6 @@ export default function App() {
                   <Route path="/simulation/:classId" element={
                     <ProtectedRoute>
                       <SimulationPage />
-                      {/* Often simulations are full-screen, so you can omit Footer here if desired */}
                     </ProtectedRoute>
                   } />
 
@@ -61,9 +74,18 @@ export default function App() {
                     </ProtectedRoute>
                   } />
 
-                  {/* Catch-all */}
-                  <Route path="*" element={<Navigate to="/" />} />
+                  {/* ❌ CATCH ALL */}
+                  <Route
+                    path="*"
+                    element={
+                      isTeachingHospitalAllowed()
+                        ? <Navigate to="/" />
+                        : <Navigate to="https://medinova-core.vercel.app/" />
+                    }
+                  />
+
                 </Routes>
+
               </div>
             </BrowserRouter>
           </ProgressProvider>
