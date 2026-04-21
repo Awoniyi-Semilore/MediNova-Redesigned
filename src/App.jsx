@@ -1,37 +1,34 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-
 import { AuthProvider, useAuth } from './contexts/AuthContext'
 import { ThemeProvider } from './contexts/ThemeContext'
 import { NotificationProvider } from './contexts/NotificationContext'
 import { ProgressProvider } from './contexts/ProgressContext'
 
-import ProtectedRoute from './ProtectedRoute'
-
-// Pages
-import OnboardingFlow from './components/onboarding/OnboardingFlow'
 import Dashboard from './components/dashboard/Dashboard'
 import Profile from './components/profile/Profile'
 import Footer from './components/Footer/Footer'
 import WardMapPage from './components/ward-map/WardMapPage'
 import ClassDetail from './components/ward-map/ClassDetail'
 import SimulationPage from './components/simulation/SimulationPage'
+import OnboardingFlow from './components/onboarding/OnboardingFlow'
+import ProtectedRoute from './ProtectedRoute'
 
 /* =========================
-   SIMPLE AUTH GATE (FIREBASE ONLY)
+   FIREBASE-ONLY GUARD
 ========================= */
-function RequireAccess({ children }) {
-  const { currentUser, loading } = useAuth()
-
-  if (loading) return null
+function RequireAuth({ children }) {
+  const { currentUser } = useAuth();
 
   if (!currentUser) {
-    return <Navigate to="/" replace />
+    return <Navigate to="https://medinova-core.vercel.app/" replace />;
   }
 
-  return children
+  return children;
 }
 
+/* =========================
+   APP
+========================= */
 export default function App() {
   return (
     <ThemeProvider>
@@ -44,46 +41,81 @@ export default function App() {
 
                 <Routes>
 
-                  {/* PUBLIC */}
-                  <Route path="/" element={<OnboardingFlow />} />
+                  {/* ENTRY */}
+                  <Route
+                    path="/"
+                    element={<OnboardingFlow />}
+                  />
 
-                  {/* PROTECTED */}
-                  <Route path="/dashboard" element={
-                    <ProtectedRoute>
-                      <Dashboard />
-                      <Footer />
-                    </ProtectedRoute>
-                  } />
+                  {/* DASHBOARD */}
+                  <Route
+                    path="/dashboard"
+                    element={
+                      <ProtectedRoute>
+                        <RequireAuth>
+                          <Dashboard />
+                          <Footer />
+                        </RequireAuth>
+                      </ProtectedRoute>
+                    }
+                  />
 
-                  <Route path="/profile" element={
-                    <ProtectedRoute>
-                      <Profile />
-                      <Footer />
-                    </ProtectedRoute>
-                  } />
+                  {/* PROFILE */}
+                  <Route
+                    path="/profile"
+                    element={
+                      <ProtectedRoute>
+                        <RequireAuth>
+                          <Profile />
+                          <Footer />
+                        </RequireAuth>
+                      </ProtectedRoute>
+                    }
+                  />
 
-                  <Route path="/ward-map" element={
-                    <ProtectedRoute>
-                      <WardMapPage />
-                      <Footer />
-                    </ProtectedRoute>
-                  } />
+                  {/* WARD MAP */}
+                  <Route
+                    path="/ward-map"
+                    element={
+                      <ProtectedRoute>
+                        <RequireAuth>
+                          <WardMapPage />
+                          <Footer />
+                        </RequireAuth>
+                      </ProtectedRoute>
+                    }
+                  />
 
-                  <Route path="/simulation/:classId" element={
-                    <ProtectedRoute>
-                      <SimulationPage />
-                    </ProtectedRoute>
-                  } />
+                  {/* SIMULATION */}
+                  <Route
+                    path="/simulation/:classId"
+                    element={
+                      <ProtectedRoute>
+                        <RequireAuth>
+                          <SimulationPage />
+                        </RequireAuth>
+                      </ProtectedRoute>
+                    }
+                  />
 
-                  <Route path="/class/:classId" element={
-                    <ProtectedRoute>
-                      <ClassDetail />
-                      <Footer />
-                    </ProtectedRoute>
-                  } />
+                  {/* CLASS DETAIL */}
+                  <Route
+                    path="/class/:classId"
+                    element={
+                      <ProtectedRoute>
+                        <RequireAuth>
+                          <ClassDetail />
+                          <Footer />
+                        </RequireAuth>
+                      </ProtectedRoute>
+                    }
+                  />
 
                   {/* CATCH ALL */}
-                  <Route path="*" element={<Navigate to="/" replace />} />
+                  <Route
+                    path="*"
+                    element={<Navigate to="/" />}
+                  />
 
                 </Routes>
 
