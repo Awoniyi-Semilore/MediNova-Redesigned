@@ -21,32 +21,25 @@ import SimulationPage from './components/simulation/SimulationPage'
    🔐 ACCESS GUARD WRAPPER
 ========================= */
 function RequireAccess({ children }) {
-  const [checked, setChecked] = useState(false)
-  const [allowed, setAllowed] = useState(false)
+  const session = JSON.parse(
+    sessionStorage.getItem("medinova_session") || "null"
+  );
 
-  useEffect(() => {
-    // small delay ensures sessionStorage is written after redirect
-    const timer = setTimeout(() => {
-      setAllowed(isTeachingHospitalAllowed())
-      setChecked(true)
-    }, 100)
+  if (!session) {
+    return (
+      <Navigate to="https://medinova-core.vercel.app/" replace />
+    );
+  }
 
-    return () => clearTimeout(timer)
-  }, [])
-
-  // ⏳ prevent flicker / false redirect
-  if (!checked) return null
+  const allowed = ["learner", "care", "supervisor"].includes(session.role);
 
   if (!allowed) {
     return (
-      <Navigate
-        to="https://medinova-core.vercel.app/"
-        replace
-      />
-    )
+      <Navigate to="https://medinova-core.vercel.app/" replace />
+    );
   }
 
-  return children
+  return children;
 }
 
 export default function App() {
