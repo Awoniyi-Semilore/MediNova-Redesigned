@@ -1,4 +1,3 @@
-// src/ProtectedRoute.jsx
 import { Navigate } from 'react-router-dom'
 import { useAuth } from './contexts/AuthContext'
 import { useProgress } from './contexts/ProgressContext'
@@ -6,36 +5,26 @@ import { useProgress } from './contexts/ProgressContext'
 export default function ProtectedRoute({ children }) {
   const { currentUser, loading: authLoading } = useAuth()
   
-  // Safely access progress - handle case where provider isn't ready yet
   let progressLoading = false
   try {
     const progress = useProgress()
     progressLoading = progress?.loading ?? false
   } catch (e) {
-    // ProgressProvider not mounted yet - treat as loading
     progressLoading = true
   }
 
-  // Show a professional medical loader while verifying identity
   if (authLoading || progressLoading) {
     return (
       <div style={{
-        height: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: '#0a1628',
-        color: '#1565c0',
+        height: '100vh', display: 'flex', flexDirection: 'column',
+        alignItems: 'center', justifyContent: 'center',
+        background: '#0a1628', color: '#1565c0',
         fontFamily: 'DM Sans, sans-serif'
       }}>
         <div style={{ 
-          width: '40px', 
-          height: '40px', 
-          border: '3px solid #1a2a40', 
-          borderTop: '3px solid #1565c0', 
-          borderRadius: '50%',
-          animation: 'spin 1s linear infinite'
+          width: '40px', height: '40px', 
+          border: '3px solid #1a2a40', borderTop: '3px solid #1565c0', 
+          borderRadius: '50%', animation: 'spin 1s linear infinite'
         }} />
         <p style={{ marginTop: '20px', letterSpacing: '2px', fontSize: '10px', fontWeight: 'bold' }}>
           VERIFYING CLINICAL CREDENTIALS...
@@ -45,11 +34,12 @@ export default function ProtectedRoute({ children }) {
     )
   }
 
-  const localUser = localStorage.getItem('medinova_user')
+  // ✅ FIXED: Check the SAME key that CardLogin saves to
+  const sessionUser = localStorage.getItem('medinova_session_user')
 
-if (!currentUser && !localUser) {
-  return <Navigate to="/" />
-}
+  if (!currentUser && !sessionUser) {
+    return <Navigate to="/" />
+  }
   
   return children
 }
