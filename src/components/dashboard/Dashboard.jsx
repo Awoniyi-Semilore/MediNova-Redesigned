@@ -1,4 +1,4 @@
-//src/components/dashboard/Dashboard.jsx
+// src/components/dashboard/Dashboard.jsx
 
 import { useState, useEffect } from 'react'
 import { useAuth } from '../../contexts/AuthContext'
@@ -18,7 +18,9 @@ import UrgentPages from './UrgentPages'
 import WelcomeModal from './WelcomeModal'
 import TourHighlight from './TourHighlight'
 
-const TOUR_KEY = 'mn_tour_done'
+// ✅ FIXED: Key changed so tour shows on EVERY fresh login
+// We clear this on logout, so each new login = fresh tour
+const TOUR_KEY = 'mn_tour_session'
 
 export default function Dashboard() {
   const { currentUser } = useAuth()
@@ -31,9 +33,13 @@ export default function Dashboard() {
     || currentUser?.email?.split('@')[0]
     || 'Doctor'
 
+  // ✅ FIXED: Show tour EVERY time dashboard mounts with no session flag
+  // This means: every login = tour shows. Logout clears the flag.
   useEffect(() => {
-    const done = localStorage.getItem(TOUR_KEY)
-    if (!done) setShowModal(true)
+    const sessionDone = sessionStorage.getItem(TOUR_KEY)
+    if (!sessionDone) {
+      setShowModal(true)
+    }
   }, [])
 
   function handleStartTour() {
@@ -43,16 +49,16 @@ export default function Dashboard() {
 
   function handleSkipModal() {
     setShowModal(false)
-    localStorage.setItem(TOUR_KEY, 'true')
+    sessionStorage.setItem(TOUR_KEY, 'true')
   }
 
   function handleEndTour() {
     setShowTour(false)
-    localStorage.setItem(TOUR_KEY, 'true')
+    sessionStorage.setItem(TOUR_KEY, 'true')
   }
 
   const themeClass = isDark ? styles.dark : styles.light
-  
+
   const activeTitle = activeClass
     ? `Class ${activeClass.id} — ${activeClass.title}`
     : 'Residency Initializing...'
@@ -69,7 +75,6 @@ export default function Dashboard() {
   )
 
   return (
-    // CRITICAL: data-dashboard attribute added for TourHighlight positioning
     <div className={`${styles.app} ${themeClass}`} data-dashboard>
       <TopBar />
 
@@ -88,17 +93,16 @@ export default function Dashboard() {
           track={track === 'doctor' ? 'Physician Track' : 'Nurse Track'}
           activeClass={activeTitle}
         />
-        
+
         <StreakBar />
-        
+
         <VitalsRow />
 
         <div className={styles.twoCol}>
           <div className={styles.colLeft}>
             <WardMap />
-            
           </div>
-          
+
           <div className={styles.colRight}>
             <ShiftBoard />
             <CertificateCase />
@@ -112,7 +116,7 @@ export default function Dashboard() {
           onSkip={handleSkipModal}
         />
       )}
-      
+
       {showTour && (
         <TourHighlight onEnd={handleEndTour} />
       )}
