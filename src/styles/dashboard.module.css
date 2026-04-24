@@ -497,3 +497,68 @@ dashboard.module.css */
   padding-left: 6px;
   line-height: 1.3;
 }
+
+
+
+/* ============================================
+   MOBILE TOUR FIXES - ADD TO dashboard.module.css
+   ============================================ */
+
+/* Ensure tooltip is never cut off on mobile */
+.hlBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  overflow: visible;
+}
+
+.hlTooltip {
+  position: fixed;  /* ✅ FIXED: changed from absolute to fixed for viewport anchoring */
+  background: #0d2d5e;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 10px;
+  padding: 0.9rem 1rem;
+  width: 260px;
+  max-width: calc(100vw - 20px);
+  z-index: 10000;
+  pointer-events: all;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .hlTooltip {
+    width: calc(100vw - 40px);
+    left: 20px !important;  /* Center on mobile */
+    right: 20px;
+    padding: 0.75rem 0.9rem;
+  }
+
+  .hlTitle {
+    font-size: 0.7rem;
+  }
+
+  .hlBody {
+    font-size: 0.75rem;
+  }
+
+  .hlNav {
+    margin-top: 0.6rem;
+  }
+
+  /* Make buttons bigger for touch */
+  .hlSkipBtn,
+  .hlNextBtn {
+    padding: 0.45rem 1rem;
+    font-size: 0.65rem;
+    min-height: 36px;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 380px) {
+  .hlTooltip {
+    width: calc(100vw - 20px);
+    left: 10px !important;
+  }
+}
