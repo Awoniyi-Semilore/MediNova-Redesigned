@@ -7,7 +7,6 @@ import styles from '../../styles/onboarding.module.css'
 import CardWelcome from './CardWelcome'
 import CardLogin from './CardLogin'
 import CardNotice from './CardNotice'
-import WelcomeScene from './WelcomeScene'
 
 const CARDS = ['welcome', 'login', 'notice']
 
@@ -16,7 +15,6 @@ export default function OnboardingFlow() {
 
   const [stack, setStack] = useState(['welcome'])
   const [userData, setUserData] = useState({ name: '', role: '', initials: '' })
-  const [showWelcome, setShowWelcome] = useState(false)
   const [exiting, setExiting] = useState(null)
 
   const timerRef = useRef(null)
@@ -49,11 +47,8 @@ export default function OnboardingFlow() {
     transitionTo('notice')
   }
 
+  // ✅ FIXED: "Proceed to Ward Map" now navigates directly to /dashboard
   function handleEnterWard() {
-    setShowWelcome(true)
-  }
-
-  function handleDashboard() {
     navigate('/dashboard')
   }
 
@@ -100,12 +95,6 @@ export default function OnboardingFlow() {
           <div key={i} className={`${styles.dot} ${i === activeDot ? styles.dotActive : ''}`} />
         ))}
       </div>
-
-      <WelcomeScene
-        visible={showWelcome}
-        name={userData.name}
-        onDashboard={handleDashboard}
-      />
     </div>
   )
 }
