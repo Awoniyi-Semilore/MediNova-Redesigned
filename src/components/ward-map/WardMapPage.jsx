@@ -1,3 +1,5 @@
+// src/components/ward-map/WardMapPage.jsx
+
 import { useState } from 'react'
 import { useTheme } from '../../contexts/ThemeContext'
 import { useProgress } from '../../contexts/ProgressContext'
@@ -7,7 +9,7 @@ import CaseFile from './CaseFile'
 import styles from '../../styles/wardmap.module.css'
 
 // Level Accordion Component
-function LevelAccordion({ level, classes, track }) {
+function LevelAccordion({ level, classes }) {
   const [isOpen, setIsOpen] = useState(false)
   const { classStatus } = useProgress()
   
@@ -18,11 +20,11 @@ function LevelAccordion({ level, classes, track }) {
   // Get appropriate milestone text based on level
   const getRankMilestone = (label) => {
     const goals = {
-      "Clerkship": "Complete these rotations to officially join the Clerkship Team.",
-      "Junior Residency": "Master these cases to earn your Junior Resident credentials.",
-      "Senior Residency": "Demonstrate specialty competence to clear your Senior Residency.",
-      "Fellowship": "Sub-specialty mastery. You are directing a team now.",
-      "Board Certification": "Final board evaluations for Consultant status."
+      "Foundation Care": "Complete these rotations to officially join the Midwifery Team.",
+      "Antenatal Mastery": "Master these cases to earn your Antenatal Care credentials.",
+      "Labour & Birth": "Demonstrate birth competence to clear your Labour Ward standing.",
+      "Complex Birth": "Complex case mastery. You are directing births now.",
+      "Board Certification": "Final board evaluations for Registered Midwife status."
     }
     return goals[label] || `Master this phase to advance your clinical standing.`
   }
@@ -31,7 +33,6 @@ function LevelAccordion({ level, classes, track }) {
     <div className={`${styles.levelGroup} ${isOpen ? styles.levelGroupOpen : ''}`}>
       <div className={styles.levelHeader} onClick={() => setIsOpen(!isOpen)}>
         <div className={styles.levelInfo}>
-          {/* <span className={styles.levelLabel}>Current Training Phase</span> */}
           <span className={styles.levelTitle}>{level.label}</span>
           <div className={styles.levelObjective}>{getRankMilestone(level.label)}</div>
         </div>
@@ -47,7 +48,7 @@ function LevelAccordion({ level, classes, track }) {
         <div className={styles.levelContent}>
           <div className={styles.caseGrid}>
             {classes.map((cls) => (
-              <CaseFile key={cls.id} cls={cls} track={track} />
+              <CaseFile key={cls.id} cls={cls} />
             ))}
           </div>
 
@@ -67,7 +68,7 @@ function LevelAccordion({ level, classes, track }) {
 // Main Ward Map Page
 export default function WardMapPage() {
   const { isDark } = useTheme()
-  const { track, completedCount, overallProgress } = useProgress()
+  const { completedCount, overallProgress } = useProgress()
   
   // Apply theme class
   const themeClass = isDark ? styles.dark : styles.light
@@ -97,7 +98,7 @@ export default function WardMapPage() {
           <div className={styles.heroInner}>
             <div className={styles.heroLeft}>
               <div className={styles.heroSub}>
-                {track === 'doctor' ? 'Medical Officer' : 'Specialist Nurse'} Portal
+                Registered Midwife Portal
               </div>
               <div className={styles.heroTitle}>
                 MediNova <em>Ward Map</em>
@@ -124,11 +125,10 @@ export default function WardMapPage() {
               key={group.id} 
               level={group} 
               classes={group.classes} 
-              track={track} 
             />
           ))}
         </div>
       </div>
     </div>
   )
-};
+}

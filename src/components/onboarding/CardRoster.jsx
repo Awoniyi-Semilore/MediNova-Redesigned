@@ -1,3 +1,5 @@
+// src/components/onboarding/CardRoster.jsx
+
 import styles from '../../styles/onboarding.module.css'
 
 export default function CardRoster({ onPick }) {

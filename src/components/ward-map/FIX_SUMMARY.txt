@@ -1,0 +1,54 @@
+═══════════════════════════════════════════════════════════════════════════════
+  FIX SUMMARY — MediNova V3 Progress Unlocking Issue
+═══════════════════════════════════════════════════════════════════════════════
+
+PROBLEM:
+  • SimulationPage.jsx called `unlockNextClass(cls.id)` which does NOT exist
+    in ProgressContext → TypeError crash
+  • After completing a class, the next class remained "locked" because:
+    1. The save crashed before phase transition
+    2. Multiple components checked for status === 'active' instead of 'next'
+  • classStatus() only returns: 'done' | 'next' | 'locked' (never 'active')
+
+ROOT CAUSE:
+  • ProgressContext uses REAL-TIME unlocking via onSnapshot + classStatus().
+    When a result is saved, onSnapshot fires immediately, results update,
+    and classStatus() recomputes — the next class automatically becomes 'next'.
+    No separate "unlock" function is needed (and none was exported).
+  • CaseFile.jsx, ClassDetail.jsx, and SimulationPage.jsx all referenced
+    'active' which doesn't exist in the classStatus return type.
+
+FILES CHANGED:
+  ┌─────────────────────────┬────────────────────────────────────────────────┐
+  │ File                    │ Change                                         │
+  ├─────────────────────────┼────────────────────────────────────────────────┤
+  │ SimulationPage.jsx      │ REMOVED: await unlockNextClass(cls.id)         │
+  │                         │ (line ~284) — unlocking is automatic via       │
+  │                         │ onSnapshot + classStatus() recomputation       │
+  ├─────────────────────────┼────────────────────────────────────────────────┤
+  │ ClassDetail.jsx         │ FIXED: status === 'active' → status === 'next' │
+  │                         │ in 3 places (badge, label, canEnter, CTA)      │
+  ├─────────────────────────┼────────────────────────────────────────────────┤
+  │ CaseFile.jsx            │ FIXED: status === 'active' → status === 'next' │
+  │                         │ in NumIcon & handleToggle logic                │
+  ├─────────────────────────┼────────────────────────────────────────────────┤
+  │ ProgressContext.jsx     │ ADDED: isClassUnlocked helper for UI clarity   │
+  │                         │ (no logic changes — just exported helper)      │
+  └─────────────────────────┴────────────────────────────────────────────────┘
+
+HOW UNLOCKING NOW WORKS:
+  1. User completes Class 01 → recordSimResult() saves result to Firestore
+  2. onSnapshot listener fires → results state updates
+  3. classStatus('02') runs: checks if Class 01 score >= passMark
+  4. Returns 'next' → CaseFile shows "Begin Case", ClassDetail shows
+     "Begin Simulation →", WardMap shows green dot
+  5. No manual unlock step needed — it's purely derived from results
+
+VERIFICATION STEPS:
+  1. Complete Class 01 (score ≥ passMark)
+  2. Click "Return to Ward Map"
+  3. Class 02 should show status "next" with green dot / "Begin Case"
+  4. Class 01 should show "done" with checkmark
+  5. All previous classes remain "done", all future remain "locked"
+
+═══════════════════════════════════════════════════════════════════════════════

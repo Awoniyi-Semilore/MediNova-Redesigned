@@ -1,11 +1,24 @@
+/* src/styles/footer.module.css */
+
+/* ===== BASE / LIGHT MODE ===== */
 .footer {
   width: 100%;
-  background: #050b18; 
-  border-top: 1px solid rgba(198, 40, 40, 0.3);
-  padding: 4rem 2rem 2rem;
-  color: #fff;
+  padding: 3rem 2rem 1.5rem;
   font-family: 'DM Sans', sans-serif;
   position: relative;
+  transition: background 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.footer.light {
+  background: #f4f8fd;
+  border-top: 1px solid #dce8f5;
+  color: #0d2d5e;
+}
+
+.footer.dark {
+  background: #070f1a;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  color: #e8f0f7;
 }
 
 .container {
@@ -13,244 +26,237 @@
   margin: 0 auto;
 }
 
+/* ===== MAIN GRID ===== */
 .mainGrid {
   display: grid;
-  grid-template-columns: 1.8fr 1fr;
-  gap: 4rem;
-  margin-bottom: 4rem;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 2rem;
 }
 
-/* ARCHITECT STORY SECTION */
-.storySection {
+/* ===== BRAND COLUMN ===== */
+.brandCol {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .brandLink {
   text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .logoCross {
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   background: #c62828;
   border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 15px rgba(198, 40, 40, 0.4);
+  flex-shrink: 0;
 }
 
 .logoText {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: 600;
+}
+
+.light .logoText {
+  color: #0d2d5e;
+}
+
+.dark .logoText {
   color: #fff;
 }
 
-.devLog {
-  background: rgba(255, 255, 255, 0.03);
-  border-left: 3px solid #ef5350;
-  padding: 1.5rem;
-  border-radius: 0 8px 8px 0;
-}
-
-.logTitle {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 0.7rem;
+.logoPlus {
   color: #ef5350;
-  margin-bottom: 0.8rem;
-  display: block;
 }
 
-.logText {
-  font-size: 0.9rem;
-  line-height: 1.7;
-  color: rgba(255, 255, 255, 0.8);
+.brandTagline {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  max-width: 280px;
 }
 
-.logText strong {
-  color: #fff;
+.light .brandTagline {
+  color: #5a7a9a;
 }
 
-/* CTA COLUMN */
-.ctaSection {
+.dark .brandTagline {
+  color: rgba(255,255,255,0.5);
+}
+
+/* ===== LINK COLUMNS ===== */
+.linkCol {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 0.8rem;
 }
 
-.ctaHeading {
+.linkHeading {
   font-family: 'Share Tech Mono', monospace;
-  font-size: 0.75rem;
-  color: rgba(255,255,255,0.4);
-  letter-spacing: 2px;
-}
-
-.mainCtaBtn {
-  background: #c62828;
-  color: white;
-  border: none;
-  padding: 15px 25px;
-  border-radius: 6px;
-  font-family: 'Share Tech Mono', monospace;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  font-size: 0.65rem;
   text-transform: uppercase;
+  letter-spacing: 0.14em;
+  margin: 0 0 0.3rem 0;
 }
 
-.mainCtaBtn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 25px rgba(198, 40, 40, 0.6);
+.light .linkHeading {
+  color: #90a4ae;
 }
 
+.dark .linkHeading {
+  color: rgba(255,255,255,0.35);
+}
+
+.linkList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.footerLink {
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: color 0.2s;
+  display: inline-flex;
+  align-items: center;
+}
+
+.light .footerLink {
+  color: #4a6a8a;
+}
+
+.light .footerLink:hover {
+  color: #1565c0;
+}
+
+.dark .footerLink {
+  color: rgba(255,255,255,0.55);
+}
+
+.dark .footerLink:hover {
+  color: #64b5f6;
+}
+
+/* ===== SOCIAL ROW ===== */
 .socialRow {
   display: flex;
-  gap: 1.5rem;
-  margin-top: 1rem;
+  gap: 1rem;
+  margin-top: 0.3rem;
 }
 
 .socialLink {
-  color: rgba(255,255,255,0.5);
-  font-size: 1.4rem;
-  transition: color 0.3s;
+  font-size: 1.2rem;
+  transition: color 0.2s, transform 0.2s;
 }
 
-.socialLink:hover { color: #ef5350; }
-
-/* ECG ANIMATION */
-.ecgWrapper {
-  height: 50px;
-  opacity: 0.15;
-  margin: 3rem 0;
+.light .socialLink {
+  color: #90a4ae;
 }
 
-.ecgPath {
-  stroke: #4caf50;
-  stroke-width: 2;
-  fill: none;
-  stroke-dasharray: 1000;
-  stroke-dashoffset: 1000;
-  animation: ecgFlow 6s linear infinite;
+.light .socialLink:hover {
+  color: #1565c0;
+  transform: translateY(-2px);
 }
 
-@keyframes ecgFlow { to { stroke-dashoffset: 0; } }
+.dark .socialLink {
+  color: rgba(255,255,255,0.4);
+}
 
-/* BOTTOM STRIP */
+.dark .socialLink:hover {
+  color: #ef5350;
+  transform: translateY(-2px);
+}
+
+/* ===== DIVIDER ===== */
+.footerDivider {
+  height: 1px;
+  margin: 1.5rem 0;
+}
+
+.light .footerDivider {
+  background: #dce8f5;
+}
+
+.dark .footerDivider {
+  background: rgba(255,255,255,0.06);
+}
+
+/* ===== BOTTOM BAR ===== */
 .bottomBar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid rgba(255,255,255,0.05);
-  padding-top: 2rem;
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 0.65rem;
-  color: rgba(255,255,255,0.4);
+  padding-top: 0.5rem;
+  font-size: 0.75rem;
 }
 
-/* MODAL TERMINAL */
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(2, 6, 12, 0.95);
-  backdrop-filter: blur(10px);
-  z-index: 10000;
+.light .bottomBar {
+  color: #90a4ae;
+}
+
+.dark .bottomBar {
+  color: rgba(255,255,255,0.3);
+}
+
+.bottomLeft {
+  font-family: 'DM Sans', sans-serif;
+}
+
+.bottomRight {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 20px;
+  gap: 0.3rem;
 }
 
-.modal {
-  background: #0d1117;
-  border: 1px solid #30363d;
-  width: 100%;
-  max-width: 480px;
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.modalInner { padding: 2rem; }
-
-.modalHeader {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 2rem;
-}
-
-.modalHeader h2 {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 1rem;
-  color: #ef5350;
-}
-
-.inputGroup { margin-bottom: 1.5rem; }
-
-.inputGroup label {
-  display: block;
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 0.6rem;
-  color: #8b949e;
-  margin-bottom: 8px;
-}
-
-.input, .textarea {
-  width: 100%;
-  background: #161b22;
-  border: 1px solid #30363d;
-  color: #fff;
-  padding: 12px;
-  border-radius: 6px;
-  outline: none;
-}
-
-.input:focus, .textarea:focus { border-color: #ef5350; }
-
-.submitGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.emailBtn { background: #fff; color: #000; border: none; padding: 12px; border-radius: 6px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
-.waBtn { background: #25d366; color: #fff; border: none; padding: 12px; border-radius: 6px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
-
-@media (max-width: 850px) {
-  .mainGrid { grid-template-columns: 1fr; gap: 3rem; }
-  .bottomBar { flex-direction: column; gap: 1rem; text-align: center; }
-}
-
-.prototypeLink {
+.madeWith {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 1.5rem;
-  padding: 6px 12px;
-  background: rgba(239, 83, 80, 0.1);
-  border: 1px solid rgba(239, 83, 80, 0.3);
-  border-radius: 4px;
+  gap: 0.3rem;
+}
+
+.heartIcon {
   color: #ef5350;
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 0.7rem;
-  text-decoration: none;
-  letter-spacing: 1px;
-  transition: all 0.2s ease;
 }
 
-.prototypeLink:hover {
-  background: #ef5350;
-  color: #fff;
-  box-shadow: 0 0 15px rgba(239, 83, 80, 0.4);
-  transform: translateY(-2px);
+/* ===== RESPONSIVE ===== */
+@media (max-width: 850px) {
+  .mainGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .brandCol {
+    grid-column: 1 / -1;
+  }
 }
 
-/* Optional: Make the SVG bounce slightly on hover */
-.prototypeLink:hover svg {
-  transform: translate(2px, -2px);
-  transition: transform 0.2s ease;
+@media (max-width: 480px) {
+  .footer {
+    padding: 2rem 1.2rem 1.2rem;
+  }
+
+  .mainGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .bottomBar {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+
+  .logoText {
+    font-size: 1.4rem;
+  }
 }

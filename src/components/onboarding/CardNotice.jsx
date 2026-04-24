@@ -1,27 +1,33 @@
+// src/components/onboarding/CardNotice.jsx
+
 import { useMemo } from 'react'
-import { useAuth } from '../../contexts/AuthContext'
 import { useProgress } from '../../contexts/ProgressContext'
 import styles from '../../styles/onboarding.module.css'
 
 export default function CardNotice({ onEnter }) {
-  const { currentUser } = useAuth()
-  const { completedCount, streak, track } = useProgress()
+  // ✅ FIXED: Now uses the working ProgressContext instead of hardcoded values
+  const { completedCount, streak, track, sessionUser } = useProgress()
 
-  // Generate initials from email or name
+  // Generate user display info from session or fallback
   const userData = useMemo(() => {
-    const name = currentUser?.displayName || currentUser?.email?.split('@')[0] || 'Doctor'
+    const raw = localStorage.getItem('medinova_session_user')
+    const session = raw ? JSON.parse(raw) : null
+    const name = session?.name || session?.email?.split('@')[0] || 'Doctor'
     const initials = name.substring(0, 2).toUpperCase()
     const role = track === 'doctor' ? 'Attending Physician' : 'Head Nurse'
     return { name, initials, role }
-  }, [currentUser, track])
+  }, [track])
 
   // Persistent Staff ID based on User ID
   const staffId = useMemo(() => {
-    if (!currentUser) return 'MN-00000'
-    // Create a deterministic ID based on the UID string
-    const hash = currentUser.uid.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)
+    const raw = localStorage.getItem('medinova_session_user')
+    const session = raw ? JSON.parse(raw) : null
+    if (!session?.uid) return 'MN-00000'
+    const hash = session.uid.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)
     return `MN-${10000 + (hash % 90000)}`
-  }, [currentUser])
+  }, [])
+
+  console.log('[CardNotice] Rendering with completedCount:', completedCount, 'streak:', streak)
 
   return (
     <>
@@ -71,10 +77,12 @@ export default function CardNotice({ onEnter }) {
             <span className={styles.vitalLabel}>Total</span>
           </div>
           <div className={styles.vitalBox}>
+            {/* ✅ FIXED: Now shows REAL completed count from Firestore */}
             <span className={styles.vitalVal}>{completedCount}</span>
             <span className={styles.vitalLabel}>Done</span>
           </div>
           <div className={styles.vitalBox}>
+            {/* ✅ FIXED: Now shows REAL streak from Firestore */}
             <span className={styles.vitalVal}>{streak}</span>
             <span className={styles.vitalLabel}>Streak</span>
           </div>

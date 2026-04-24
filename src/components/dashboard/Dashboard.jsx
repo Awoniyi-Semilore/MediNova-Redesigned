@@ -96,9 +96,7 @@ export default function Dashboard() {
         <div className={styles.twoCol}>
           <div className={styles.colLeft}>
             <WardMap />
-            <div style={{ marginTop: '1.1rem' }}>
-                <UrgentPages />
-            </div>
+            
           </div>
           
           <div className={styles.colRight}>

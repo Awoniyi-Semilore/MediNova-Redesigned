@@ -21,6 +21,7 @@ export default function SimulationOpening({
   const ambienceRef = useRef(null)
   const voiceRef    = useRef(null)
   const containerRef = useRef(null)
+  const hasAttemptedUnlock = useRef(false) // FIX: Prevent double unlock attempt
 
   // Get images from curriculum media
   const getImages = () => {
@@ -92,8 +93,12 @@ export default function SimulationOpening({
     }
   }, [hasAudio])
 
-  // FIX: Proper audio unlock with user interaction handling
+  // FIX: Audio unlock with user interaction handling — NO autoplay on mount
   const unlockAudio = useCallback(async () => {
+    // Prevent duplicate calls
+    if (hasAttemptedUnlock.current) return false
+    hasAttemptedUnlock.current = true
+    
     console.log('Attempting to unlock audio...')
     setAudioUnlocked(true)
     
@@ -109,7 +114,6 @@ export default function SimulationOpening({
         console.log('Ambience playing')
       } catch (e) {
         console.log('Ambience failed:', e.name)
-        // Don't set error if it's just autoplay policy - we'll retry on click
         if (e.name !== 'NotAllowedError') {
           setAudioError('ambience')
         }
@@ -143,15 +147,8 @@ export default function SimulationOpening({
     return anyPlaying
   }, [voiceFile, hasAudio])
 
-  // Try autoplay on mount (will likely fail due to browser policy)
-  useEffect(() => {
-    // Small delay to ensure refs are set
-    const timer = setTimeout(() => {
-      unlockAudio()
-    }, 100)
-    
-    return () => clearTimeout(timer)
-  }, [unlockAudio])
+  // REMOVED: Autoplay on mount — browsers block this, causes double log spam
+  // Audio will only unlock on user click (handleContainerClick)
 
   // Slide transitions
   useEffect(() => {
@@ -172,6 +169,8 @@ export default function SimulationOpening({
   // FIX: Click handler that properly retries audio if blocked
   function handleContainerClick() {
     if (!audioUnlocked || !audioPlaying) {
+      // Reset attempt flag on user click so they can retry
+      hasAttemptedUnlock.current = false
       // Try to unlock audio first
       unlockAudio().then(playing => {
         if (playing && showCta) {

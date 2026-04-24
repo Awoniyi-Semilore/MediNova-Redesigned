@@ -1,3 +1,7 @@
+
+
+// src/components/dashboard/VitalsRow.jsx
+
 import { useProgress } from '../../contexts/ProgressContext'
 import styles from '../../styles/dashboard.module.css'
 

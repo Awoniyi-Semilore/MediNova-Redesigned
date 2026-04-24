@@ -1,34 +1,88 @@
+// src/components/onboarding/CardLogin.jsx
+
 import { useState } from 'react'
-import { signInWithEmailAndPassword } from 'firebase/auth'
-import { auth } from '../../lib/firebase'
+import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore'
+import { db } from '../../lib/firebase'
 import styles from '../../styles/onboarding.module.css'
 
-export default function CardLogin({ onSwitch }) {
+export default function CardLogin({ onAuth }) {
   const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [token, setToken] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
   async function handleSubmit() {
     setError('')
 
-    if (!email || !password) {
-      setError('Please fill in all fields.')
+    if (!email || !token) {
+      setError('Please enter email and access token.')
       return
     }
 
     setLoading(true)
+    console.log('[CardLogin] Attempting login for email:', email)
 
-    try {
-      const result = await signInWithEmailAndPassword(auth, email, password)
+        try {
+      // ✅ 1. Check user exists in hospital/main/care_users
+      const careUsersRef = collection(db, 'hospital', 'main', 'care_users')
+      const q = query(careUsersRef, where('email', '==', email))
+      console.log('[CardLogin] Querying care_users subcollection for email:', email)
+      const snapshot = await getDocs(q)
 
-      // ✅ THIS IS THE ONLY REQUIRED LINE
-      // AuthContext already listens to Firebase state
-      console.log("Logged in:", result.user)
+      if (snapshot.empty) {
+        console.log('[CardLogin] ❌ User not found in care_users')
+        setError('User not found.')
+        setLoading(false)
+        return
+      }
 
-      // optional: navigation handled by ProtectedRoute + auth state
+      const userDoc = snapshot.docs[0]
+      const userId = userDoc.id
+      const userData = userDoc.data()
+      console.log('[CardLogin] ✅ User found in care_users. AutoID:', userId, 'Data:', userData)
+
+      // ✅ 2. Get learner token from Firestore
+      const hospitalRef = doc(db, 'hospital', 'main')
+      const hospitalSnap = await getDoc(hospitalRef)
+      console.log('[CardLogin] Hospital config fetched:', hospitalSnap.exists())
+
+      const learnerToken = hospitalSnap.data()?.meta?.token?.learner_token
+
+      if (!learnerToken) {
+        console.log('[CardLogin] ❌ No learner_token found in hospital/main')
+        setError('System configuration error.')
+        setLoading(false)
+        return
+      }
+
+      // ✅ 3. Validate token
+      if (token !== learnerToken) {
+        console.log('[CardLogin] ❌ Token mismatch. Entered:', token, 'Expected:', learnerToken)
+        setError('Invalid access token.')
+        setLoading(false)
+        return
+      }
+
+      console.log('[CardLogin] ✅ Token validated. Login successful.')
+
+      // ✅ 4. SAVE TO LOCALSTORAGE for ProgressContext to read
+      const sessionUser = {
+        uid: userId,                    // Firestore doc ID — CRITICAL for ProgressContext
+        email: userData.email,
+        name: userData.name || userData.email?.split('@')[0] || 'Learner',
+        role: 'Learner',
+        track: userData.track || 'doctor',
+        loggedInAt: new Date().toISOString()
+      }
+      localStorage.setItem('medinova_session_user', JSON.stringify(sessionUser))
+      console.log('[CardLogin] 💾 Saved to localStorage (medinova_session_user):', sessionUser)
+
+      // ✅ 5. Notify parent
+      onAuth(userData.email, 'Learner')
+
     } catch (e) {
-      setError('Invalid email or password. Please try again.')
+      console.error('[CardLogin] ❌ Login error:', e)
+      setError('Login failed. Try again.')
     } finally {
       setLoading(false)
     }
@@ -44,20 +98,20 @@ export default function CardLogin({ onSwitch }) {
               <rect x="0" y="4" width="10" height="2"/>
             </svg>
           </div>
-          <span className={styles.cardHospitalName}>Staff Login Portal</span>
+          <span className={styles.cardHospitalName}>Access Portal</span>
         </div>
-        <span className={styles.cardBadge}>SECURE</span>
+        <span className={styles.cardBadge}>TOKEN AUTH</span>
       </div>
 
       <div className={styles.cardBody}>
-        <div className={styles.eyebrow}>Staff Login</div>
+        <div className={styles.eyebrow}>Secure Login</div>
         <div className={styles.title}>
-          Welcome <span className={styles.titleAccent}>back.</span>
+          Enter your <span className={styles.titleAccent}>credentials.</span>
         </div>
 
         <div className={styles.fields}>
           <div>
-            <label className={styles.fieldLabel}>Staff Email</label>
+            <label className={styles.fieldLabel}>Email</label>
             <input
               className={styles.input}
               type="email"
@@ -68,13 +122,13 @@ export default function CardLogin({ onSwitch }) {
           </div>
 
           <div>
-            <label className={styles.fieldLabel}>Password</label>
+            <label className={styles.fieldLabel}>Access Token</label>
             <input
               className={styles.input}
-              type="password"
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              type="text"
+              placeholder="LEARNER-123"
+              value={token}
+              onChange={(e) => setToken(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
             />
             {error && <div className={styles.errorMsg}>{error}</div>}
@@ -86,12 +140,8 @@ export default function CardLogin({ onSwitch }) {
           onClick={handleSubmit}
           disabled={loading}
         >
-          {loading ? 'Verifying...' : 'Sign In →'}
+          {loading ? 'Verifying...' : 'Access System →'}
         </button>
-
-        <div className={styles.linkRow}>
-          New here? <a onClick={onSwitch}>Create account</a>
-        </div>
       </div>
     </>
   )

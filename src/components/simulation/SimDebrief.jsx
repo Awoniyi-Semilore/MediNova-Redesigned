@@ -377,7 +377,7 @@ export function SimulationDebrief({
         </div>
 
         {/* Back to Dashboard - always available */}
-        <button
+        {/* <button
           onClick={onBackToDashboard }
           style={{
             width: '100%',
@@ -398,7 +398,7 @@ export function SimulationDebrief({
         >
           <Icon name="dashboard" size={18} color={theme.textMuted} />
           Back to Dashboard
-        </button>
+        </button> */}
       </div>
 
       {/* ─── QUESTION REVIEW ─── */}

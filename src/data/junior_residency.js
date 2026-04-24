@@ -1,18 +1,18 @@
-// junior_residency.js - Classes 05-09: Common Presentations & Independent Management
-// Building confidence with complex but common clinical scenarios
+// junior_residency.js - Classes 05-09: Antenatal Care & Complications
+// Building confidence with complex but common antenatal scenarios
 
 export const JUNIOR_RESIDENCY = [
   // ═══════════════════════════════════════════════════════════════════════════════
-  // CLASS 05: RESPIRATORY MEDICINE
+  // CLASS 05: GESTATIONAL DIABETES
   // ═══════════════════════════════════════════════════════════════════════════════
   {
     id: 5,
     num: "05",
     level: "junior_residency",
-    title: "Respiratory Medicine",
-    subtitle: "COPD, Asthma & Respiratory Failure",
-    tagline: "Airway is the first A. Don't let it fail.",
-    estimatedMinutes: { doctor: 55, nurse: 50 },
+    title: "Gestational Diabetes",
+    subtitle: "Screening, Management & Birth Planning",
+    tagline: "Sugar control today protects mother and baby tomorrow.",
+    estimatedMinutes: { midwife: 55 },
     passMark: 75,
     xpReward: 250,
     media: {
@@ -20,212 +20,112 @@ export const JUNIOR_RESIDENCY = [
         "5A": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800",
         "5B": "https://images.unsplash.com/photo-1551190822-a9333d879b1f?w=800"
       },
-      ambience: "/audio/respiratory_ward.mp3",
-      pdfs: { "bts_guidelines": "/pdfs/class05_bts_guidelines.pdf" }
+      ambience: "/audio/diabetes_clinic.mp3",
+      pdfs: { "nice_diabetes": "/pdfs/class05_gdm.pdf" }
     },
 
-    doctor: {
+    midwife: {
       sims: [
         {
-          id: "5D-A",
-          title: "The CO2 Retainer",
+          id: "5M-A",
+          title: "OGTT Interpretation",
           mechanics: "mcq",
-          objective: "Interpret ABG and titrate oxygen therapy safely",
-          scenario: "Mr. Henderson, 72, COPD. SpO2 84% on air. Drowsy, flapping tremor noted.",
+          objective: "Correctly interpret oral glucose tolerance test results",
+          scenario: "Priya, 28 weeks. OGTT results: Fasting 5.4 mmol/L, 2-hour 8.9 mmol/L. BMI 34 at booking.",
           questions: [
             {
-              id: "5D-A-q1",
-              stem: "ABG: pH 7.24, pCO2 9.2 kPa, pO2 7.1 kPa. What is the diagnosis?",
+              id: "5M-A-q1",
+              stem: "Using WHO/IADPSG criteria, what is the diagnosis?",
               timeLimit: 60,
               options: [
-                { id: "a", text: "Type 2 Respiratory Failure (Acidotic)", correct: true, explanation: "High CO2 with low pH indicates ventilatory failure causing respiratory acidosis." },
-                { id: "b", text: "Type 1 Respiratory Failure", correct: false, explanation: "Type 1 = hypoxaemic only. Type 2 = hypercapnic ± hypoxaemic." },
-                { id: "c", text: "Metabolic acidosis", correct: false, explanation: "Metabolic acidosis is not related to respiratory function." },
-                { id: "d", text: "Compensated respiratory alkalosis", correct: false, explanation: "Compensated respiratory alkalosis is not the diagnosis for this case." }
+                { id: "a", text: "Gestational diabetes (fasting ≥5.1 OR 2-hour ≥8.5)", correct: true, explanation: "IADPSG criteria: fasting ≥5.1, 1-hour ≥10.0, or 2-hour ≥8.5 mmol/L. Either threshold being met diagnoses GDM." },
+                { id: "b", text: "Normal glucose tolerance", correct: false, explanation: "Fasting 5.4 exceeds 5.1 threshold. This is diagnostic of GDM regardless of 2-hour value." },
+                { id: "c", text: "Impaired glucose tolerance only", correct: false, explanation: "Impaired glucose tolerance is a pre-diabetes category outside pregnancy. In pregnancy, this meets GDM criteria." },
+                { id: "d", text: "Type 2 diabetes", correct: false, explanation: "Type 2 diabetes in pregnancy requires fasting ≥7.0 or 2-hour ≥11.1, or HbA1c ≥48 mmol/mol." }
               ]
             },
             {
-              id: "5D-A-q2",
-              stem: "What is the immediate management for this acidotic Type 2 failure?",
+              id: "5M-A-q2",
+              stem: "What is the first-line management for this woman?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Non-Invasive Ventilation (NIV/BiPAP)", correct: true, explanation: "NIV provides pressure support to help blow off excess CO2." },
-                { id: "b", text: "15L Non-rebreathe mask", correct: false, explanation: "Too much oxygen can worsen CO2 retention in chronic hypoxic drive patients." },
-                { id: "c", text: "Immediate intubation", correct: false, explanation: "Intubation is a more invasive option and not the immediate management." },
-                { id: "d", text: "High-flow nasal cannula at 60L/min", correct: false, explanation: "High-flow nasal cannula is not the appropriate management for this condition." }
+                { id: "a", text: "Dietary modification + glucose monitoring for 1-2 weeks, then assess", correct: true, explanation: "All women with GDM receive dietary advice and self-monitoring. If targets not met in 1-2 weeks, add metformin or insulin." },
+                { id: "b", text: "Start insulin immediately", correct: false, explanation: "Insulin is second-line if dietary management fails or if fasting glucose >7.0 at diagnosis." },
+                { id: "c", text: "Oral glibenclamide", correct: false, explanation: "Glibenclamide is not recommended in pregnancy - crosses placenta and causes neonatal hypoglycaemia." },
+                { id: "d", text: "No treatment needed - just monitor", correct: false, explanation: "GDM requires active management to reduce macrosomia, shoulder dystocia, and future T2DM risk." }
               ]
             },
             {
-              id: "5D-A-q3",
-              stem: "What oxygen target should you aim for in this COPD patient?",
+              id: "5M-A-q3",
+              stem: "What are the target glucose levels for self-monitoring?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "88-92% SpO2", correct: true, explanation: "COPD patients with CO2 retention need controlled oxygen to avoid suppressing hypoxic drive." },
-                { id: "b", text: "94-98% SpO2", correct: false, explanation: "Higher oxygen targets can worsen CO2 retention in COPD patients." },
-                { id: "c", text: "100% SpO2", correct: false, explanation: "100% oxygen can be dangerous for COPD patients with CO2 retention." },
-                { id: "d", text: "85-88% SpO2", correct: false, explanation: "Lower oxygen targets may not be sufficient for this patient." }
+                { id: "a", text: "Fasting <5.3, 1-hour post-meal <7.8, 2-hour post-meal <6.4", correct: true, explanation: "NICE targets: fasting <5.3, 1-hour <7.8, 2-hour <6.4 mmol/L. Tighter than non-pregnancy targets." },
+                { id: "b", text: "Fasting <7.0, post-meal <11.1", correct: false, explanation: "These are diabetic ranges, not pregnancy targets. Pregnancy requires tighter control." },
+                { id: "c", text: "Fasting <6.0, post-meal <8.5", correct: false, explanation: "These are too lenient for pregnancy. Strict targets reduce fetal complications." },
+                { id: "d", text: "Any value under 10.0", correct: false, explanation: "This is dangerously high and would result in significant fetal hyperinsulinaemia." }
               ]
             }
           ]
         },
         {
-          id: "5D-B",
-          title: "Life-Threatening Asthma",
-          mechanics: "audio_mcq",
-          objective: "Identify silent chest and escalate appropriately",
-          scenario: "24-year-old. Peak flow 25% predicted. Chest is silent on auscultation.",
-          audio: "/audio/class05_asthma_silent.mp3",
-          questions: [
-            {
-              id: "5D-B-q1",
-              stem: "Listen to the audio. What does 'Silent Chest' signify?",
-              timeLimit: 60,
-              options: [
-                { id: "a", text: "Impending respiratory arrest", correct: true, explanation: "So little air movement that wheeze cannot be heard. This is a pre-terminal sign." },
-                { id: "b", text: "Recovery phase", correct: false, explanation: "Silent chest is not a sign of recovery, but rather severe obstruction." },
-                { id: "c", text: "Mild exacerbation", correct: false, explanation: "Mild exacerbation would still allow for some air movement and wheeze." },
-                { id: "d", text: "Pneumothorax", correct: false, explanation: "Pneumothorax would present with decreased breath sounds but not necessarily a silent chest." }
-              ]
-            },
-            {
-              id: "5D-B-q2",
-              stem: "What is your immediate priority?",
-              timeLimit: 45,
-              options: [
-                { id: "a", text: "Immediate ICU referral for possible intubation", correct: true, explanation: "Silent chest = life-threatening asthma requiring critical care input." },
-                { id: "b", text: "Discharge with oral steroids", correct: false, explanation: "Discharge is not appropriate for a patient with a silent chest." },
-                { id: "c", text: "Continue nebulizers and reassess in 1 hour", correct: false, explanation: "Continuing nebulizers is not appropriate for a patient with a silent chest." },
-                { id: "d", text: "Chest X-ray only", correct: false, explanation: "Chest X-ray is not the appropriate management for this condition." }
-              ]
-            }
-          ]
-        },
-        {
-          id: "5D-C",
-          title: "Pleural Effusion Diagnosis",
-          mechanics: "hotspot",
-          objective: "Interpret ultrasound findings and determine need for drainage",
-          scenario: "Bedside ultrasound shows pleural fluid. Click on the appropriate needle insertion site.",
-          image: "/images/pleural_ultrasound.jpeg",
-          questions: [
-            {
-              id: "5D-C-q1",
-              stem: "Click on the Triangle of Safety for chest drain insertion.",
-              timeLimit: 60,
-              options: [
-                { id: "a", text: "Mid-axillary line, 5th intercostal space", correct: true, explanation: "Triangle of Safety: lateral to nipple, anterior to mid-axillary line, above diaphragm, below axilla." },
-                { id: "b", text: "2nd intercostal space mid-clavicular", correct: false, explanation: "2nd intercostal space mid-clavicular is the site for needle decompression, not chest drain insertion." },
-                { id: "c", text: "7th intercostal space posterior", correct: false, explanation: "7th intercostal space posterior is not the standard site for chest drain insertion." },
-                { id: "d", text: "Sub-xiphoid region", correct: false, explanation: "Sub-xiphoid region is not a standard site for chest drain insertion." }
-              ]
-            },
-            {
-              id: "5D-C-q2",
-              stem: "What is the maximum initial drainage volume to prevent re-expansion pulmonary edema?",
-              timeLimit: 45,
-              options: [
-                { id: "a", text: "1.5 litres", correct: true, explanation: "Drain maximum 1.5L initially to prevent re-expansion pulmonary edema." },
-                { id: "b", text: "500 ml", correct: false, explanation: "500 ml is too low for the initial drainage volume." },
-                { id: "c", text: "3 litres", correct: false, explanation: "3 litres is too high for the initial drainage volume." },
-                { id: "d", text: "No limit - drain until cessation", correct: false, explanation: "There is a limit to prevent re-expansion pulmonary edema." }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-
-    nurse: {
-      sims: [
-        {
-          id: "5N-A",
-          title: "Controlled Oxygen Delivery",
+          id: "5M-B",
+          title: "Birth Planning in GDM",
           mechanics: "mcq",
-          objective: "Select correct Venturi mask and flow rate",
-          scenario: "Doctor orders oxygen target 88-92% for COPD patient.",
+          objective: "Counsel on timing and mode of delivery",
+          scenario: "Sarah, GDM on diet control only. Good glucose control. Currently 36 weeks. Estimated fetal weight 3.8kg.",
           questions: [
             {
-              id: "5N-A-q1",
-              stem: "Which Venturi valve provides exactly 24% oxygen?",
+              id: "5M-B-q1",
+              stem: "When should delivery be offered if on diet-controlled GDM with good control?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Blue", correct: true, explanation: "Blue=24%, White=28%, Orange=31%, Yellow=35%, Red=40%." },
-                { id: "b", text: "Red", correct: false, explanation: "Red valve provides 40% oxygen, not 24%." },
-                { id: "c", text: "Yellow", correct: false, explanation: "Yellow valve provides 35% oxygen." },
-                { id: "d", text: "Green", correct: false, explanation: "Green valve provides 28% oxygen." }
+                { id: "a", text: "Between 40+0 and 40+6 weeks", correct: true, explanation: "Diet-controlled GDM with good control: offer delivery by 40+6. If on medication or poor control: 38+0 to 38+6." },
+                { id: "b", text: "At 36 weeks routinely", correct: false, explanation: "36 weeks is too early for uncomplicated diet-controlled GDM. Only if on insulin with poor control or other complications." },
+                { id: "c", text: "At 42 weeks like low-risk women", correct: false, explanation: "GDM increases stillbirth risk - do not wait until 42 weeks. Delivery by 40+6 recommended." },
+                { id: "d", text: "Induction at 37 weeks for all GDM", correct: false, explanation: "37 weeks is for GDM on medication or with complications, not diet-controlled with good control." }
               ]
             },
             {
-              id: "5N-A-q2",
-              stem: "What flow rate is required for the 24% Venturi mask?",
+              id: "5M-B-q2",
+              stem: "What is the threshold for offering caesarean due to suspected macrosomia?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "2-4 L/min", correct: true, explanation: "Each Venturi valve has a specified flow rate to achieve the stated FiO2." },
-                { id: "b", text: "15 L/min", correct: false, explanation: "15 L/min is too high for the 24% Venturi mask." },
-                { id: "c", text: "6 L/min", correct: false, explanation: "6 L/min is too high for the 24% Venturi mask." },
-                { id: "d", text: "1 L/min", correct: false, explanation: "1 L/min is too low for the 24% Venturi mask." }
+                { id: "a", text: "Estimated fetal weight >4.5kg (or >4.0kg if previous shoulder dystocia)", correct: true, explanation: "EFW >4.5kg or >4.0kg with previous shoulder dystocia are indications to discuss caesarean due to shoulder dystocia risk." },
+                { id: "b", text: ">3.5kg automatically", correct: false, explanation: "3.5kg is within normal range. Macrosomia is >4.0kg, caesarean discussion at >4.5kg." },
+                { id: "c", text: "Only if >5.0kg", correct: false, explanation: "5.0kg is extremely large but the threshold for discussion is lower at 4.5kg." },
+                { id: "d", text: "Never - always attempt vaginal birth", correct: false, explanation: "While vaginal birth is preferred, caesarean should be discussed when shoulder dystocia risk is significant." }
               ]
             }
           ]
         },
         {
-          id: "5N-B",
-          title: "Inhaler Technique Assessment",
+          id: "5M-C",
+          title: "Neonatal Hypoglycaemia Prevention",
           mechanics: "mcq",
-          objective: "Verify MDI technique and spacer use",
-          scenario: "Patient ready for discharge. You must verify their inhaler technique.",
+          objective: "Manage the baby immediately after birth to prevent hypoglycaemia",
+          scenario: "Baby born to mother with GDM on metformin. Birth weight 4.2kg. Apgars 9 and 9.",
           questions: [
             {
-              id: "5N-B-q1",
-              stem: "Why is a spacer recommended for steroid inhalers?",
+              id: "5M-C-q1",
+              stem: "What is the first action within 30 minutes of birth?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Reduce oral thrush and improve lung deposition", correct: true, explanation: "Spacers slow particles, ensuring they hit lungs rather than back of throat." },
-                { id: "b", text: "Make it smell better", correct: false },
-                { id: "c", text: "Required for drug activation", correct: false },
-                { id: "d", text: "Prevent device clogging", correct: false }
+                { id: "a", text: "Skin-to-skin contact and initiate breastfeeding immediately", correct: true, explanation: "Early feeding stimulates baby's own insulin reduction and maintains glucose. Skin-to-skin promotes feeding readiness." },
+                { id: "b", text: "Check blood glucose immediately before any feed", correct: false, explanation: "Feed first, then check glucose at 1-2 hours. Early feeding is more important than immediate testing." },
+                { id: "c", text: "Give formula top-up routinely", correct: false, explanation: "Formula is not routine - support breastfeeding first. Only give formula if glucose <2.0 or baby symptomatic." },
+                { id: "d", text: "Admit to neonatal unit for observation", correct: false, explanation: "NNU admission only if symptomatic, glucose <2.0, or unable to feed. Most GDM babies room-in with mother." }
               ]
             },
             {
-              id: "5N-B-q2",
-              stem: "How long should the patient hold their breath after inhaling?",
+              id: "5M-C-q2",
+              stem: "At what glucose level is intervention required in first 48 hours?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "10 seconds", correct: true, explanation: "Holding breath allows particles to settle in peripheral airways." },
-                { id: "b", text: "2 seconds", correct: false, explanation: "2 seconds is too short for effective particle deposition." },
-                { id: "c", text: "30 seconds", correct: false, explanation: "30 seconds is too long and may cause discomfort." },
-                { id: "d", text: "No need to hold breath", correct: false, explanation: "Holding breath is important for effective medication delivery." }
-              ]
-            }
-          ]
-        },
-        {
-          id: "5N-C",
-          title: "Nursing Management of NIV",
-          mechanics: "mcq",
-          objective: "Troubleshoot NIV and ensure patient tolerance",
-          scenario: "Patient on BiPAP becoming agitated, removing mask. SpO2 dropping.",
-          questions: [
-            {
-              id: "5N-C-q1",
-              stem: "What is your first action?",
-              timeLimit: 45,
-              options: [
-                { id: "a", text: "Reassure patient and check mask fit/pressure settings", correct: true, explanation: "Claustrophobia and poor fit are common issues - address before sedation." },
-                { id: "b", text: "Sedate immediately with midazolam", correct: false, explanation: "Sedation should be a last resort and only after addressing comfort and fit." },
-                { id: "c", text: "Switch to high-flow nasal cannula", correct: false, explanation: "High-flow nasal cannula is not a suitable replacement for NIV in this scenario." },
-                { id: "d", text: "Call for immediate intubation", correct: false, explanation: "Intubation is a more invasive intervention and should be considered only if other measures fail." } 
-              ]
-            },
-            {
-              id: "5N-C-q2",
-              stem: "What pressure parameter reduces CO2?",
-              timeLimit: 45,
-              options: [
-                { id: "a", text: "IPAP (Inspiratory Positive Airway Pressure)", correct: true, explanation: "IPAP assists inspiration and augments tidal volume to blow off CO2." },
-                { id: "b", text: "EPAP only", correct: false, explanation: "EPAP provides positive pressure during expiration and does not directly reduce CO2." },
-                { id: "c", text: "Both equally", correct: false, explanation: "IPAP is more effective than EPAP for reducing CO2." },
-                { id: "d", text: "Neither - oxygen flow rate only", correct: false, explanation: "Pressure parameters are crucial for CO2 management in NIV." }
+                { id: "a", text: "<2.0 mmol/L on two occasions or symptomatic baby", correct: true, explanation: "<2.0 mmol/L requires intervention. <2.6 is threshold for increased monitoring. Symptoms: jitteriness, lethargy, poor feeding, seizures." },
+                { id: "b", text: "<3.5 mmol/L", correct: false, explanation: "3.5 is normal for newborns. Threshold for concern is much lower." },
+                { id: "c", text: "<5.0 mmol/L", correct: false, explanation: "5.0 is a normal neonatal glucose. No intervention needed." },
+                { id: "d", text: "Any reading below adult normal (4.0)", correct: false, explanation: "Neonatal glucose is normally lower than adult. Different thresholds apply." }
               ]
             }
           ]
@@ -235,16 +135,16 @@ export const JUNIOR_RESIDENCY = [
   },
 
   // ═══════════════════════════════════════════════════════════════════════════════
-  // CLASS 06: CARDIOLOGY
+  // CLASS 06: PRE-ECLAMPSIA & HYPERTENSIVE DISORDERS
   // ═══════════════════════════════════════════════════════════════════════════════
   {
     id: 6,
     num: "06",
     level: "junior_residency",
-    title: "Cardiology",
-    subtitle: "Heart Failure, Arrhythmias & ACS",
-    tagline: "The rhythm of life depends on your decisions.",
-    estimatedMinutes: { doctor: 60, nurse: 55 },
+    title: "Hypertensive Disorders",
+    subtitle: "Pre-Eclampsia, Eclampsia & HELLP Syndrome",
+    tagline: "The silent killer. Catch it before it catches her.",
+    estimatedMinutes: { midwife: 60 },
     passMark: 75,
     xpReward: 275,
     media: {
@@ -252,164 +152,108 @@ export const JUNIOR_RESIDENCY = [
         "6A": "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800",
         "6B": "https://images.unsplash.com/photo-1530026405186-ed1f139313f8?w=800"
       },
-      ambience: "/audio/monitor_beeping.mp3",
-      pdfs: { "nice_cardiac": "/pdfs/class06_nice_cardiac.pdf" }
+      ambience: "/audio/obstetric_emergency.mp3",
+      pdfs: { "pre_eclampsia_guidelines": "/pdfs/class06_pet.pdf" }
     },
 
-    doctor: {
+    midwife: {
       sims: [
         {
-          id: "6D-A",
-          title: "Acute Pulmonary Oedema",
+          id: "6M-A",
+          title: "Severe Pre-Eclampsia Recognition",
           mechanics: "mcq",
-          objective: "Execute the LMNOP protocol for acute heart failure",
-          scenario: "78-year-old 'drowning' in fluid. Fine crackles to mid-zones. BP 170/100.",
+          objective: "Identify severe features requiring immediate action",
+          scenario: "Nadia, 34 weeks. BP 168/110. Proteinuria +++. Headache, visual disturbances, epigastric pain. Reflexes brisk.",
           questions: [
             {
-              id: "6D-A-q1",
-              stem: "Which IV diuretic is first-line for acute decompensated heart failure?",
+              id: "6M-A-q1",
+              stem: "Which symptom indicates impending eclampsia?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Furosemide", correct: true, explanation: "Loop diuretic - first line for fluid overload in ADHF." },
-                { id: "b", text: "Spironolactone", correct: false },
-                { id: "c", text: "Bendroflumethiazide", correct: false },
-                { id: "d", text: "Acetazolamide", correct: false }
+                { id: "a", text: "Headache with visual disturbances (scotomata, flashing lights)", correct: true, explanation: "Cerebral irritation symptoms (headache, visual changes, hyperreflexia) are warning signs of imminent eclampsia." },
+                { id: "b", text: "Mild ankle oedema", correct: false, explanation: "Ankle oedema is common in normal pregnancy and not a severe feature." },
+                { id: "c", text: "Heartburn", correct: false, explanation: "Heartburn is common in pregnancy. Epigastric/RUQ pain specifically is a severe feature." },
+                { id: "d", text: "Frequent urination", correct: false, explanation: "Frequency is normal in pregnancy and not related to pre-eclampsia severity." }
               ]
             },
             {
-              id: "6D-A-q2",
-              stem: "What is the correct positioning for this patient?",
+              id: "6M-A-q2",
+              stem: "What is the immediate first-line antihypertensive?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Upright with legs dangling", correct: true, explanation: "Reduces venous return and preload, easing cardiac work." },
-                { id: "b", text: "Supine flat", correct: false, explanation: "Supine position increases venous return and can worsen pulmonary oedema." },
-                { id: "c", text: "Left lateral", correct: false, explanation: "Left lateral position is not ideal for acute pulmonary oedema." },
-                { id: "d", text: "Trendelenburg", correct: false, explanation: "Trendelenburg position is not recommended for acute pulmonary oedema." }
+                { id: "a", text: "Oral labetalol 200mg or oral nifedipine 10mg", correct: true, explanation: "Labetalol or nifedipine are first-line oral agents. Aim to reduce BP to <150/100 over several hours (not too rapidly)." },
+                { id: "b", text: "IV hydralazine bolus", correct: false, explanation: "Hydralazine is second-line or for IV use if oral not possible. Risk of precipitous drop and fetal compromise." },
+                { id: "c", text: "Sublingual nifedipine short-acting capsule", correct: false, explanation: "Short-acting nifedipine is contraindicated in pregnancy due to risk of precipitous BP drop and fetal distress." },
+                { id: "d", text: "ACE inhibitor (enalapril)", correct: false, explanation: "ACE inhibitors are absolutely contraindicated in pregnancy - teratogenic and fetotoxic." }
               ]
             },
             {
-              id: "6D-A-q3",
-              stem: "Which vasodilator reduces afterload in ADHF?",
+              id: "6M-A-q3",
+              stem: "What magnesium sulfate regimen is used for eclampsia prevention?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "GTN infusion", correct: true, explanation: "Nitrates reduce preload and afterload, easing cardiac work." },
-                { id: "b", text: "Adrenaline", correct: false, explanation: "Adrenaline increases heart rate and contractility, worsening heart failure." },
-                { id: "c", text: "Phenylephrine", correct: false, explanation: "Phenylephrine is a vasopressor that increases blood pressure but does not reduce afterload." },
-                { id: "d", text: "Noradrenaline", correct: false, explanation: "Noradrenaline is a potent vasopressor used in septic shock, not first-line for ADHF." }
+                { id: "a", text: "4g IV over 5-10 minutes, then 1g/hour infusion", correct: true, explanation: "Magnesium sulfate is the anticonvulsant of choice. Loading dose 4g IV, maintenance 1g/hour for 24 hours post-delivery or post-seizure." },
+                { id: "b", text: "2g IM in each buttock only", correct: false, explanation: "IM regimen (4g loading then 5g IM 4-hourly) is an alternative where IV unavailable, not preferred." },
+                { id: "c", text: "10g IV bolus immediately", correct: false, explanation: "10g is excessive and risks magnesium toxicity (respiratory depression, cardiac arrest)." },
+                { id: "d", text: "Diazepam 10mg IV", correct: false, explanation: "Diazepam is inferior to magnesium for eclampsia and causes neonatal sedation." }
               ]
             }
           ]
         },
         {
-          id: "6D-B",
-          title: "Atrial Fibrillation with RVR",
+          id: "6M-B",
+          title: "HELLP Syndrome",
           mechanics: "mcq",
-          objective: "Decide between rate and rhythm control",
-          scenario: "Patient with palpitations. ECG: Irregularly irregular, no P-waves, rate 150.",
+          objective: "Recognize HELLP and manage multidisciplinary care",
+          scenario: "Postpartum day 2. BP was 150/95 in labour. Now complaining of severe malaise, nausea. Platelets 85, Hb 85, LDH 1200, bilirubin 45.",
           questions: [
             {
-              id: "6D-B-q1",
-              stem: "What is the primary risk of untreated AF?",
+              id: "6M-B-q1",
+              stem: "What does HELLP stand for?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Ischaemic Stroke", correct: true, explanation: "Stasis of blood in atria leads to clot formation. CHA2DS2-VASc guides anticoagulation." },
-                { id: "b", text: "Ventricular fibrillation", correct: false, explanation: "Ventricular fibrillation is a different arrhythmia and not a direct risk of untreated AF." },
-                { id: "c", text: "Complete heart block", correct: false, explanation: "Complete heart block is not a typical complication of untreated AF." },
-                { id: "d", text: "Hypertrophic cardiomyopathy", correct: false, explanation: "Hypertrophic cardiomyopathy is a structural heart disease, not directly related to AF." }
+                { id: "a", text: "Haemolysis, Elevated Liver enzymes, Low Platelets", correct: true, explanation: "HELLP is a severe variant of pre-eclampsia. Can occur antenatally or postpartum (up to 7 days)." },
+                { id: "b", text: "High blood pressure, Elevated LFTs, Low Potassium", correct: false, explanation: "This is incorrect. HELLP specifically involves haemolysis, liver enzymes, and platelets." },
+                { id: "c", text: "Hypertension, Epigastric pain, Liver failure, Proteinuria", correct: false, explanation: "While these may be present, HELLP is the specific acronym for haemolysis, elevated liver enzymes, low platelets." },
+                { id: "d", text: "Headache, Elevated LDH, Low Platelets, Proteinuria", correct: false, explanation: "Headache is a symptom, not part of the HELLP acronym definition." }
               ]
             },
             {
-              id: "6D-B-q2",
-              stem: "For acute AF <48 hours with haemodynamic compromise, what is the treatment?",
+              id: "6M-B-q2",
+              stem: "What is the definitive treatment?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Emergency electrical cardioversion", correct: true, explanation: "Haemodynamic instability = immediate cardioversion regardless of anticoagulation status." },
-                { id: "b", text: "Amiodarone infusion and wait", correct: false, explanation: "Amiodarone is used for rate control but not as a first-line treatment for acute AF." },
-                { id: "c", text: "Rate control with beta-blockers only", correct: false, explanation: "Rate control is important but not sufficient alone in haemodynamically unstable patients." },
-                { id: "d", text: "Anticoagulate for 3 weeks then cardiovert", correct: false, explanation: "Anticoagulation is necessary before cardioversion but not the immediate treatment for haemodynamic compromise." }
+                { id: "a", text: "Delivery of placenta (if undelivered) + supportive care + monitoring for DIC", correct: true, explanation: "Delivery is the only cure for pre-eclampsia/HELLP. Postpartum HELLP: supportive, monitor for DIC, liver haematoma, renal failure." },
+                { id: "b", text: "Platelet transfusion to >100", correct: false, explanation: "Platelets are given only if <20 or for procedure/haemorrhage. Transfusion alone does not treat HELLP." },
+                { id: "c", text: "Wait for spontaneous resolution", correct: false, explanation: "HELLP can progress to liver rupture, DIC, death. Active management required." },
+                { id: "d", text: "Emergency liver transplant", correct: false, explanation: "Liver transplant is only for acute liver failure unresponsive to delivery and supportive care." }
               ]
             }
           ]
         },
         {
-          id: "6D-C",
-          title: "NSTEMI Management",
+          id: "6M-C",
+          title: "Eclampsia Seizure Management",
           mechanics: "drag_drop",
-          objective: "Apply the correct antithrombotic regimen",
-          scenario: "Patient with chest pain, troponin rising, ST depression in V4-V6.",
+          objective: "Execute the eclampsia emergency protocol",
+          scenario: "Woman at 36 weeks has a tonic-clonic seizure in the antenatal clinic. Unresponsive, tongue bleeding.",
           questions: [
             {
-              id: "6D-C-q1",
-              stem: "Match the medication to its correct indication in NSTEMI.",
+              id: "6M-C-q1",
+              stem: "Arrange the immediate management steps in correct order.",
               timeLimit: 90,
               dragItems: [
-                { id: "a", label: "Aspirin 300mg", indication: "Antiplatelet - all ACS" },
-                { id: "b", label: "Ticagrelor 180mg", indication: "Dual antiplatelet with aspirin" },
-                { id: "c", label: "Fondaparinux", indication: "Anticoagulant of choice in ACS" },
-                { id: "d", label: "Morphine", indication: "Pain relief if refractory to GTN" }
+                { id: "a", label: "Call for help + position on left side", action: "Airway protection, prevent aspiration" },
+                { id: "b", label: "Give magnesium sulfate 4g IV", action: "Anticonvulsant and prevent recurrence" },
+                { id: "c", label: "Monitor airway + give oxygen", action: "Maintain oxygenation" },
+                { id: "d", label: "Control BP with labetalol", action: "Prevent stroke" },
+                { id: "e", label: "Plan delivery once stable", action: "Definitive treatment" }
               ],
               options: [
-                { id: "a", text: "All correctly matched", correct: true, explanation: "Dual antiplatelet + anticoagulation is standard NSTEMI treatment." },
-                { id: "b", text: "Some errors", correct: false, explanation: "Review the indications for each medication in NSTEMI management." },
-                { id: "c", text: "All incorrect", correct: false, explanation: "Review the indications for each medication in NSTEMI management." }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-
-    nurse: {
-      sims: [
-        {
-          id: "6N-A",
-          title: "Fluid Balance Masterclass",
-          mechanics: "text_input",
-          objective: "Calculate and maintain strict I/O charts",
-          scenario: "Patient in heart failure on IV Furosemide. Weight 70kg yesterday, 72kg today.",
-          questions: [
-            {
-              id: "6N-A-q1",
-              stem: "What does a 2kg weight gain in 24 hours represent?",
-              timeLimit: 45,
-              options: [
-                { id: "a", text: "Fluid retention of approximately 2 litres", correct: true, explanation: "1kg weight gain ≈ 1L fluid retention in acute settings." },
-                { id: "b", text: "Muscle gain from nutrition", correct: false, explanation: "Muscle gain does not occur acutely and would not explain a 2kg increase in 24 hours." },
-                { id: "c", text: "Normal variation", correct: false, explanation: "Normal variation would not result in a 2kg gain in 24 hours." },
-                { id: "d", text: "Equipment error", correct: false, explanation: "Equipment error is a possibility but less likely than fluid retention." }
-              ]
-            },
-            {
-              id: "6N-A-q2",
-              stem: "What is the minimum urine output target for this patient?",
-              timeLimit: 45,
-              textAnswer: "35",
-              tolerance: 5,
-              options: [
-                { id: "a", text: "0.5 ml/kg/hour = 35 ml/hour", correct: true, explanation: "Minimum acceptable urine output is 0.5 ml/kg/hr." },
-                { id: "b", text: "1 ml/kg/hour", correct: false, explanation: "1 ml/kg/hr is a more aggressive target and not the minimum standard." },
-                { id: "c", text: "100 ml/hour regardless of weight", correct: false, explanation: "The minimum target is based on weight." }
-              ]
-            }
-          ]
-        },
-        {
-          id: "6N-B",
-          title: "Cardiac Monitoring",
-          mechanics: "hotspot",
-          objective: "Identify arrhythmias on cardiac monitor",
-          scenario: "Telemetry alarm sounding. Identify the rhythm and respond appropriately.",
-          image: "/images/telemetry_afib.jpeg",
-          questions: [
-            {
-              id: "6N-B-q1",
-              stem: "Click on the irregular R-R intervals characteristic of AF.",
-              timeLimit: 60,
-              options: [
-                { id: "a", text: "Variable R-R intervals", correct: true, explanation: "AF shows irregularly irregular ventricular response." },
-                { id: "b", text: "Regular P waves before each QRS", correct: false, explanation: "Regular P waves indicate sinus rhythm." },
-                { id: "c", text: "Consistent PR interval", correct: false, explanation: "Consistent PR interval indicates a regular rhythm." },
-                { id: "d", text: "Fixed heart rate", correct: false, explanation: "Fixed heart rate is characteristic of atrial flutter or fibrillation with a fixed AV conduction ratio." }
+                { id: "a", text: "Position → Magnesium → Oxygen → BP control → Delivery planning", correct: true, explanation: "ABCDE approach: Airway (position), Breathing (oxygen), Circulation (BP), Disability (magnesium), Delivery planning." },
+                { id: "b", text: "Delivery immediately → Magnesium → Oxygen", correct: false, explanation: "Delivery is definitive but mother must be stabilized first. Seizing woman cannot be safely delivered." },
+                { id: "c", text: "BP control first → then magnesium", correct: false, explanation: "Magnesium treats seizure and prevents recurrence. BP control prevents stroke but seizure takes priority." },
+                { id: "d", text: "CT scan first → then treat", correct: false, explanation: "CT is not immediate priority. Treat seizure first, investigate if atypical or focal neurology." }
               ]
             }
           ]
@@ -419,133 +263,139 @@ export const JUNIOR_RESIDENCY = [
   },
 
   // ═══════════════════════════════════════════════════════════════════════════════
-  // CLASS 07: GASTROENTEROLOGY
+  // CLASS 07: FETAL GROWTH & WELLBEING
   // ═══════════════════════════════════════════════════════════════════════════════
   {
     id: 7,
     num: "07",
     level: "junior_residency",
-    title: "Gastroenterology",
-    subtitle: "GI Bleeding, Liver & Pancreas",
-    tagline: "The gut reveals what the patient hides.",
-    estimatedMinutes: { doctor: 55, nurse: 50 },
+    title: "Fetal Assessment",
+    subtitle: "Growth, Movements & Doppler Studies",
+    tagline: "The baby speaks through measurements. Learn to listen.",
+    estimatedMinutes: { midwife: 55 },
     passMark: 75,
     xpReward: 250,
     media: {
       images: {
         "7A": "https://images.unsplash.com/photo-1579154204601-01588f351e67?w=800"
       },
-      ambience: "/audio/gi_bleed_ambience.mp3",
-      pdfs: { "nice_gi": "/pdfs/class07_gi_bleed.pdf" }
+      ambience: "/audio/ultrasound_room.mp3",
+      pdfs: { "growth_protocol": "/pdfs/class07_growth.pdf" }
     },
 
-    doctor: {
+    midwife: {
       sims: [
         {
-          id: "7D-A",
-          title: "Upper GI Bleed",
+          id: "7M-A",
+          title: "Small for Gestational Age (SGA)",
           mechanics: "mcq",
-          objective: "Risk stratify using Rockall score and manage actively bleeding patient",
-          scenario: "45-year-old male, vomiting bright red blood. HR 120, BP 90/60. Known alcoholic liver disease.",
+          objective: "Differentiate SGA from constitutionally small and manage surveillance",
+          scenario: "32-week scan: EFW 1400g (10th centile). Previous scan at 28 weeks was 50th centile. Umbilical artery PI 1.0 (normal).",
           questions: [
             {
-              id: "7D-A-q1",
-              stem: "What is the priority drug in suspected variceal bleeding?",
-              timeLimit: 45,
+              id: "7M-A-q1",
+              stem: "What does the drop from 50th to 10th centile with normal Doppler indicate?",
+              timeLimit: 60,
               options: [
-                { id: "a", text: "Terlipressin", correct: true, explanation: "Terlipressin reduces portal pressure in variceal bleeding." },
-                { id: "b", text: "Omeprazole", correct: false, explanation: "Omeprazole is used for peptic ulcer bleeding, not variceal bleeding." },
-                { id: "c", text: "Tranexamic acid", correct: false, explanation: "Tranexamic acid is used for bleeding disorders, not specifically variceal bleeding." },
-                { id: "d", text: "Octreotide", correct: false, explanation: "Octreotide is used for variceal bleeding but is not the priority drug." }
+                { id: "a", text: "Late-onset fetal growth restriction with placental insufficiency", correct: true, explanation: "Crossing centiles downward with normal UA Doppler suggests late FGR. Requires enhanced surveillance (twice weekly CTG, weekly Doppler)." },
+                { id: "b", text: "Constitutionally small baby", correct: false, explanation: "Constitutionally small babies follow their centile, not cross down. Crossing centiles is pathological." },
+                { id: "c", text: "Normal variation - no concern", correct: false, explanation: "Crossing centiles is never normal. Requires investigation and surveillance." },
+                { id: "d", text: "Wrong dates", correct: false, explanation: "Wrong dates would show consistent smallness from first trimester, not a drop between 28 and 32 weeks." }
               ]
             },
             {
-              id: "7D-A-q2",
-              stem: "What is the target haemoglobin threshold for transfusion in UGIB?",
+              id: "7M-A-q2",
+              stem: "What additional Doppler measurement is most predictive of late FGR?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "70 g/L (or 80 g/L if cardiovascular disease)", correct: true, explanation: "Restrictive transfusion strategy (Hb 70-80) improves outcomes vs liberal strategy." },
-                { id: "b", text: "100 g/L", correct: false, explanation: "100 g/L is a higher threshold and not the minimum standard." },
-                { id: "c", text: "90 g/L for all patients", correct: false, explanation: "The target is based on the patient's clinical status and not a fixed value." },
-                { id: "d", text: "Transfuse to normal regardless", correct: false, explanation: "Transfusing to normal levels regardless of the patient's condition is not the recommended approach." }
+                { id: "a", text: "Uterine artery Doppler (notching/raised PI)", correct: true, explanation: "Uterine artery notching or raised PI indicates impaired placentation - predictive of late FGR and pre-eclampsia." },
+                { id: "b", text: "Middle cerebral artery Doppler only", correct: false, explanation: "MCA Doppler shows brain-sparing effect in established severe FGR, not predictive of late-onset FGR." },
+                { id: "c", text: "Ductus venosus Doppler", correct: false, explanation: "DV Doppler is for severe early FGR, not late-onset cases." },
+                { id: "d", text: "No Doppler needed if UA normal", correct: false, explanation: "Uterine artery Doppler provides additional information even with normal UA Doppler." }
               ]
             },
             {
-              id: "7D-A-q3",
-              stem: "When should antibiotics be given in cirrhotic patients with GI bleed?",
+              id: "7M-A-q3",
+              stem: "At what gestation should delivery be offered if late FGR and UA Doppler normal?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Within 1 hour to all cirrhotics with GI bleed", correct: true, explanation: "Antibiotics reduce infection and mortality in cirrhotic patients with GI bleed." },
-                { id: "b", text: "Only if fever develops", correct: false, explanation: "Antibiotics should be given prophylactically, not only if fever develops." },
-                { id: "c", text: "After endoscopy only", correct: false, explanation: "Antibiotics should be given before endoscopy in high-risk patients." },
-                { id: "d", text: "Not indicated", correct: false, explanation: "Antibiotics are indicated in cirrhotic patients with GI bleed." }
+                { id: "a", text: "37 weeks if isolated SGA, 32-36 weeks if abnormal Doppler develops", correct: true, explanation: "Delivery by 37 weeks for late FGR. Earlier if Doppler abnormalities, oligohydramnios, or reduced fetal movements develop." },
+                { id: "b", text: "40 weeks routinely", correct: false, explanation: "40 weeks is too late for FGR. Stillbirth risk increases significantly beyond 37 weeks in FGR." },
+                { id: "c", text: "Immediate delivery regardless of gestation", correct: false, explanation: "Immediate delivery only if severe abnormalities (absent/reversed end-diastolic flow, abnormal DV)." },
+                { id: "d", text: "Wait until spontaneous labour", correct: false, explanation: "Spontaneous labour in FGR risks stillbirth. Planned delivery by 37 weeks is standard." }
               ]
             }
           ]
         },
         {
-          id: "7D-B",
-          title: "Acute Pancreatitis",
+          id: "7M-B",
+          title: "Reduced Fetal Movements",
           mechanics: "mcq",
-          objective: "Calculate Glasgow score and manage complications",
-          scenario: "55-year-old with severe epigastric pain radiating to back. Amylase 1200. Obese, alcoholic.",
+          objective: "Assess and manage women presenting with reduced movements",
+          scenario: "Emma, 32 weeks. Reports baby moving less over past 3 days. Normally very active. No pain, no bleeding.",
           questions: [
             {
-              id: "7D-B-q1",
-              stem: "Which scoring system predicts severity in pancreatitis?",
-              timeLimit: 45,
+              id: "7M-B-q1",
+              stem: "What is the first action?",
+              timeLimit: 30,
               options: [
-                { id: "a", text: "Glasgow (Imrie) score", correct: true, explanation: "Glasgow score at 48 hours predicts severity and mortality." },
-                { id: "b", text: "CURB-65", correct: false, explanation: "CURB-65 is used for pneumonia severity, not pancreatitis." },
-                { id: "c", text: "Rockall score", correct: false, explanation: "Rockall score is used for upper GI bleeding, not pancreatitis." },
-                { id: "d", text: "CHADS2-VASc", correct: false, explanation: "CHADS2-VASc is used for stroke risk assessment, not pancreatitis." }
+                { id: "a", text: "CTG monitoring immediately for at least 20 minutes", correct: true, explanation: "Reduced movements = CTG immediately. Do not reassure without monitoring. 50% of stillbirths are preceded by RFM." },
+                { id: "b", text: "Reassure and send home", correct: false, explanation: "Never reassure without CTG. RFM is associated with stillbirth, FGR, cord accident, and placental abruption." },
+                { id: "c", text: "Ultrasound scan in 3 days", correct: false, explanation: "CTG is immediate. Ultrasound for growth/Doppler may follow but CTG is first-line." },
+                { id: "d", text: "Advise cold drink and lying on left side", correct: false, explanation: "While these may stimulate movements, they are not diagnostic. CTG is mandatory for any RFM presentation." }
               ]
             },
             {
-              id: "7D-B-q2",
-              stem: "What is the primary initial management?",
+              id: "7M-B-q2",
+              stem: "CTG shows reduced baseline variability but normal rate. What does this suggest?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Aggressive IV fluids (250-500ml/hr)", correct: true, explanation: "Early aggressive fluid resuscitation reduces SIRS and organ failure." },
-                { id: "b", text: "NPO and nil by mouth for 48 hours", correct: false, explanation: "NPO and nil by mouth for 48 hours is a secondary measure." },
-                { id: "c", text: "Immediate ERCP", correct: false, explanation: "Immediate ERCP is not the primary initial management." },
-                { id: "d", text: "Prophylactic antibiotics", correct: false, explanation: "Prophylactic antibiotics are not the primary initial management." }
+                { id: "a", text: "Fetal sleep cycle or possible early hypoxia - extend monitoring to 40 minutes", correct: true, explanation: "Reduced variability may be sleep cycle (20-40 min) or early hypoxia. Extend CTG, consider ultrasound if persistent." },
+                { id: "b", text: "Normal CTG - discharge", correct: false, explanation: "Reduced variability is not normal. Requires further assessment." },
+                { id: "c", text: "Immediate emergency caesarean", correct: false, explanation: "Reduced variability alone is not indication for immediate delivery. Assess for other features (decelerations, tachycardia)." },
+                { id: "d", text: "Fetal scalp pH", correct: false, explanation: "Fetal scalp pH is for labour, not antenatal reduced movements." }
+              ]
+            },
+            {
+              id: "7M-B-q3",
+              stem: "How many episodes of reduced movements should trigger induction?",
+              timeLimit: 45,
+              options: [
+                { id: "a", text: "Any single episode with abnormal CTG, or recurrent episodes (≥3) even with normal CTGs", correct: true, explanation: "Single episode + abnormal CTG = delivery. Recurrent RFM (≥3 episodes) increases stillbirth risk - offer delivery at term." },
+                { id: "b", text: "Only if movements completely stop for 24 hours", correct: false, explanation: "Waiting 24 hours is dangerous. Any RFM requires assessment." },
+                { id: "c", text: "Never - reduced movements are not an indication for induction", correct: false, explanation: "RFM is a recognized indication for induction when recurrent or with other concerns." },
+                { id: "d", text: "Only after 5 episodes", correct: false, explanation: "3 episodes is the threshold for offering delivery at term. 5 is too many." }
               ]
             }
           ]
-        }
-      ]
-    },
-
-    nurse: {
-      sims: [
-        {
-          id: "7N-A",
-          title: "Assessing Melaena",
+        },
+                  {
+          id: "7M-C",
+          title: "Oligohydramnios & Polyhydramnios",
           mechanics: "mcq",
-          objective: "Identify characteristics of upper GI bleeding",
-          scenario: "Patient reports 'black tarry stools' for 2 days. Feeling dizzy on standing.",
+          objective: "Identify causes and manage amniotic fluid abnormalities",
+          scenario: "36-week scan: AFI 5cm (oligohydramnios). Fetal growth 25th centile. Doppler normal. Fetal movements normal.",
           questions: [
             {
-              id: "7N-A-q1",
-              stem: "Melaena typically indicates bleeding from where?",
+              id: "7M-C-q1",
+              stem: "What is the most likely cause of isolated oligohydramnios at term?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Upper GI tract (above D-J flexure)", correct: true, explanation: "Black tarry stool results from digestion of blood by gastric acid." },
-                { id: "b", text: "Lower GI tract (rectum)", correct: false, explanation: "Lower GI bleeding typically results in bright red blood in stool." },
-                { id: "c", text: "Small bowel only", correct: false, explanation: "Small bowel bleeding is less common and usually presents differently." },
-                { id: "d", text: "Any GI source", correct: false, explanation: "Melaena specifically indicates upper GI bleeding." }
+                { id: "a", text: "Placental insufficiency with reduced fetal renal perfusion", correct: true, explanation: "At term, oligohydramnios often indicates placental insufficiency reducing fetal renal blood flow and urine output." },
+                { id: "b", text: "Fetal renal agenesis", correct: false, explanation: "Renal agenesis causes anhydramnios (no fluid) from mid-pregnancy, not isolated oligohydramnios at term." },
+                { id: "c", text: "Maternal dehydration", correct: false, explanation: "Maternal dehydration may mildly reduce AFI but does not cause pathological oligohydramnios requiring intervention." },
+                { id: "d", text: "Fetal swallowing abnormality", correct: false, explanation: "Swallowing abnormalities are rare and would present earlier with other features." }
               ]
             },
             {
-              id: "7N-A-q2",
-              stem: "What is the significance of 'coffee ground' vomiting?",
+              id: "7M-C-q2",
+              stem: "What is the management at 36 weeks with oligohydramnios and normal Doppler?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Partially digested blood from gastric source", correct: true, explanation: "Coffee ground appearance = blood exposed to gastric acid." },
-                { id: "b", text: "Bile-stained vomit", correct: false, explanation: "Bile-stained vomit is associated with biliary obstruction." },
-                { id: "c", text: "Faeculent vomiting", correct: false, explanation: "Faeculent vomiting is associated with intestinal obstruction." },
-                { id: "d", text: "Normal finding", correct: false, explanation: "Normal finding is not associated with coffee ground vomiting." }
+                { id: "a", text: "Delivery by 37 weeks (induction of labour)", correct: true, explanation: "Oligohydramnios at term increases risk of cord compression, meconium aspiration, and stillbirth. Delivery by 37 weeks recommended." },
+                { id: "b", text: "Continue expectant management to 40 weeks", correct: false, explanation: "Expectant management increases stillbirth risk. Delivery by 37 weeks is standard for term oligohydramnios." },
+                { id: "c", text: "Amnioinfusion in pregnancy", correct: false, explanation: "Amnioinfusion is for intrapartum cord compression, not antenatal management." },
+                { id: "d", text: "Emergency caesarean today", correct: false, explanation: "Emergency caesarean is not required if Doppler normal and CTG reassuring. Induction of labour is appropriate." }
               ]
             }
           ]
@@ -555,16 +405,16 @@ export const JUNIOR_RESIDENCY = [
   },
 
   // ═══════════════════════════════════════════════════════════════════════════════
-  // CLASS 08: NEUROLOGY
+  // CLASS 08: MULTIPLE PREGNANCY & BREECH PRESENTATION
   // ═══════════════════════════════════════════════════════════════════════════════
   {
     id: 8,
     num: "08",
     level: "junior_residency",
-    title: "Neurology",
-    subtitle: "Stroke, Seizures & Altered Consciousness",
-    tagline: "Time is brain. Every minute costs millions of neurons.",
-    estimatedMinutes: { doctor: 60, nurse: 55 },
+    title: "Malpresentation & Multiples",
+    subtitle: "Twins, Breech & External Cephalic Version",
+    tagline: "When the baby is not head down, decisions multiply.",
+    estimatedMinutes: { midwife: 60 },
     passMark: 80,
     xpReward: 300,
     media: {
@@ -572,197 +422,117 @@ export const JUNIOR_RESIDENCY = [
         "8A": "https://images.unsplash.com/photo-1559757175-5700dde675bc?w=800",
         "8B": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800"
       },
-      ambience: "/audio/neuro_ward.mp3",
-      pdfs: { "nice_stroke": "/pdfs/class08_stroke.pdf" }
+      ambience: "/audio/scanning_room.mp3",
+      pdfs: { "breech_guidelines": "/pdfs/class08_breech.pdf" }
     },
 
-    doctor: {
+    midwife: {
       sims: [
         {
-          id: "8D-A",
-          title: "Acute Ischaemic Stroke",
+          id: "8M-A",
+          title: "Breech Presentation at 36 Weeks",
           mechanics: "mcq",
-          objective: "Apply thrombolysis criteria and manage hyperacute stroke",
-          scenario: "FAST positive. Symptoms started 90 minutes ago. CT shows no bleed. BP 185/110.",
+          objective: "Counsel on options and perform ECV or refer",
+          scenario: "Anna, 36+0 weeks. First baby. Confirmed breech on scan. No contraindications. Wants to avoid caesarean if possible.",
           questions: [
             {
-              id: "8D-A-q1",
-              stem: "What is the standard time window for IV Thrombolysis (Alteplase)?",
-              timeLimit: 45,
+              id: "8M-A-q1",
+              stem: "What is the success rate of external cephalic version (ECV) at 36 weeks for nulliparous women?",
+              timeLimit: 60,
               options: [
-                { id: "a", text: "4.5 hours from symptom onset", correct: true, explanation: "EXTEND trial extended window to 4.5h for selected patients." },
-                { id: "b", text: "12 hours", correct: false, explanation: "12 hours is outside the standard time window for IV thrombolysis." },
-                { id: "c", text: "6 hours", correct: false, explanation: "6 hours is outside the standard time window for IV thrombolysis." },
-                { id: "d", text: "24 hours", correct: false, explanation: "24 hours is outside the standard time window for IV thrombolysis." }
+                { id: "a", text: "Approximately 40% for nulliparous, 60% for multiparous", correct: true, explanation: "ECV success: ~40% nulliparous, ~60% multiparous. Tocolysis (terbutaline) improves success. Attempt at 36-37 weeks optimal." },
+                { id: "b", text: "90% regardless of parity", correct: false, explanation: "90% is far too high. ECV is successful in less than half of nulliparous women." },
+                { id: "c", text: "10% - rarely successful", correct: false, explanation: "10% is too pessimistic. 40% is worthwhile given it avoids caesarean." },
+                { id: "d", text: "Only works if done before 32 weeks", correct: false, explanation: "ECV is performed at 36-37 weeks, not before 32 weeks. Earlier attempts have higher reversion rates." }
               ]
             },
             {
-              id: "8D-A-q2",
-              stem: "What BP threshold must be achieved before giving Alteplase?",
+              id: "8M-A-q2",
+              stem: "What is an absolute contraindication to ECV?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "<185 systolic and <110 diastolic", correct: true, explanation: "Must reduce BP below these thresholds to reduce bleeding risk." },
-                { id: "b", text: "<200 systolic", correct: false, explanation: "BP threshold is more specific." },
-                { id: "c", text: "<140/90", correct: false, explanation: "This is a general BP target, not specific for thrombolysis." },
-                { id: "d", text: "No threshold - give immediately", correct: false, explanation: "A BP threshold is required before administering thrombolysis." }
+                { id: "a", text: "Placenta praevia, recent antepartum haemorrhage, or abnormal CTG", correct: true, explanation: "Absolute contraindications: placenta praevia, APH, abnormal CTG, major uterine anomaly, ruptured membranes." },
+                { id: "b", text: "Nulliparity", correct: false, explanation: "Nulliparity reduces success but is not a contraindication." },
+                { id: "c", text: "BMI >30", correct: false, explanation: "High BMI reduces success but is not a contraindication." },
+                { id: "d", text: "Previous caesarean section", correct: false, explanation: "One previous caesarean is not a contraindication. Multiple scars may reduce success." }
               ]
             },
             {
-              id: "8D-A-q3",
-              stem: "Which is an absolute contraindication to thrombolysis?",
+              id: "8M-A-q3",
+              stem: "If ECV fails or is declined, what is the recommended mode of delivery?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Recent intracranial haemorrhage (<3 months)", correct: true, explanation: "Recent ICH is absolute contraindication due to recurrence risk." },
-                { id: "b", text: "Age >80", correct: false, explanation: "Age is not an absolute contraindication." },
-                { id: "c", text: "Diabetes mellitus", correct: false, explanation: "Diabetes is not an absolute contraindication." },
-                { id: "d", text: "Previous stroke >1 year ago", correct: false, explanation: "Previous stroke is not an absolute contraindication." }
+                { id: "a", text: "Planned caesarean section is recommended for uncomplicated breech at term", correct: true, explanation: "Term breech trial showed planned caesarean is safer for baby. Some units offer vaginal breech birth with strict criteria." },
+                { id: "b", text: "Vaginal breech birth is always safer", correct: false, explanation: "Vaginal breech has higher perinatal mortality and morbidity than planned caesarean for term breech." },
+                { id: "c", text: "Induction of labour regardless", correct: false, explanation: "Induction with breech presentation is not recommended - increases complications." },
+                { id: "d", text: "Wait for spontaneous labour then decide", correct: false, explanation: "Planned caesarean at 39 weeks is recommended. Emergency caesarean in labour has higher risks." }
               ]
             }
           ]
         },
         {
-          id: "8D-B",
-          title: "Status Epilepticus",
+          id: "8M-B",
+          title: "Twin Pregnancy Management",
           mechanics: "mcq",
-          objective: "Execute the status epilepticus algorithm",
-          scenario: "Patient seizing for 12 minutes. Two doses of lorazepam given. Still convulsing.",
+          objective: "Differentiate chorionicity and manage antenatal surveillance",
+          scenario: "12-week scan shows twins. Two separate placentas, lambda sign present, thick dividing membrane.",
           questions: [
             {
-              id: "8D-B-q1",
-              stem: "What is the definition of status epilepticus?",
+              id: "8M-B-q1",
+              stem: "What is the chorionicity and amnionicity?",
               timeLimit: 45,
               options: [
-                { id: "a", text: ">5 minutes of continuous seizures or >2 discrete seizures without recovery", correct: true, explanation: "Operational definition: seizure >5 min or recurrent without consciousness recovery." },
-                { id: "b", text: ">30 minutes", correct: false, explanation: "30 minutes is not the standard definition for status epilepticus." },
-                { id: "c", text: "Any seizure lasting >2 minutes", correct: false, explanation: "This is not the standard definition for status epilepticus." },
-                { id: "d", text: ">3 seizures in 1 hour", correct: false, explanation: "This is not the standard definition for status epilepticus." }
+                { id: "a", text: "Dichorionic diamniotic (DCDA) - lowest risk twin type", correct: true, explanation: "Lambda sign (twin peak) and thick membrane indicate DCDA. DCDA twins have lowest complications and can go to 37+6 weeks." },
+                { id: "b", text: "Monochorionic diamniotic (MCDA)", correct: false, explanation: "MCDA would show T-sign, thin membrane, and single placenta. These twins need fortnightly scans from 16 weeks for TTTS." },
+                { id: "c", text: "Monochorionic monoamniotic (MCMA)", correct: false, explanation: "MCMA has no dividing membrane and is highest risk. Delivery by 32-34 weeks." },
+                { id: "d", text: "Conjoined twins", correct: false, explanation: "Conjoined twins are rare and diagnosed by fused bodies, not membrane characteristics." }
               ]
             },
             {
-              id: "8D-B-q2",
-              stem: "What is the second-line agent after benzodiazepines fail?",
+              id: "8M-B-q2",
+              stem: "At what gestation should DCDA twins be delivered?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Phenytoin or Levetiracetam", correct: true, explanation: "Load with phenytoin 20mg/kg or levetiracetam 60mg/kg after benzodiazepines." },
-                { id: "b", text: "More lorazepam", correct: false, explanation: "Lorazepam is a first-line agent." },
-                { id: "c", text: "Immediate thiopental", correct: false, explanation: "Thiopental is used in refractory status epilepticus." },
-                { id: "d", text: "Paraldehyde", correct: false, explanation: "Paraldehyde is rarely used due to its toxicity." }
+                { id: "a", text: "By 37+0 to 37+6 weeks (induction or caesarean)", correct: true, explanation: "NICE recommends delivery by 37+6 for DCDA twins. MCDA by 36+0, MCMA by 32-34 weeks." },
+                { id: "b", text: "40 weeks like singletons", correct: false, explanation: "Twins have increased stillbirth risk beyond 37 weeks. Do not wait to 40 weeks." },
+                { id: "c", text: "34 weeks routinely", correct: false, explanation: "34 weeks is too early for DCDA without complications. This is MCMA timing." },
+                { id: "d", text: "42 weeks if uncomplicated", correct: false, explanation: "42 weeks is absolutely contraindicated for twins. Significant stillbirth risk." }
               ]
             },
             {
-              id: "8D-B-q3",
-              stem: "What is the most common cause of refractory status in adults?",
+              id: "8M-B-q3",
+              stem: "What is the major complication specific to monochorionic twins?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Anti-epileptic medication non-adherence", correct: true, explanation: "Medication non-compliance is the most common precipitant." },
-                { id: "b", text: "Brain tumour only", correct: false, explanation: "Brain tumour is not the most common cause." },
-                { id: "c", text: "Hypoglycaemia", correct: false, explanation: "Hypoglycaemia is not the most common cause." },
-                { id: "d", text: "Alcohol withdrawal only", correct: false, explanation: "Alcohol withdrawal is not the most common cause." }
+                { id: "a", text: "Twin-to-twin transfusion syndrome (TTTS)", correct: true, explanation: "TTTS occurs in 10-15% of MCDA twins due to placental vascular anastomoses. Requires laser ablation or serial amnioreduction." },
+                { id: "b", text: "Pre-eclampsia", correct: false, explanation: "Pre-eclampsia is more common in twins but not specific to monochorionicity." },
+                { id: "c", text: "Gestational diabetes", correct: false, explanation: "GDM is more common in twins but not specific to monochorionicity." },
+                { id: "d", text: "Placenta praevia", correct: false, explanation: "Placenta praevia is not specifically associated with monochorionic twins." }
               ]
             }
           ]
         },
         {
-          id: "8D-C",
-          title: "Meningitis",
-          mechanics: "mcq",
-          objective: "Recognize meningitis and start empirical antibiotics",
-          scenario: "Fever, headache, neck stiffness, photophobia. GCS 13. Rash developing.",
-          questions: [
-            {
-              id: "8D-C-q1",
-              stem: "What is the priority before LP if altered consciousness or focal signs?",
-              timeLimit: 45,
-              options: [
-                { id: "a", text: "CT head to exclude mass effect/herniation risk", correct: true, explanation: "CT before LP if GCS<13, focal signs, papilloedema, or immunocompromise." },
-                { id: "b", text: "Immediate LP regardless", correct: false, explanation: "Immediate LP is not recommended if there are signs of increased intracranial pressure." },
-                { id: "c", text: "MRI brain", correct: false, explanation: "MRI is not the first-line imaging modality for suspected meningitis." },
-                { id: "d", text: "EEG", correct: false, explanation: "EEG is not used for diagnosing meningitis." }
-              ]
-            },
-            {
-              id: "8D-C-q2",
-              stem: "What is the empirical antibiotic regimen for suspected bacterial meningitis in adults?",
-              timeLimit: 45,
-              options: [
-                { id: "a", text: "Ceftriaxone + Vancomycin + Ampicillin (if >50 or immunocompromised)", correct: true, explanation: "Covers S.pneumoniae, N.meningitidis, and L.monocytogenes in older/immunocompromised." },
-                { id: "b", text: "Amoxicillin alone", correct: false, explanation: "Amoxicillin is not effective against the most common causative organisms." },
-                { id: "c", text: "Metronidazole", correct: false, explanation: "Metronidazole is not used for empirical treatment of bacterial meningitis." },
-                { id: "d", text: "Ciprofloxacin", correct: false, explanation: "Ciprofloxacin is not the first-line agent for bacterial meningitis." }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-
-    nurse: {
-      sims: [
-        {
-          id: "8N-A",
-          title: "NIHSS Assessment",
+          id: "8M-C",
+          title: "External Cephalic Version Technique",
           mechanics: "drag_drop",
-          objective: "Perform systematic stroke assessment",
-          scenario: "Post-thrombolysis patient. Monitor for neurological deterioration.",
+          objective: "Understand the ECV procedure and safety checks",
+          scenario: "Performing ECV at 37 weeks. Tocolysis given. Fetal heart checked. Abdomen relaxed.",
           questions: [
             {
-              id: "8N-A-q1",
-              stem: "Match the NIHSS component to what you are assessing.",
+              id: "8M-C-q1",
+              stem: "Match the ECV step to its correct action.",
               timeLimit: 90,
               dragItems: [
-                { id: "1a", label: "1a. Level of consciousness", item: "Alertness/arousal" },
-                { id: "1b", label: "1b. LOC questions", item: "Month and age" },
-                { id: "2", label: "2. Best gaze", item: "Eye movement" },
-                { id: "3", label: "3. Visual fields", item: "Quadrant testing" },
-                { id: "4", label: "4. Facial palsy", item: "Symmetry of smile/eyelids" },
-                { id: "5", label: "5. Motor arm", item: "Drift over 10 seconds" }
+                { id: "a", label: "Forward roll technique", action: "Disengage breech, rotate fetal back towards maternal midline, rotate 180°" },
+                { id: "b", label: "Backward roll technique", action: "Used if forward roll fails - rotate opposite direction" },
+                { id: "c", label: "CTG before and after", action: "Mandatory 20-minute CTG pre- and post-procedure" },
+                { id: "d", label: "Anti-D if Rh negative", action: "250-500 IU after procedure due to feto-maternal haemorrhage risk" }
               ],
               options: [
-                { id: "a", text: "All correctly matched", correct: true, explanation: "NIHSS is standardized - consistency is crucial for detecting change." },
-                { id: "b", text: "Some errors", correct: false, explanation: "Review the NIHSS components and their corresponding assessments." },
-                { id: "c", text: "All incorrect", correct: false, explanation: "Review the NIHSS components and their corresponding assessments." }
-              ]
-            },
-            {
-              id: "8N-A-q2",
-              stem: "A drop in GCS by 2 points should trigger what?",
-              timeLimit: 45,
-              options: [
-                { id: "a", text: "Immediate medical review", correct: true, explanation: "Any neurological deterioration post-thrombolysis requires urgent assessment for bleeding." },
-                { id: "b", text: "Repeat temp check", correct: false, explanation: "Repeat temperature check is not the immediate priority." },
-                { id: "c", text: "Continue observations", correct: false, explanation: "Continue observations are important but not the immediate priority." },
-                { id: "d", text: "Give paracetamol", correct: false, explanation: "Paracetamol is not the appropriate intervention for neurological deterioration." }
-              ]
-            }
-          ]
-        },
-        {
-          id: "8N-B",
-          title: "Seizure First Aid",
-          mechanics: "mcq",
-          objective: "Protect patient during seizure and recognize when to call for help",
-          scenario: "Patient on ward starts convulsing. Family present and distressed.",
-          questions: [
-            {
-              id: "8N-B-q1",
-              stem: "What is your FIRST action?",
-              timeLimit: 30,
-              options: [
-                { id: "a", text: "Call for help and note time", correct: true, explanation: "Timing is crucial - status epilepticus is >5 minutes. Call for help immediately." },
-                { id: "b", text: "Put something in patient's mouth", correct: false, explanation: "Putting something in the patient's mouth can cause injury." },
-                { id: "c", text: "Restrain the patient", correct: false, explanation: "Restraint can cause injury and is not the appropriate intervention." },
-                { id: "d", text: "Give oral medication", correct: false, explanation: "Oral medication is not suitable during an active seizure."  }
-              ]
-            },
-            {
-              id: "8N-B-q2",
-              stem: "When should you administer rescue benzodiazepines?",
-              timeLimit: 45,
-              options: [
-                { id: "a", text: "If seizure >5 minutes or recurrent without recovery", correct: true, explanation: "Pre-hospital/ward buccal midazolam if seizure prolonged." },
-                { id: "b", text: "Immediately for any seizure", correct: false, explanation: "Rescue benzodiazepines are not indicated for all seizures." },
-                { id: "c", text: "Only if patient requests", correct: false, explanation: "Patient request is not a valid indication for rescue medication." },
-                { id: "d", text: "After 30 minutes only", correct: false, explanation: "Delaying treatment can be harmful in status epilepticus." }
+                { id: "a", text: "All correctly matched", correct: true, explanation: "ECV requires tocolysis, CTG monitoring, gentle sustained pressure, and anti-D for Rh-negative women." },
+                { id: "b", text: "Some errors", correct: false, explanation: "Review the ECV protocol steps carefully." },
+                { id: "c", text: "All incorrect", correct: false, explanation: "Review the ECV protocol steps carefully." }
               ]
             }
           ]
@@ -772,165 +542,128 @@ export const JUNIOR_RESIDENCY = [
   },
 
   // ═══════════════════════════════════════════════════════════════════════════════
-  // CLASS 09: RENAL MEDICINE
+  // CLASS 09: ANTENATAL MENTAL HEALTH & VULNERABLE WOMEN
   // ═══════════════════════════════════════════════════════════════════════════════
   {
     id: 9,
     num: "09",
     level: "junior_residency",
-    title: "Renal Medicine",
-    subtitle: "AKI, Electrolytes & Dialysis",
-    tagline: "The kidneys whisper before they scream. Listen carefully.",
-    estimatedMinutes: { doctor: 55, nurse: 50 },
+    title: "Maternal Mental Health",
+    subtitle: "Depression, Anxiety & Safeguarding",
+    tagline: "The mind in pregnancy is as important as the body.",
+    estimatedMinutes: { midwife: 55 },
     passMark: 75,
     xpReward: 275,
     media: {
       images: {
         "9A": "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800"
       },
-      ambience: "/audio/renal_unit.mp3",
-      pdfs: { "renal_assoc": "/pdfs/class09_aki.pdf" }
+      ambience: "/audio/counselling_room.mp3",
+      pdfs: { "mental_health_guidelines": "/pdfs/class09_perinatal_mental_health.pdf" }
     },
 
-    doctor: {
+    midwife: {
       sims: [
         {
-          id: "9D-A",
-          title: "Hyperkalaemia Emergency",
+          id: "9M-A",
+          title: "Antenatal Depression Screening",
           mechanics: "mcq",
-          objective: "Execute the hyperkalaemia algorithm and interpret ECG changes",
-          scenario: "K+ 7.1 mmol/L. ECG shows wide QRS, sine wave pattern developing. Dialysis patient missed session.",
+          objective: "Use Whooley questions and GAD-2 to identify mental health needs",
+          scenario: "Mei, 20 weeks. Crying at every appointment. Says she feels 'empty' and can't bond with the baby. Not sleeping well.",
           questions: [
             {
-              id: "9D-A-q1",
-              stem: "Which drug 'protects the heart' but does NOT lower potassium?",
-              timeLimit: 45,
-              options: [
-                { id: "a", text: "Calcium Gluconate/Chloride", correct: true, explanation: "Calcium stabilizes cardiac membrane but does not reduce K+ levels." },
-                { id: "b", text: "Insulin/Dextrose", correct: false, explanation: "Insulin/Dextrose lowers K+ levels." },
-                { id: "c", text: "Salbutamol", correct: false, explanation: "Salbutamol lowers K+ levels." },
-                { id: "d", text: "Calcium Resonium", correct: false, explanation: "Calcium Resonium is not a standard treatment for hyperkalaemia." }
-              ]
-            },
-            {
-              id: "9D-A-q2",
-              stem: "What is the definitive treatment for refractory hyperkalaemia in this dialysis patient?",
-              timeLimit: 45,
-              options: [
-                { id: "a", text: "Emergency haemodialysis", correct: true, explanation: "Dialysis is definitive treatment for life-threatening hyperkalaemia in renal failure." },
-                { id: "b", text: "More insulin/dextrose", correct: false, explanation: "Insulin/dextrose is a temporary measure and not definitive." },
-                { id: "c", text: "Sodium bicarbonate only", correct: false, explanation: "Sodium bicarbonate can help shift K+ intracellularly but is not definitive." },
-                { id: "d", text: "Fluid challenge", correct: false, explanation: "Fluid challenge is not a standard treatment for hyperkalaemia." }
-              ]
-            },
-            {
-              id: "9D-A-q3",
-              stem: "How quickly does insulin/dextrose shift K+ intracellularly?",
-              timeLimit: 45,
-              options: [
-                { id: "a", text: "15-30 minutes", correct: true, explanation: "Onset 15-30 min, peak 30-60 min, lasts 2-6 hours. Temporary measure only." },
-                { id: "b", text: "4-6 hours", correct: false, explanation: "4-6 hours is the duration of effect, not the onset." },
-                { id: "c", text: "Immediately", correct: false, explanation: "Immediate effect is not characteristic of insulin/dextrose." },
-                { id: "d", text: "24 hours", correct: false, explanation: "24 hours is too slow for clinical intervention." }
-              ]
-            }
-          ]
-        },
-        {
-          id: "9D-B",
-          title: "Acute Kidney Injury Staging",
-          mechanics: "mcq",
-          objective: "Apply KDIGO criteria and determine cause",
-          scenario: "Creatinine rose from 80 to 280 μmol/L over 48 hours. Urine output 15ml/hour. Patient septic.",
-          questions: [
-            {
-              id: "9D-B-q1",
-              stem: "What KDIGO stage is creatinine 3.5× baseline?",
-              timeLimit: 45,
-              options: [
-                { id: "a", text: "Stage 3", correct: true, explanation: "Stage 3: Creatinine ≥3× baseline or ≥354 μmol/L with acute rise, or urine output <0.3ml/kg/hr for ≥24h." },
-                { id: "b", text: "Stage 1", correct: false, explanation: "Stage 1: Creatinine <2× baseline." },
-                { id: "c", text: "Stage 2", correct: false, explanation: "Stage 2: Creatinine 2× baseline." },
-                { id: "d", text: "Not AKI", correct: false, explanation: "This patient has AKI based on the criteria." }
-              ]
-            },
-            {
-              id: "9D-B-q2",
-              stem: "What is the most likely cause in this septic patient?",
-              timeLimit: 45,
-              options: [
-                { id: "a", text: "Pre-renal (hypoperfusion)", correct: true, explanation: "Sepsis causes vasodilation and hypoperfusion - pre-renal AKI." },
-                { id: "b", text: "Post-renal (obstruction)", correct: false, explanation: "Post-renal AKI is caused by urinary tract obstruction." },
-                { id: "c", text: "Glomerulonephritis", correct: false, explanation: "Glomerulonephritis is a cause of intrinsic renal disease." },
-                { id: "d", text: "Interstitial nephritis", correct: false, explanation: "Interstitial nephritis is a cause of intrinsic renal disease." }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-
-    nurse: {
-      sims: [
-        {
-          id: "9N-A",
-          title: "Urine Output Monitoring",
-          mechanics: "text_input",
-          objective: "Calculate hourly urine output and identify oliguria",
-          scenario: "AKI Stage 3 patient. Last 4 hours urine: 45ml, 38ml, 52ml, 35ml. Weight 70kg.",
-          questions: [
-            {
-              id: "9N-A-q1",
-              stem: "Calculate the average hourly urine output.",
+              id: "9M-A-q1",
+              stem: "What are the two Whooley depression screening questions?",
               timeLimit: 60,
-              textAnswer: "42.5",
-              tolerance: 2,
               options: [
-                { id: "a", text: "42.5 ml/hour", correct: true, explanation: "Total 170ml ÷ 4 hours = 42.5 ml/hr." },
-                { id: "b", text: "170 ml/hour", correct: false, explanation: "This would be the total urine output over 4 hours." },
-                { id: "c", text: "10.6 ml/hour", correct: false, explanation: "This is not the correct calculation for the average hourly urine output." }
+                { id: "a", text: "During the past month, have you often been bothered by feeling down, depressed or hopeless? AND During the past month, have you often been bothered by having little interest or pleasure in doing things?", correct: true, explanation: "Whooley questions are the universal screening tool. 'Yes' to either = further assessment with GAD-2 and PHQ-9." },
+                { id: "b", text: "Are you happy about the pregnancy? AND Do you want this baby?", correct: false, explanation: "While relevant, these are not validated screening questions for depression." },
+                { id: "c", text: "Do you have thoughts of harming yourself? AND Do you have support at home?", correct: false, explanation: "These are important but not the initial screening questions. Suicide risk is assessed if screening positive." },
+                { id: "d", text: "Are you eating well? AND Are you sleeping well?", correct: false, explanation: "These are general wellbeing questions, not validated depression screening tools." }
               ]
             },
             {
-              id: "9N-A-q2",
-              stem: "What is the definition of oliguria?",
+              id: "9M-A-q2",
+              stem: "Mei scores 3 on GAD-2 (anxiety) and 12 on PHQ-9 (moderate depression). What is the management?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "<0.5 ml/kg/hour", correct: true, explanation: "Oliguria = <0.5 ml/kg/hr. For 70kg = <35 ml/hr. This patient is borderline." },
-                { id: "b", text: "<1.0 ml/kg/hour", correct: false, explanation: "This is the definition of polyuria." },
-                { id: "c", text: "<100 ml/day", correct: false, explanation: "This is the definition of anuria." },
-                { id: "d", text: "<400 ml/day", correct: false, explanation: "This is the definition of oliguria." }
+                { id: "a", text: "Refer to perinatal mental health team, consider SSRI (sertraline first-line), offer psychological therapy", correct: true, explanation: "Moderate-severe depression in pregnancy requires multidisciplinary care. Sertraline is first-line SSRI (lowest placental transfer)." },
+                { id: "b", text: "Reassure and monitor only", correct: false, explanation: "PHQ-9 >10 requires active intervention. Untreated antenatal depression affects fetal development and mother-infant bonding." },
+                { id: "c", text: "Advise stopping all medication", correct: false, explanation: "Stopping antidepressants can cause relapse. Risk-benefit favors treatment if moderate-severe." },
+                { id: "d", text: "Immediate admission to psychiatric unit", correct: false, explanation: "Admission only if severe with psychosis, active suicidal intent, or inability to care for self." }
+              ]
+            },
+            {
+              id: "9M-A-q3",
+              stem: "Which SSRI has the lowest placental transfer and is first-line in pregnancy?",
+              timeLimit: 45,
+              options: [
+                { id: "a", text: "Sertraline", correct: true, explanation: "Sertraline has lowest placental transfer and is not associated with cardiac defects. Avoid paroxetine (cardiac defects)." },
+                { id: "b", text: "Fluoxetine", correct: false, explanation: "Fluoxetine has higher placental transfer and longer half-life. Second-line in pregnancy." },
+                { id: "c", text: "Paroxetine", correct: false, explanation: "Paroxetine is associated with fetal heart defects and should be avoided in first trimester." },
+                { id: "d", text: "Venlafaxine", correct: false, explanation: "Venlafaxine is an SNRI with higher toxicity in overdose and less pregnancy safety data." }
               ]
             }
           ]
         },
         {
-          id: "9N-B",
-          title: "Dialysis Access Care",
+          id: "9M-B",
+          title: "Domestic Abuse & Safeguarding",
           mechanics: "mcq",
-          objective: "Protect vascular access and detect complications",
-          scenario: "Haemodialysis patient with AV fistula in left arm. Preparing for cannulation.",
+          objective: "Recognize signs and follow safeguarding protocols",
+          scenario: "Fatima, 30 weeks. Attends alone despite partner usually coming. Wearing long sleeves in summer. Jumps when phone rings. Says she 'fell' again.",
           questions: [
             {
-              id: "9N-B-q1",
-              stem: "Which intervention is CONTRAINDICATED in the fistula arm?",
+              id: "9M-B-q1",
+              stem: "What is the most appropriate immediate action?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Blood pressure measurement", correct: true, explanation: "Never use fistula arm for BP, venepuncture, or cannulation - preserves vessel." },
-                { id: "b", text: "Palpating for thrill", correct: false, explanation: "This is a normal assessment for a functioning fistula." },
-                { id: "c", text: "Auscultating for bruit", correct: false, explanation: "This is a normal assessment for a functioning fistula." },
-                { id: "d", text: "Checking for warmth", correct: false, explanation: "This is a normal assessment for a functioning fistula." }
+                { id: "a", text: "Ask directly but sensitively: 'I'm concerned about your safety. Has someone hurt you?'", correct: true, explanation: "Direct enquiry in private is recommended. Use professional interpreter if needed. Document carefully." },
+                { id: "b", text: "Ignore signs - she will disclose if she wants to", correct: false, explanation: "Midwives have duty to ask. Domestic abuse escalates in pregnancy (30% of abuse starts or worsens)." },
+                { id: "c", text: "Confront her partner at next visit", correct: false, explanation: "Never confront the perpetrator. This increases danger to the woman and breaches confidentiality." },
+                { id: "d", text: "Tell her she must leave the relationship", correct: false, explanation: "Leaving is most dangerous time (75% of domestic homicide occurs at separation). Support, don't direct." }
               ]
             },
             {
-              id: "9N-B-q2",
-              stem: "What does loss of thrill indicate?",
+              id: "9M-B-q2",
+              stem: "What is the threshold for mandatory safeguarding referral?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Thrombosis - vascular emergency", correct: true, explanation: "Loss of thrill/bruit suggests thrombosis - requires urgent surgical review." },
-                { id: "b", text: "Normal healing", correct: false, explanation: "Loss of thrill is not a sign of normal healing." },
-                { id: "c", text: "Infection", correct: false, explanation: "Infection would present with other signs like redness, warmth, or purulent discharge." },
-                { id: "d", text: "Successful maturation", correct: false, explanation: "Successful maturation would be indicated by the presence of a thrill and bruit." }
+                { id: "a", text: "Any disclosure of domestic abuse during pregnancy - mandatory referral to safeguarding team", correct: true, explanation: "Domestic abuse in pregnancy is safeguarding concern for unborn child (Children Act). Refer to safeguarding midwife/social services." },
+                { id: "b", text: "Only if physical injuries are visible", correct: false, explanation: "Coercive control, emotional abuse, and sexual abuse all warrant referral even without visible injuries." },
+                { id: "c", text: "Only if she wants to press charges", correct: false, explanation: "Safeguarding duty exists regardless of woman's wishes, though her safety and autonomy must be balanced." },
+                { id: "d", text: "Only if children already in household are affected", correct: false, explanation: "Unborn child is covered by safeguarding. Domestic abuse during pregnancy is child protection concern." }
+              ]
+            }
+          ]
+        },
+        {
+          id: "9M-C",
+          title: "Substance Use in Pregnancy",
+          mechanics: "mcq",
+          objective: "Manage opioid dependence and neonatal abstinence syndrome",
+          scenario: "Jade, 28 weeks. Heroin use 0.5g daily. Wants to stop for baby. Currently not in treatment.",
+          questions: [
+            {
+              id: "9M-C-q1",
+              stem: "What is the recommended management for heroin use in pregnancy?",
+              timeLimit: 45,
+              options: [
+                { id: "a", text: "Opioid substitution therapy (methadone or buprenorphine) - never advise abrupt withdrawal", correct: true, explanation: "Abrupt withdrawal risks fetal distress, miscarriage, preterm labour. Methadone or buprenorphine maintenance is standard." },
+                { id: "b", text: "Advise immediate 'cold turkey' withdrawal", correct: false, explanation: "Abrupt opioid withdrawal in pregnancy is dangerous for fetus. Gradual substitution is safer." },
+                { id: "c", text: "Prescribe codeine phosphate to wean off", correct: false, explanation: "Codeine is not appropriate substitution. Methadone or buprenorphine are evidence-based." },
+                { id: "d", text: "No treatment - just monitor", correct: false, explanation: "Untreated heroin use risks fetal growth restriction, stillbirth, preterm birth, and neonatal abstinence syndrome." }
+              ]
+            },
+            {
+              id: "9M-C-q2",
+              stem: "What is neonatal abstinence syndrome (NAS) and when does it peak?",
+              timeLimit: 45,
+              options: [
+                { id: "a", text: "Withdrawal symptoms in baby after maternal opioid exposure - peaks 48-72 hours after birth", correct: true, explanation: "NAS: tremors, high-pitched cry, poor feeding, seizures. Onset 24-72 hours, peak 48-72 hours. Finnegan scoring guides treatment." },
+                { id: "b", text: "Fetal alcohol syndrome - present at birth", correct: false, explanation: "FAS is from alcohol, not opioids. NAS is specifically opioid withdrawal in neonate." },
+                { id: "c", text: "Immediate withdrawal symptoms at birth", correct: false, explanation: "NAS typically presents after 24 hours as drug clears from baby's system." },
+                { id: "d", text: "Symptoms at 2 weeks of age", correct: false, explanation: "2 weeks is too late for typical NAS. Symptoms peak within first week." }
               ]
             }
           ]

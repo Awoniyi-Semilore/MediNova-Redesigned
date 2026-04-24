@@ -1,3 +1,6 @@
+
+// src/components/dashboard/WelcomeModal.jsx
+
 import styles from '../../styles/dashboard.module.css'
 
 const STEPS = [
@@ -15,11 +18,6 @@ const STEPS = [
     icon: <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#64b5f6" strokeWidth="1.5"><path d="M2 4h12M2 8h8M2 12h10"/></svg>,
     label: 'Board Certification',
     sub: 'Track your progress toward your official medical license.'
-  },
-  {
-    icon: <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#ef5350" strokeWidth="1.5"><path d="M8 1v14M1 8h14"/></svg>,
-    label: 'Urgent Pages',
-    sub: 'Fast-paced clinical drills that expire at midnight.'
   },
 ]
 

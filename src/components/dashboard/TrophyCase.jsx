@@ -1,3 +1,6 @@
+
+// src/components/dashboard/TrophyCase.jsx
+
 import styles from '../../styles/dashboard.module.css'
 
 const TROPHIES = [

@@ -230,7 +230,7 @@ export default function SimDesign2JuniorRes({ cls, sim, subsim, variant, accentC
           </div>
           <div className={styles.panelHead} style={{ color: accentColor, borderBottomColor: '#1a2d3d', marginTop: '1rem' }}>SCENARIO DATA</div>
           <div className={styles.scenarioText}>{subsim?.scenario}</div>
-          {hasAudio && (
+          {/* {hasAudio && (
             <div className={styles.audioRow}>
               <audio ref={audioRef} src={audioSrc} onPlay={() => setAudioPlaying(true)} onPause={() => setAudioPlaying(false)} onEnded={() => setAudioPlaying(false)} />
               <button className={styles.audioBtn} style={{ borderColor: accentColor, color: accentColor }} onClick={() => audioPlaying ? audioRef.current?.pause() : audioRef.current?.play()}>
@@ -238,7 +238,7 @@ export default function SimDesign2JuniorRes({ cls, sim, subsim, variant, accentC
               </button>
               <span className={styles.audioHint}>{audioPlaying ? '⏸ Timer Suspended' : (subsim?.audioInstruction || 'Audio available')}</span>
             </div>
-          )}
+          )} */}
         </div>
 
         <div className={styles.rightPanel}>

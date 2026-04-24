@@ -96,7 +96,7 @@ export function SimDesign3SeniorRes({ cls, sim, subsim, variant, accentColor, tr
   const audioSrc = getAudioSource(cls, subsim, sim);
   const hasAudio = !!audioSrc;
 
-  useEffect(() => { if (hasAudio) { setShowBanner(true); setShowIndicator(true); setTimeout(() => setShowBanner(false), 4000); } }, [hasAudio]);
+  // useEffect(() => { if (hasAudio) { setShowBanner(true); setShowIndicator(true); setTimeout(() => setShowBanner(false), 4000); } }, [hasAudio]);
   useEffect(() => { if (audioPlaying) eng.pauseTimer(); else eng.resumeTimer(); }, [audioPlaying]);
   if (!eng.q) return null;
 
@@ -127,12 +127,12 @@ export function SimDesign3SeniorRes({ cls, sim, subsim, variant, accentColor, tr
         <div style={{ background:'rgba(255,255,255,0.9)', border:'1px solid #c0cfc0', borderRadius:4, padding:'0.8rem 1rem', marginBottom:'0.8rem' }}>
           <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'0.95rem', color:'#1a2e1a', fontStyle:'italic' }}>{subsim?.scenario}</div>
         </div>
-        {hasAudio && (
+        {/* {hasAudio && (
           <div style={{ display:'flex', alignItems:'center', gap:'0.7rem', background:'rgba(255,255,255,0.8)', border:`1px solid ${accentColor}44`, borderRadius:4, padding:'0.5rem 0.8rem', marginBottom:'0.8rem' }}>
             <audio ref={audioRef} src={audioSrc} onPlay={()=>setAudioPlaying(true)} onPause={()=>setAudioPlaying(false)} onEnded={()=>setAudioPlaying(false)} />
             <button onClick={()=>audioPlaying ? audioRef.current?.pause() : audioRef.current?.play()} style={{ fontFamily:"'Share Tech Mono',monospace", fontSize:'0.55rem', padding:'4px 10px', background:'transparent', border:`1px solid ${accentColor}`, borderRadius:3, cursor:'pointer', color:accentColor }}>{audioPlaying ? '■ Pause' : '▶ Play Audio'}</button>
           </div>
-        )}
+        )} */}
         <div style={{ fontSize:'0.85rem', color:'#1a2e1a', fontWeight:500, padding:'0.7rem 0.9rem', background:'rgba(255,255,255,0.9)', borderLeft:`3px solid #c0392b`, borderRadius:'0 4px 4px 0', marginBottom:'0.8rem' }}>{eng.q.stem}</div>
         <div style={{ display:'flex', flexDirection:'column', gap:4, marginBottom:'0.8rem' }}>
           {eng.shuffledOptions.map((opt, i) => {
@@ -174,7 +174,7 @@ export function SimDesign4Fellowship({ cls, sim, subsim, variant, accentColor, t
   const hasAudio = !!audioSrc;
   const dark='#0d0a1a', panel='#090714', border='#1f1840';
 
-  useEffect(() => { if (hasAudio) { setShowBanner(true); setShowIndicator(true); setTimeout(() => setShowBanner(false), 4000); } }, [hasAudio]);
+  // useEffect(() => { if (hasAudio) { setShowBanner(true); setShowIndicator(true); setTimeout(() => setShowBanner(false), 4000); } }, [hasAudio]);
   useEffect(() => { if (audioPlaying) eng.pauseTimer(); else eng.resumeTimer(); }, [audioPlaying]);
   if (!eng.q) return null;
 
@@ -201,12 +201,12 @@ export function SimDesign4Fellowship({ cls, sim, subsim, variant, accentColor, t
         </div>
         <div style={{ padding:'0.9rem 1rem' }}>
           <div style={{ fontSize:'0.78rem', color:'#6a5080', lineHeight:1.6, marginBottom:'0.7rem' }}>{subsim?.scenario}</div>
-          {hasAudio && (
+          {/* {hasAudio && (
             <div style={{ display:'flex', alignItems:'center', gap:'0.7rem', background:`${accentColor}0d`, border:`1px solid ${accentColor}33`, borderRadius:4, padding:'0.5rem 0.8rem', marginBottom:'0.7rem' }}>
               <audio ref={audioRef} src={audioSrc} onPlay={()=>setAudioPlaying(true)} onPause={()=>setAudioPlaying(false)} onEnded={()=>setAudioPlaying(false)} />
               <button onClick={()=>audioPlaying ? audioRef.current?.pause() : audioRef.current?.play()} style={{ fontFamily:"'Share Tech Mono',monospace", fontSize:'0.55rem', background:'transparent', border:`1px solid ${accentColor}`, borderRadius:3, cursor:'pointer', color:accentColor }}>{audioPlaying ? 'Pause' : 'Play Audio'}</button>
             </div>
-          )}
+          )} */}
           <div style={{ fontSize:'0.82rem', color:'#d1c4e9', fontWeight:500, marginBottom:'0.7rem' }}>{eng.q.stem}</div>
           <div style={{ display:'flex', flexDirection:'column', gap:4 }}>
             {eng.shuffledOptions.map((opt, i) => {
@@ -248,7 +248,7 @@ export function SimDesign5Board({ cls, sim, subsim, variant, accentColor, track,
   const hasAudio = !!audioSrc;
   const gold = accentColor;
 
-  useEffect(() => { if (hasAudio) { setShowBanner(true); setShowIndicator(true); setTimeout(() => setShowBanner(false), 4000); } }, [hasAudio]);
+  // useEffect(() => { if (hasAudio) { setShowBanner(true); setShowIndicator(true); setTimeout(() => setShowBanner(false), 4000); } }, [hasAudio]);
   useEffect(() => { if (audioPlaying) eng.pauseTimer(); else eng.resumeTimer(); }, [audioPlaying]);
   useEffect(() => { const t = setInterval(() => setTotalTime(s => Math.max(0, s - 1)), 1000); return () => clearInterval(t); }, []);
   if (!eng.q) return null;
@@ -268,12 +268,12 @@ export function SimDesign5Board({ cls, sim, subsim, variant, accentColor, track,
       </div>
       <div style={{ flex:1, padding:'1.4rem', maxWidth:760, margin:'0 auto', width:'100%', zIndex:2, position:'relative' }}>
         <div style={{ fontFamily:"'Share Tech Mono',monospace", fontSize:'0.55rem', color:'#3d2a14', textTransform:'uppercase', marginBottom:'0.7rem' }}>Record #{eng.qIndex+1} of {totalQuestions} · Clinical Assessment</div>
-        {hasAudio && (
+        {/* {hasAudio && (
           <div style={{ display:'flex', alignItems:'center', gap:'0.7rem', background:`${gold}0d`, border:`1px solid ${gold}33`, borderRadius:4, padding:'0.5rem 0.8rem', marginBottom:'0.8rem' }}>
             <audio ref={audioRef} src={audioSrc} onPlay={()=>setAudioPlaying(true)} onPause={()=>setAudioPlaying(false)} onEnded={()=>setAudioPlaying(false)} />
             <button onClick={()=>audioPlaying ? audioRef.current?.pause() : audioRef.current?.play()} style={{ fontFamily:"'Share Tech Mono',monospace", fontSize:'0.55rem', background:'transparent', border:`1px solid ${gold}`, cursor:'pointer', color:gold }}>{audioPlaying ? '■ Pause' : '▶ Play Clip'}</button>
           </div>
-        )}
+        )} */}
         <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'1.05rem', color:'#e8d5a0', lineHeight:1.75, marginBottom:'1.2rem' }}>{eng.q.stem}</div>
         <div style={{ display:'flex', flexDirection:'column', gap:5, marginBottom:'1rem' }}>
           {eng.shuffledOptions.map((opt, i) => {

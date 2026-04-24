@@ -4,7 +4,7 @@ import CaseFile from './CaseFile'
 import styles from '../../styles/wardmap.module.css'
 import { useProgress } from '../../contexts/ProgressContext'
 
-export default function CaseFileGroup({ group, classes, track }) {
+export default function CaseFileGroup({ group, classes }) {
   const { classStatus } = useProgress()
   const done = classes.filter(c => classStatus(c.id) === 'done').length
 
@@ -17,8 +17,8 @@ export default function CaseFileGroup({ group, classes, track }) {
       </div>
 
       {classes.map(cls => (
-        <CaseFile key={cls.id} cls={cls} track={track} />
+        <CaseFile key={cls.id} cls={cls} />
       ))}
     </div>
   )
-};
+}

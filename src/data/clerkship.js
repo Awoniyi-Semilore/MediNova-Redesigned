@@ -1,18 +1,18 @@
-// clerkship.js - Classes 01-04: Foundation Clinical Skills
-// Comprehensive, detailed cases for medical students and early trainees
+// src/data/clerkship.js - Classes 01-04: Foundation Midwifery Skills
+// Pre-conception, early pregnancy, and baseline midwifery assessment
 
 export const CLERKSHIP = [
   // ═══════════════════════════════════════════════════════════════════════════════
-  // CLASS 01: THE BASELINE ASSESSMENT
+  // CLASS 01: PRE-CONCEPTION & FERTILITY AWARENESS
   // ═══════════════════════════════════════════════════════════════════════════════
   {
     id: 1,
     num: "01",
     level: "clerkship",
-    title: "The Baseline Assessment",
-    subtitle: "History, Examination & Vital Signs",
-    tagline: "Before you treat, you must first see.",
-    estimatedMinutes: { doctor: 45, nurse: 40 },
+    title: "Pre-Conception Care",
+    subtitle: "Fertility Awareness & Preparing for Pregnancy",
+    tagline: "Before conception begins, the groundwork of health is laid.",
+    estimatedMinutes: { midwife: 45 },
     passMark: 70,
     xpReward: 150,
     media: {
@@ -21,253 +21,139 @@ export const CLERKSHIP = [
         "1B": "https://images.unsplash.com/photo-1581056771107-24ca5f033842?w=800",
         "1C": "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800"
       },
-      ambience: "/audio/hospital_background.mp3",
-      pdfs: { "clinical_guidelines": "/pdfs/class01_guidelines.pdf" }
+      ambience: "/audio/clinic_background.mp3",
+      pdfs: { "preconception_guidelines": "/pdfs/class01_preconception.pdf" }
     },
     
-    // ─── DOCTOR TRACK ─────────────────────────────────────────────────────────────
-    doctor: {
+    midwife: {
       sims: [
         {
-          id: "1D-A",
-          title: "The Chest Pain History",
-          mechanics: "audio_mcq",
-          objective: "Elicit a focused cardiac history and identify red flags",
-          scenario: "Mr. Miller, 58, presents with 'heaviness' in his chest. He is a smoker with Type 2 Diabetes. The audio contains his account.",
-          audio: "/audio/class01_patient_1Ai.mp3",
+          id: "1M-A",
+          title: "Fertility Awareness Methods",
+          mechanics: "mcq",
+          objective: "Teach natural fertility awareness and cycle tracking",
+          scenario: "Sarah, 28, wants to conceive in 6 months. She has irregular cycles (32-38 days). She is unsure when she ovulates.",
           questions: [
             {
-              id: "1D-A-q1",
-              stem: "The patient describes pain moving to his left jaw. Which SOCRATES category is this?",
+              id: "1M-A-q1",
+              stem: "Which cervical mucus change indicates peak fertility?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Site", correct: false, explanation: "Pain moving from the primary site to another area is Radiation. Cardiac pain typically radiates to the left arm, jaw, or neck." }, 
-                { id: "b", text: "Radiation", correct: true, explanation: "Pain moving from the primary site to another area is Radiation. Cardiac pain typically radiates to the left arm, jaw, or neck." },
-                { id: "c", text: "Character", correct: false, explanation: "Pain moving from the primary site to another area is Radiation. Cardiac pain typically radiates to the left arm, jaw, or neck." },
-                { id: "d", text: "Severity", correct: false,  explanation: "Pain moving from the primary site to another area is Radiation. Cardiac pain typically radiates to the left arm, jaw, or neck." }
+                { id: "a", text: "Thick, white, and sticky", correct: false, explanation: "Thick sticky mucus indicates non-fertile phase. Clear stretchy mucus (like egg white) indicates oestrogen surge and peak fertility." },
+                { id: "b", text: "Clear, stretchy, and slippery (egg-white consistency)", correct: true, explanation: "Fertile mucus is clear, stretchy, and slippery - allowing sperm passage. It appears 1-2 days before ovulation." },
+                { id: "c", text: "Dry or absent", correct: false, explanation: "Dry mucus indicates non-fertile phase, usually post-ovulation or pre-menstrual." },
+                { id: "d", text: "Yellow and creamy", correct: false, explanation: "Yellow creamy mucus may indicate infection or non-fertile phase, not peak fertility." }
               ]
             },
             {
-              id: "1D-A-q2",
-              stem: "He mentions diaphoresis (profuse sweating). What is the physiological significance?",
+              id: "1M-A-q2",
+              stem: "Sarah's basal body temperature rises by 0.3-0.5°C after ovulation. What hormone causes this?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Autonomic nervous system activation", correct: true, explanation: "Diaphoresis suggests a massive sympathetic surge, a red flag for myocardial infarction." },
-                { id: "b", text: "Anxiety only", correct: false, explanation: "Diaphoresis suggests a massive sympathetic surge, a red flag for myocardial infarction."},
-                { id: "c", text: "Fever", correct: false, explanation: "Fever is not a typical sign of myocardial infarction." },
-                { id: "d", text: "Hypoglycaemia", correct: false, explanation: "Hypoglycaemia can cause sweating, but it's not specific to myocardial infarction." }
+                { id: "a", text: "Oestrogen", correct: false, explanation: "Oestrogen dominates the follicular phase and does not raise basal temperature." },
+                { id: "b", text: "Progesterone", correct: true, explanation: "Progesterone released from corpus luteum raises BBT by 0.3-0.5°C, confirming ovulation has occurred." },
+                { id: "c", text: "FSH", correct: false, explanation: "FSH stimulates follicle growth but does not affect basal temperature." },
+                { id: "d", text: "LH", correct: false, explanation: "LH triggers ovulation but the temperature rise is caused by progesterone after ovulation." }
               ]
             },
             {
-              id: "1D-A-q3",
-              stem: "Based on the history, what is your immediate priority?",
+              id: "1M-A-q3",
+              stem: "What is the first pre-conception supplement you recommend?",
               timeLimit: 30,
               options: [
-                { id: "a", text: "Order a chest X-ray", correct: false, explanation: "While a chest X-ray may be useful later, the immediate priority is to assess for acute coronary syndrome." },
-                { id: "b", text: "Perform a 12-lead ECG within 10 minutes", correct: true, explanation: "NICE guidelines require ECG within 10 minutes for suspected ACS." },
-                { id: "c", text: "Prescribe analgesia and review in 2 hours", correct: false, explanation: "This is not the immediate priority in suspected ACS." },
-                { id: "d", text: "Discharge with GP follow-up", correct: false, explanation: "Discharging a patient with suspected ACS is inappropriate." }
+                { id: "a", text: "Folic acid 400mcg daily", correct: true, explanation: "Folic acid 400mcg daily for at least 3 months pre-conception reduces neural tube defect risk by 70%." },
+                { id: "b", text: "Iron 200mg daily", correct: false, explanation: "Iron is important but not the priority pre-conception supplement unless anaemic." },
+                { id: "c", text: "Vitamin D 1000IU", correct: false, explanation: "Vitamin D is recommended but folic acid is the critical first-line pre-conception supplement." },
+                { id: "d", text: "Calcium 1000mg", correct: false, explanation: "Calcium is important in pregnancy but folic acid is the priority pre-conception." }
               ]
             }
           ]
         },
         {
-          id: "1D-B",
-          title: "The Abdominal Examination",
+          id: "1M-B",
+          title: "Pre-Conception Risk Assessment",
           mechanics: "hotspot",
-          objective: "Identify signs of peritonitis and locate McBurney's point",
-          scenario: "22-year-old female with 8 hours of RIF pain. She is guarding and lying still.",
-          image: "/images/abdomen_diagram.jpeg",
+          objective: "Identify risk factors that need management before conception",
+          scenario: "Priya, 34, BMI 32, Type 2 diabetes, smokes 10 cigarettes daily. Wants to start trying for a baby next month.",
+          image: "/images/risk_assessment_form.jpeg",
           questions: [
             {
-              id: "1D-B-q1",
-              stem: "Click on McBurney's Point on the abdomen diagram.",
+              id: "1M-B-q1",
+              stem: "Click on the risk factor requiring MOST urgent intervention before conception.",
               timeLimit: 60,
               options: [
-                { id: "a", text: "Right upper quadrant", correct: false, explanation: "Right upper quadrant pain is more typical of gallbladder pathology." },
-                { id: "b", text: "1/3 of the way from ASIS to umbilicus", correct: true, explanation: "This is the classic site for maximal tenderness in acute appendicitis." },
-                { id: "c", text: "Suprapubic region", correct: false, explanation: "Suprapubic region pain is more typical of urinary tract pathology." },
-                { id: "d", text: "Left iliac fossa", correct: false, explanation: "Left iliac fossa pain is more typical of diverticulitis or other left-sided conditions." }
+                { id: "a", text: "Maternal age 34", correct: false, explanation: "Age 34 is advanced maternal age but not the most urgent modifiable risk." },
+                { id: "b", text: "Smoking", correct: true, explanation: "Smoking is the most urgent modifiable risk - increases miscarriage, stillbirth, SIDS. Must stop before conception." },
+                { id: "c", text: "BMI 32", correct: false, explanation: "Obesity is important but smoking cessation takes priority due to immediate fetal toxicity." },
+                { id: "d", text: "Type 2 diabetes", correct: false, explanation: "Diabetes needs optimization but smoking is more urgent to address first." }
               ]
             },
             {
-              id: "1D-B-q2",
-              stem: "What sign suggests localized peritonitis?",
+              id: "1M-B-q2",
+              stem: "What HbA1c target should be achieved before conception?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Rebound tenderness (Blumberg's sign)", correct: true, explanation: "Pain on sudden release of pressure indicates peritoneal irritation." },
-                { id: "b", text: "Bruit on auscultation", correct: false, explanation: "Bruit is not a sign of localized peritonitis." },
-                { id: "c", text: "Shifting dullness", correct: false, explanation: "Shifting dullness is associated with ascites, not peritonitis." },
-                { id: "d", text: "Succussion splash", correct: false, explanation: "Succussion splash is associated with pleural effusion, not peritonitis." }
+                { id: "a", text: "<48 mmol/mol (6.5%)", correct: true, explanation: "Pre-conception HbA1c <48 mmol/mol reduces congenital anomaly risk. Refer to diabetic pre-conception clinic." },
+                { id: "b", text: "<75 mmol/mol (9%)", correct: false, explanation: "This is too high and associated with significantly increased malformation risk." },
+                { id: "c", text: "No target needed", correct: false, explanation: "Strict glycaemic control pre-conception is essential to reduce teratogenic risk." },
+                { id: "d", text: "<58 mmol/mol (7.5%)", correct: false, explanation: "While better than 9%, the target should be <48 mmol/mol for optimal outcomes." }
               ]
             }
           ]
         },
         {
-          id: "1D-C",
-          title: "Mental Capacity Assessment",
+          id: "1M-C",
+          title: "Rubella & Vaccination Status",
           mechanics: "mcq",
-          objective: "Apply the Mental Capacity Act framework",
-          scenario: "Elderly patient with pneumonia refuses IV cannula. They seem confused.",
+          objective: "Assess immunity and manage non-immune women",
+          scenario: "Emma, 26, blood tests show rubella IgG negative. She wants to conceive in 3 months.",
           questions: [
             {
-              id: "1D-C-q1",
-              stem: "What is the FIRST stage of the Mental Capacity Act assessment?",
+              id: "1M-C-q1",
+              stem: "What is your immediate advice?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Check for impairment of mind or brain", correct: true, explanation: "You must first establish if there is a functional or diagnostic impairment (e.g., delirium)." },
-                { id: "b", text: "Ask the next of kin for permission", correct: false, explanation: "This is not the first stage of the assessment." },
-                { id: "c", text: "Assume capacity", correct: false, explanation: "You cannot assume capacity without assessing the individual's ability to understand and weigh the information." },
-                { id: "d", text: "Apply for a Deprivation of Liberty Safeguard", correct: false, explanation: "This is a last-resort measure taken when a person lacks capacity and their rights are being restricted." }
+                { id: "a", text: "Offer MMR vaccination now, advise avoiding pregnancy for 1 month post-vaccine", correct: true, explanation: "MMR is a live vaccine. Avoid pregnancy for 1 month after vaccination. Check immunity again post-vaccination." },
+                { id: "b", text: "No action needed - rubella is rare now", correct: false, explanation: "Rubella non-immunity is serious - congenital rubella syndrome causes deafness, cataracts, heart defects." },
+                { id: "c", text: "Advise she can conceive immediately after vaccination", correct: false, explanation: "Live vaccines require pregnancy avoidance for 1 month due to theoretical teratogenic risk." },
+                { id: "d", text: "Give immunoglobulin instead", correct: false, explanation: "Immunoglobulin is not used for rubella pre-conception - vaccination is the correct approach." }
               ]
             },
             {
-              id: "1D-C-q2",
-              stem: "The patient cannot retain the information for 30 seconds. What does this indicate?",
+              id: "1M-C-q2",
+              stem: "Which other infection status must be checked pre-conception?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Lacks capacity for this decision", correct: true, explanation: "Inability to retain information relevant to the decision indicates lack of capacity." },
-                { id: "b", text: "Has capacity but is confused", correct: false, explanation: "The patient may have capacity but is currently confused." },
-                { id: "c", text: "Needs sedation", correct: false, explanation: "Sedation is not indicated by the inability to retain information." },
-                { id: "d", text: "Requires restraint", correct: false, explanation: "Restraint is not indicated by the inability to retain information." }
+                { id: "a", text: "All of these: HIV, Hepatitis B, Syphilis, Varicella", correct: true, explanation: "All are checked pre-conception. Varicella non-immunity also requires vaccination if non-immune." },
+                { id: "b", text: "HIV only", correct: false, explanation: "Multiple infections affect pregnancy outcomes and require screening." },
+                { id: "c", text: "None - only check if symptomatic", correct: false, explanation: "Universal screening is recommended for blood-borne viruses in pregnancy planning." },
+                { id: "d", text: "Hepatitis B only", correct: false, explanation: "Multiple infections must be screened, not just Hepatitis B." }
               ]
             }
           ]
         },
         {
-          id: "1D-D",
-          title: "The Deteriorating Patient",
+          id: "1M-D",
+          title: "Genetic Screening & Family History",
           mechanics: "drag_drop",
-          objective: "Calculate NEWS2 score and escalate appropriately",
-          scenario: "72-year-old post-op patient. Observations: HR 112, BP 98/62, RR 24, SpO2 91% on air, Temp 38.2°C, Conscious.",
+          objective: "Identify couples needing genetic counselling",
+          scenario: "Aisha and her partner are both of African-Caribbean descent. Her sister has sickle cell disease. They want to conceive.",
           questions: [
             {
-              id: "1D-D-q1",
-              stem: "Drag the correct NEWS2 scores to each parameter.",
+              id: "1M-D-q1",
+              stem: "Drag the correct screening pathway for this couple.",
               timeLimit: 90,
               dragItems: [
-                { id: "hr", label: "Heart Rate 112", score: 2 },
-                { id: "bp", label: "BP 98/62", score: 1 },
-                { id: "rr", label: "RR 24", score: 2 },
-                { id: "spo2", label: "SpO2 91% on air", score: 3 },
-                { id: "temp", label: "Temp 38.2°C", score: 1 }
+                { id: "1", label: "Step 1: Offer haemoglobinopathy screening", order: 1 },
+                { id: "2", label: "Step 2: If both carriers, refer for genetic counselling", order: 2 },
+                { id: "3", label: "Step 3: Discuss options (IVF/PGD, prenatal diagnosis, adoption)", order: 3 },
+                { id: "4", label: "Step 4: Support informed reproductive choice", order: 4 }
               ],
               options: [
-                { id: "a", text: "Total NEWS2 = 9", correct: true, explanation: "NEWS2 ≥7 triggers emergency response." },
-                { id: "b", text: "Total NEWS2 = 5", correct: false, explanation: "This score does not trigger emergency response." },
-                { id: "c", text: "Total NEWS2 = 12", correct: false, explanation: "This score triggers emergency response." },
-                { id: "d", text: "Total NEWS2 = 3", correct: false, explanation: "This score does not trigger emergency response." }
-              ]
-            },
-            {
-              id: "1D-D-q2",
-              stem: "With NEWS2 of 9, what is your immediate action?",
-              timeLimit: 30,
-              options: [
-                { id: "a", text: "Continue routine observations", correct: false, explanation: "This is not appropriate for a NEWS2 of 9." },
-                { id: "b", text: "Urgent review by clinician with critical care competencies", correct: true, explanation: "NEWS2 7+ requires immediate escalation." },
-                { id: "c", text: "Reassess in 4 hours", correct: false, explanation: "This is not appropriate for a NEWS2 of 9." },
-                { id: "d", text: "Discharge home", correct: false, explanation: "This is not appropriate for a NEWS2 of 9." }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-
-    // ─── NURSE TRACK ──────────────────────────────────────────────────────────────
-    nurse: {
-      sims: [
-        {
-          id: "1N-A",
-          title: "NEWS2 Scoring & Escalation",
-          mechanics: "mcq",
-          objective: "Calculate NEWS2 and initiate escalation protocol",
-          scenario: "Post-op patient: RR 26, SpO2 93% on air, HR 105, BP 110/70, Temp 37.8°C, Alert.",
-          questions: [
-            {
-              id: "1N-A-q1",
-              stem: "What is the maximum score for Respiratory Rate in NEWS2?",
-              timeLimit: 45,
-              options: [
-                { id: "a", text: "3 points", correct: true, explanation: "A RR of 25 or higher is a red-flag alert and scores 3." },
-                { id: "b", text: "1 point", correct: false, explanation: "A RR of 21-24 is a yellow-flag alert and scores 1." },
-                { id: "c", text: "2 points", correct: false, explanation: "A RR of 25 or higher is a red-flag alert and scores 3." },
-                { id: "d", text: "0 points", correct: false, explanation: "A RR of 12-20 is a green-flag alert and scores 0." }
-              ]
-            },
-            {
-              id: "1N-A-q2",
-              stem: "Which single parameter triggers an immediate escalation?",
-              timeLimit: 45,
-              options: [
-                { id: "a", text: "SpO2 ≤ 91%", correct: true, explanation: "SpO2 ≤91% is a red flag requiring immediate action." },
-                { id: "b", text: "Heart rate 100", correct: false, explanation: "A heart rate of 100 is a yellow-flag alert and scores 1." },
-                { id: "c", text: "Temperature 37.8°C", correct: false, explanation: "A temperature of 37.8°C is a yellow-flag alert and scores 1." },
-                { id: "d", text: "BP 110/70", correct: false, explanation: "A BP of 110/70 is a green-flag alert and scores 0." }
-              ]
-            }
-          ]
-        },
-        {
-          id: "1N-B",
-          title: "Sepsis Screening",
-          mechanics: "mcq",
-          objective: "Perform bedside sepsis screening using qSOFA",
-          scenario: "Elderly patient with UTI. Temp 38.9°C, shivering, confused, RR 22, BP 95/60.",
-          questions: [
-            {
-              id: "1N-B-q1",
-              stem: "Which vital sign is most indicative of early septic shock?",
-              timeLimit: 45,
-              options: [
-                { id: "a", text: "Tachycardia (High HR)", correct: true, explanation: "The body compensates for low blood volume/vasodilation by increasing heart rate first." },
-                { id: "b", text: "Hypertension", correct: false, explanation: "Hypertension is not a typical sign of early septic shock." },
-                { id: "c", text: "Bradycardia", correct: false, explanation: "Bradycardia is not a typical sign of early septic shock." },
-                { id: "d", text: "Hypothermia only", correct: false, explanation: "Hypothermia is not a typical sign of early septic shock." }
-              ]
-            },
-            {
-              id: "1N-B-q2",
-              stem: "What is the Sepsis Six bundle time target?",
-              timeLimit: 45,
-              options: [
-                { id: "a", text: "Within 1 hour", correct: true, explanation: "Sepsis Six must be completed within 1 hour of recognition." },
-                { id: "b", text: "Within 4 hours", correct: false, explanation: "The Sepsis Six bundle time target is within 1 hour." },
-                { id: "c", text: "Within 6 hours", correct: false, explanation: "The Sepsis Six bundle time target is within 1 hour." },
-                { id: "d", text: "Within 12 hours", correct: false, explanation: "The Sepsis Six bundle time target is within 1 hour." }
-              ]
-            }
-          ]
-        },
-        {
-          id: "1N-C",
-          title: "Manual Blood Pressure",
-          mechanics: "audio_mcq",
-          objective: "Interpret Korotkoff sounds for manual BP measurement",
-          scenario: "Automated BP monitor failed. You must obtain manual reading. Patient has atrial fibrillation.",
-          audio: "/audio/class01_nurse_N1Ai.mp3",
-          questions: [
-            {
-              id: "1N-C-q1",
-              stem: "Listen to the audio. What is the systolic BP?",
-              timeLimit: 60,
-              options: [
-                { id: "a", text: "140 mmHg", correct: false, explanation: "This would be an elevated systolic pressure." },
-                { id: "b", text: "156 mmHg", correct: true, explanation: "First Korotkoff sound marks systolic pressure." },
-                { id: "c", text: "120 mmHg", correct: false, explanation: "This would be a normal diastolic pressure." },
-                { id: "d", text: "180 mmHg", correct: false, explanation: "This would be an elevated systolic pressure." }
-              ]
-            },
-            {
-              id: "1N-C-q2",
-              stem: "Why is BP measurement difficult in atrial fibrillation?",
-              timeLimit: 45,
-              options: [
-                { id: "a", text: "Irregular pulse makes auscultation challenging", correct: true, explanation: "Irregular R-R intervals create variable blood flow sounds." },
-                { id: "b", text: "Patients cannot sit still", correct: false, explanation: "Patients may be agitated or uncomfortable, making measurement difficult." },
-                { id: "c", text: "The cuff size is wrong", correct: false, explanation: "Cuff size is not the primary issue in atrial fibrillation." },
-                { id: "d", text: "Korotkoff sounds are absent", correct: false, explanation: "Korotkoff sounds are present but irregular in atrial fibrillation."}
+                { id: "a", text: "Screen → Counsel → Options → Support", correct: true, explanation: "This is the correct pathway for at-risk couples. Both partners must be screened." },
+                { id: "b", text: "Counsel → Screen → Support → Options", correct: false, explanation: "Screening must come before counselling so results inform the discussion." },
+                { id: "c", text: "Options → Screen → Counsel → Support", correct: false, explanation: "Options cannot be discussed before knowing carrier status." },
+                { id: "d", text: "Screen → Options → Counsel → Support", correct: false, explanation: "Genetic counselling should precede discussion of specific options." }
               ]
             }
           ]
@@ -277,16 +163,16 @@ export const CLERKSHIP = [
   },
 
   // ═══════════════════════════════════════════════════════════════════════════════
-  // CLASS 02: INVESTIGATIONS & INTERPRETATION
+  // CLASS 02: EARLY PREGNANCY ASSESSMENT
   // ═══════════════════════════════════════════════════════════════════════════════
   {
     id: 2,
     num: "02",
     level: "clerkship",
-    title: "Investigations & Interpretation",
-    subtitle: "Blood, Imaging & Bedside Tests",
-    tagline: "The numbers tell a story. Learn to read it.",
-    estimatedMinutes: { doctor: 50, nurse: 45 },
+    title: "Early Pregnancy Care",
+    subtitle: "Confirmation, Dating & First Trimester Screening",
+    tagline: "The first trimester sets the course for the entire journey.",
+    estimatedMinutes: { midwife: 50 },
     passMark: 70,
     xpReward: 175,
     media: {
@@ -294,210 +180,125 @@ export const CLERKSHIP = [
         "2A": "https://images.unsplash.com/photo-1579154204601-01588f351e67?w=800",
         "2B": "https://images.unsplash.com/photo-1530497610245-94d3c16cda28?w=800"
       },
-      ambience: "/audio/lab_ambience.mp3",
-      pdfs: { "lab_values": "/pdfs/class02_lab_guide.pdf" }
+      ambience: "/audio/early_pregnancy_clinic.mp3",
+      pdfs: { "dating_scan": "/pdfs/class02_dating.pdf" }
     },
 
-    doctor: {
+    midwife: {
       sims: [
         {
-          id: "2D-A",
-          title: "The Anaemic Patient",
+          id: "2M-A",
+          title: "Pregnancy Confirmation & Dating",
           mechanics: "mcq",
-          objective: "Interpret FBC and identify cause of anaemia",
-          scenario: "FBC: Hb 85, MCV 70, MCH 22. Ferritin 8. Patient reports heavy periods.",
+          objective: "Calculate gestational age and EDD accurately",
+          scenario: "Lisa, LMP 14th January 2026. Regular 28-day cycles. Presents today (18th February) with positive urine pregnancy test.",
           questions: [
             {
-              id: "2D-A-q1",
-              stem: "What type of anaemia is indicated by MCV 70?",
-              timeLimit: 45,
+              id: "2M-A-q1",
+              stem: "Using Naegele's rule, what is Lisa's estimated due date?",
+              timeLimit: 60,
               options: [
-                { id: "a", text: "Microcytic", correct: true, explanation: "MCV <80 fL indicates microcytic anaemia." },
-                { id: "b", text: "Normocytic", correct: false, explanation: "MCV between 80-100 fL indicates normocytic anaemia." },
-                { id: "c", text: "Macrocytic", correct: false, explanation: "MCV >100 fL indicates macrocytic anaemia." },
-                { id: "d", text: "Haemolytic", correct: false, explanation: "This refers to a different mechanism of anaemia." }
+                { id: "a", text: "21st October 2026", correct: true, explanation: "Naegele's rule: LMP + 1 year - 3 months + 7 days. 14 Jan 2026 → 21 Oct 2026." },
+                { id: "b", text: "14th October 2026", correct: false, explanation: "This forgot to add the 7 days. Always add 7 days to the adjusted month." },
+                { id: "c", text: "7th November 2026", correct: false, explanation: "This added 7 days but went the wrong direction with months." },
+                { id: "d", text: "21st November 2026", correct: false, explanation: "This added instead of subtracting months." }
               ]
             },
             {
-              id: "2D-A-q2",
-              stem: "What is the most likely diagnosis?",
+              id: "2M-A-q2",
+              stem: "Lisa's ultrasound at 8 weeks shows CRL 18mm. What does this confirm?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Iron deficiency anaemia", correct: true, explanation: "Low MCV, low MCH, low ferritin with menorrhagia history = iron deficiency." },
-                { id: "b", text: "B12 deficiency", correct: false, explanation: "B12 deficiency typically causes macrocytic anaemia." },
-                { id: "c", text: "Folate deficiency", correct: false, explanation: "Folate deficiency also causes macrocytic anaemia." },
-                { id: "d", text: "Anaemia of chronic disease", correct: false, explanation: "This refers to a different mechanism of anaemia." }
+                { id: "a", text: "Viable intrauterine pregnancy consistent with dates", correct: true, explanation: "CRL 18mm at 8 weeks is appropriate. Ultrasound dating is most accurate in first trimester (±5 days)." },
+                { id: "b", text: "Pregnancy is 12 weeks gestation", correct: false, explanation: "CRL 18mm corresponds to approximately 8 weeks, not 12 weeks." },
+                { id: "c", text: "Ectopic pregnancy", correct: false, explanation: "A visible intrauterine CRL with cardiac activity confirms viable intrauterine pregnancy, excluding ectopic." },
+                { id: "d", text: "Missed miscarriage", correct: false, explanation: "Missed miscarriage would show no cardiac activity or disproportionately small CRL." }
               ]
             },
             {
-              id: "2D-A-q3",
-              stem: "What is the first-line treatment?",
+              id: "2M-A-q3",
+              stem: "When should the dating scan ideally be performed?",
               timeLimit: 30,
               options: [
-                { id: "a", text: "Oral ferrous sulfate 200mg TDS", correct: true, explanation: "Oral iron replacement is first-line for iron deficiency." },
-                { id: "b", text: "IV iron immediately", correct: false, explanation: "IV iron is reserved for severe cases or when oral is not tolerated." },
-                { id: "c", text: "Blood transfusion", correct: false, explanation: "Blood transfusion is not the first-line treatment for iron deficiency anaemia." },
-                { id: "d", text: "B12 injections", correct: false, explanation: "B12 injections are used for B12 deficiency anaemia." }
+                { id: "a", text: "Between 8+0 and 14+1 weeks", correct: true, explanation: "Optimal dating scan window is 8+0 to 14+1 weeks for accurate CRL measurement and combined screening." },
+                { id: "b", text: "At 6 weeks to confirm cardiac activity", correct: false, explanation: "While 6-week scans confirm viability, dating is more accurate at 8-14 weeks." },
+                { id: "c", text: "At 18-20 weeks anomaly scan", correct: false, explanation: "Anomaly scan is too late for accurate dating - head circumference is used if no earlier scan." },
+                { id: "d", text: "At 24 weeks", correct: false, explanation: "24 weeks is far too late for accurate pregnancy dating." }
               ]
             }
           ]
         },
         {
-          id: "2D-B",
-          title: "Chest X-Ray Interpretation",
+          id: "2M-B",
+          title: "Nuchal Translucency Screening",
           mechanics: "hotspot",
-          objective: "Identify radiological signs of common conditions",
-          scenario: "70-year-old with SOB. CXR shows abnormalities. Click on the key findings.",
-          image: "/images/cxr_effusion.jpeg",
+          objective: "Identify correct NT measurement technique and interpret risk",
+          scenario: "12-week scan. You are reviewing the sonographer's NT image. NT measures 3.2mm. Crown-rump length 58mm.",
+          image: "/images/nt_scan.jpeg",
           questions: [
             {
-              id: "2D-B-q1",
-              stem: "Click on the area showing blunting of the costophrenic angle.",
+              id: "2M-B-q1",
+              stem: "Click on the correct anatomical landmarks that must be visible for valid NT measurement.",
               timeLimit: 60,
               options: [
-                { id: "a", text: "Right costophrenic angle", correct: true, explanation: "Blunting indicates pleural effusion - fluid in the pleural space." },
-                { id: "b", text: "Left apex", correct: false, explanation: "The apex is not the area of blunting in this case." },
-                { id: "c", text: "Cardiac silhouette", correct: false, explanation: "The cardiac silhouette is not the area of blunting in this case." },
-                { id: "d", text: "Trachea", correct: false, explanation: "The trachea is not the area of blunting in this case." }
+                { id: "a", text: "Nasal bone, amnion separate from nuchal membrane, neutral fetal position", correct: true, explanation: "Valid NT requires: nasal bone visible, amnion distinguishable from nuchal skin, neutral neck position, fetus occupying >75% of image." },
+                { id: "b", text: "Fetal spine only", correct: false, explanation: "Spine alone is insufficient - specific landmarks are required for valid NT measurement." },
+                { id: "c", text: "Four-chamber heart view", correct: false, explanation: "Four-chamber heart is part of anomaly scan, not NT screening at 12 weeks." },
+                { id: "d", text: "Any clear neck image", correct: false, explanation: "Specific landmarks and technique are required - not any neck image is valid." }
               ]
             },
             {
-              id: "2D-B-q2",
-              stem: "What does this finding indicate?",
+              id: "2M-B-q2",
+              stem: "NT 3.2mm at 12 weeks (CRL 58mm). What is your interpretation?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Pleural effusion", correct: true, explanation: "Blunting of the costophrenic angle is a sign of pleural effusion." },
-                { id: "b", text: "Pneumothorax", correct: false, explanation: "Pneumothorax would show a different radiological appearance." },
-                { id: "c", text: "Consolidation", correct: false, explanation: "Consolidation appears as a dense opacity on CXR." },
-                { id: "d", text: "Pulmonary embolism", correct: false, explanation: "Pulmonary embolism would show a different radiological appearance." }
+                { id: "a", text: "Increased risk for chromosomal abnormality - refer for diagnostic testing", correct: true, explanation: "NT >3.0mm at 12 weeks is increased risk. Combined with maternal age and biochemistry, refer for CVS or amniocentesis discussion." },
+                { id: "b", text: "Normal variant - no action needed", correct: false, explanation: "NT 3.2mm is above 99th centile and warrants further investigation." },
+                { id: "c", text: "Indication for immediate termination", correct: false, explanation: "Increased NT is a screening result, not diagnostic. Further testing and counselling required." },
+                { id: "d", text: "Repeat NT in 2 weeks", correct: false, explanation: "NT is time-specific. Repeating at 14 weeks is not standard practice - proceed with combined screening results." }
               ]
             }
           ]
         },
         {
-          id: "2D-C",
-          title: "Arterial Blood Gas Analysis",
+          id: "2M-C",
+          title: "Hyperemesis Gravidarum",
           mechanics: "mcq",
-          objective: "Interpret ABG and determine acid-base status",
-          scenario: "ABG: pH 7.25, pCO2 6.8 kPa, pO2 8.5 kPa, HCO3 18 mmol/L, Lactate 3.2",
+          objective: "Assess severity and manage dehydration in early pregnancy",
+          scenario: "Chloe, 9 weeks pregnant. Unable to keep any food or fluids down for 48 hours. Ketones 3+ on urine dip. Weight loss 3kg in 1 week.",
           questions: [
             {
-              id: "2D-C-q1",
-              stem: "What is the primary acid-base disturbance?",
-              timeLimit: 60,
+              id: "2M-C-q1",
+              stem: "What is the threshold for ketonuria that indicates severe HG requiring admission?",
+              timeLimit: 45,
               options: [
-                { id: "a", text: "Metabolic acidosis with respiratory compensation", correct: true, explanation: "Low pH, low HCO3 = metabolic acidosis. Elevated CO2 shows partial compensation." },
-                { id: "b", text: "Respiratory acidosis", correct: false, explanation: "Respiratory acidosis would show a different pattern." },
-                { id: "c", text: "Metabolic alkalosis", correct: false, explanation: "Metabolic alkalosis would show a different pattern." },
-                { id: "d", text: "Respiratory alkalosis", correct: false, explanation: "Respiratory alkalosis would show a different pattern." }
+                { id: "a", text: "Ketones 3+ or 4+", correct: true, explanation: "Ketones 3+ or 4+ indicate significant starvation and dehydration requiring IV rehydration and antiemetics." },
+                { id: "b", text: "Ketones 1+", correct: false, explanation: "1+ ketones can occur with mild nausea - oral rehydration and dietary advice usually sufficient." },
+                { id: "c", text: "Any ketonuria", correct: false, explanation: "Trace ketonuria is common in pregnancy and not an admission criterion." },
+                { id: "d", text: "Only if blood ketones >3 mmol/L", correct: false, explanation: "While blood ketones are more accurate, urine ketones 3+ are a practical admission threshold." }
               ]
             },
             {
-              id: "2D-C-q2",
-              stem: "What does the elevated lactate suggest?",
+              id: "2M-C-q2",
+              stem: "What is the first-line antiemetic for HG?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Tissue hypoperfusion/shock", correct: true, explanation: "Lactate >2 suggests inadequate tissue oxygenation." },
-                { id: "b", text: "Liver failure only", correct: false, explanation: "Liver failure would not be the primary cause of elevated lactate in this context." },
-                { id: "c", text: "Normal finding", correct: false, explanation: "A lactate level of 3.2 is significantly elevated." },
-                { id: "d", text: "Renal failure", correct: false, explanation: "Renal failure would not be the primary cause of elevated lactate in this context." }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-
-    nurse: {
-      sims: [
-        {
-          id: "2N-A",
-          title: "Phlebotomy Order of Draw",
-          mechanics: "drag_drop",
-          objective: "Select correct tubes in order to prevent contamination",
-          scenario: "You need to draw: Blood Cultures, FBC, U&Es, Coagulation screen, Group & Save.",
-          questions: [
-            {
-              id: "2N-A-q1",
-              stem: "Arrange the tubes in correct order of draw.",
-              timeLimit: 90,
-              dragItems: [
-                { id: "1", label: "Blood Culture (Aerobic)", order: 1 },
-                { id: "2", label: "Blue (Coagulation)", order: 2 },
-                { id: "3", label: "Red/Gold (Serum)", order: 3 },
-                { id: "4", label: "Green (Heparin)", order: 4 },
-                { id: "5", label: "Purple (EDTA - FBC)", order: 5 },
-                { id: "6", label: "Grey (Fluoride - Glucose)", order: 6 }
-              ],
-              options: [
-                { id: "a", text: "Culture → Blue → Red → Green → Purple → Grey", correct: true, explanation: "This prevents cross-contamination of additives between tubes." },
-                { id: "b", text: "Purple → Blue → Culture → Red → Green → Grey", correct: false, explanation: "This order is incorrect and risks contamination." },
-                { id: "c", text: "Red → Culture → Blue → Purple → Green → Grey", correct: false, explanation: "This order is incorrect and risks contamination." },
-                { id: "d", text: "Blue → Red → Culture → Purple → Green → Grey", correct: false, explanation: "This order is incorrect and risks contamination." }
-              ]
-            }
-          ]
-        },
-        {
-          id: "2N-B",
-          title: "ECG Electrode Placement",
-          mechanics: "hotspot",
-          objective: "Correctly place precordial leads V1-V6",
-          scenario: "Patient with chest pain. You need to perform a 12-lead ECG.",
-          image: "/images/ecg_placement.jpeg",
-          questions: [
-            {
-              id: "2N-B-q1",
-              stem: "Where is V1 placed?",
-              timeLimit: 60,
-              options: [
-                { id: "a", text: "4th Intercostal space, right sternal edge", correct: true, explanation: "V1 is placed in the 4th intercostal space at the right sternal edge." },
-                { id: "b", text: "5th ICS, mid-clavicular line", correct: false, explanation: "This is the location for V2." },
-                { id: "c", text: "5th ICS, left anterior axillary line", correct: false, explanation: "This is the location for V3." },
-                { id: "d", text: "4th ICS, left sternal edge", correct: false, explanation: "This is the location for V4." }
+                { id: "a", text: "Cyclizine or Promethazine", correct: true, explanation: "First-line antihistamines (cyclizine/promethazine) are safe in pregnancy. Follow with ondansetron if refractory." },
+                { id: "b", text: "Ondansetron immediately", correct: false, explanation: "Ondansetron is second-line due to limited first-trimester safety data, though increasingly used." },
+                { id: "c", text: "Metoclopramide only", correct: false, explanation: "Metoclopramide can be used but antihistamines are preferred first-line for HG." },
+                { id: "d", text: "No medication - just fluids", correct: false, explanation: "Antiemetics are essential alongside rehydration for effective HG management." }
               ]
             },
             {
-              id: "2N-B-q2",
-              stem: "Where is V6 placed?",
-              timeLimit: 60,
-              options: [
-                { id: "a", text: "5th ICS, mid-axillary line", correct: true, explanation: "V6 is at the same horizontal level as V4 but in the mid-axillary line." },
-                { id: "b", text: "4th ICS, right sternal edge", correct: false, explanation: "This is the location for V1." },
-                { id: "c", text: "5th ICS, left sternal edge", correct: false, explanation: "This is the location for V2." },
-                { id: "d", text: "6th ICS, anterior axillary line", correct: false, explanation: "This is the location for V3." }
-              ]
-            }
-          ]
-        },
-        {
-          id: "2N-C",
-          title: "Urinalysis Interpretation",
-          mechanics: "mcq",
-          objective: "Interpret urine dipstick and microscopy results",
-          scenario: "Urine dip: Leucocytes +++, Nitrites +++, Blood +, Protein +. Patient has dysuria.",
-          questions: [
-            {
-              id: "2N-C-q1",
-              stem: "What is the most likely diagnosis?",
+              id: "2M-C-q3",
+              stem: "Which electrolyte disturbance is most dangerous in prolonged HG?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Urinary tract infection", correct: true, explanation: "Leucocytes + nitrites = classic UTI." },
-                { id: "b", text: "Nephrotic syndrome", correct: false, explanation: "Nephrotic syndrome typically shows heavy proteinuria without nitrites." },
-                { id: "c", text: "Diabetes mellitus", correct: false, explanation: "Diabetes mellitus can cause glucosuria and ketonuria but not typically nitrites." },
-                { id: "d", text: "Renal stones", correct: false, explanation: "Renal stones may cause hematuria but not typically leucocytes or nitrites." }
+                { id: "a", text: "Hypokalaemia", correct: true, explanation: "Hypokalaemia from vomiting can cause cardiac arrhythmias. Monitor and replace potassium in IV fluids." },
+                { id: "b", text: "Hypernatraemia", correct: false, explanation: "HG typically causes dehydration with normal or low sodium, not hypernatraemia." },
+                { id: "c", text: "Hypercalcaemia", correct: false, explanation: "Calcium disturbances are not characteristic of HG." },
+                { id: "d", text: "Hyponatraemia only", correct: false, explanation: "While hyponatraemia occurs, hypokalaemia is more immediately dangerous due to cardiac effects." }
               ]
-            },
-            {
-              id: "2N-C-q2",
-              stem: "What is your immediate action?",
-              timeLimit: 45,
-              options: [
-                { id: "a", text: "Send MSU for culture and start empirical antibiotics", correct: true, explanation: "Empirical antibiotics should be started for symptomatic UTI while awaiting culture results."  },
-                { id: "b", text: "Repeat dipstick in 1 week", correct: false, explanation: "Repeating the dipstick in a week is not appropriate for a symptomatic UTI." },
-                { id: "c", text: "Increase fluid intake only", correct: false, explanation: "Increased fluid intake alone is not sufficient for treating symptomatic UTI." },
-                { id: "d", text: "Discharge without treatment", correct: false, explanation: "Discharging without treatment is not appropriate for a symptomatic UTI." }
-              ]   
             }
           ]
         }
@@ -506,16 +307,16 @@ export const CLERKSHIP = [
   },
 
   // ═══════════════════════════════════════════════════════════════════════════════
-  // CLASS 03: ACUTE EMERGENCIES
+  // CLASS 03: ANTENATAL SCREENING & BLOOD TESTS
   // ═══════════════════════════════════════════════════════════════════════════════
   {
     id: 3,
     num: "03",
     level: "clerkship",
-    title: "Acute Emergencies",
-    subtitle: "Basic & Advanced Life Support",
-    tagline: "When seconds count, training takes over.",
-    estimatedMinutes: { doctor: 55, nurse: 50 },
+    title: "Antenatal Screening",
+    subtitle: "Blood Tests, Infections & Anomaly Detection",
+    tagline: "Screen wisely. Counsel compassionately. Act decisively.",
+    estimatedMinutes: { midwife: 55 },
     passMark: 75,
     xpReward: 200,
     media: {
@@ -523,142 +324,119 @@ export const CLERKSHIP = [
         "3A": "https://images.unsplash.com/photo-1551190822-a9333d879b1f?w=800",
         "3B": "https://images.unsplash.com/photo-1581056771107-24ca5f033842?w=800"
       },
-      ambience: "/audio/crash_call_ambience.mp3",
-      pdfs: { "als_guidelines": "/pdfs/class03_als.pdf" }
+      ambience: "/audio/clinic_background.mp3",
+      pdfs: { "screening_guidelines": "/pdfs/class03_screening.pdf" }
     },
 
-    doctor: {
+    midwife: {
       sims: [
         {
-          id: "3D-A",
-          title: "Ventricular Fibrillation Arrest",
+          id: "3M-A",
+          title: "Anaemia in Pregnancy",
           mechanics: "mcq",
-          objective: "Manage shockable rhythm per ALS algorithm",
-          scenario: "Patient collapses. Monitor shows chaotic, disorganized rhythm. No pulse.",
+          objective: "Interpret FBC and manage iron deficiency",
+          scenario: "FBC at 28 weeks: Hb 95, MCV 78, MCH 26. Ferritin 12. Patient reports fatigue and palpitations.",
           questions: [
             {
-              id: "3D-A-q1",
-              stem: "What is the immediate first step?",
-              timeLimit: 30,
+              id: "3M-A-q1",
+              stem: "What type of anaemia is indicated by MCV 78 and MCH 26?",
+              timeLimit: 45,
               options: [
-                { id: "a", text: "Defibrillate immediately", correct: false, explanation: "Defibrillation should occur within 2 minutes but CPR comes first." },
-                { id: "b", text: "Start CPR while defibrillator is prepared", correct: true, explanation: "Start CPR immediately. Defibrillation should occur within 2 minutes but CPR comes first." },
-                { id: "c", text: "Give adrenaline", correct: false, explanation: "Adrenaline should be given after the 3rd shock." },
-                { id: "d", text: "Establish IV access", correct: false, explanation: "Establishing IV access is important but not the immediate first step." }
+                { id: "a", text: "Microcytic hypochromic", correct: true, explanation: "MCV <82 and MCH <27 indicate microcytic hypochromic anaemia - iron deficiency is most common in pregnancy." },
+                { id: "b", text: "Normocytic normochromic", correct: false, explanation: "Normocytic would have MCV 82-100. This is microcytic." },
+                { id: "c", text: "Macrocytic", correct: false, explanation: "Macrocytic has MCV >100, typically B12/folate deficiency." },
+                { id: "d", text: "Haemolytic", correct: false, explanation: "Haemolytic anaemia typically shows normocytic or macrocytic cells with raised reticulocytes." }
               ]
             },
             {
-              id: "3D-A-q2",
-              stem: "When is the first dose of adrenaline given in VF?",
+              id: "3M-A-q2",
+              stem: "What is the first-line oral iron replacement?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "After the 3rd shock", correct: true, explanation: "Adrenaline 1mg IV is given after the 3rd shock, then every 3-5 minutes." },
-                { id: "b", text: "Immediately", correct: false, explanation: "Adrenaline should be given after the 3rd shock." },
-                { id: "c", text: "After the 1st shock", correct: false, explanation: "Adrenaline should be given after the 3rd shock." },
-                { id: "d", text: "Only if ROSC achieved", correct: false, explanation: "Adrenaline should be given after the 3rd shock." }
+                { id: "a", text: "Sodium feredetate (Niferex) 200mg twice daily", correct: true, explanation: "Oral ferrous sulfate or feredetate 200mg twice daily with vitamin C. Hb should rise by 10g/L in 2 weeks." },
+                { id: "b", text: "IV iron immediately", correct: false, explanation: "IV iron is reserved for non-adherence, malabsorption, or if oral iron fails after 4 weeks." },
+                { id: "c", text: "Blood transfusion", correct: false, explanation: "Transfusion only if Hb <70 with symptoms, or <80 with cardiac compromise." },
+                { id: "d", text: "Folic acid 5mg alone", correct: false, explanation: "Folic acid treats macrocytic anaemia, not iron deficiency." }
               ]
             },
             {
-              id: "3D-A-q3",
-              stem: "What energy level for the first biphasic shock?",
+              id: "3M-A-q3",
+              stem: "What dietary advice maximizes iron absorption?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "120-150 J", correct: true, explanation: "Start with 120-150J biphasic, escalate if needed." },
-                { id: "b", text: "50 J", correct: false, explanation: "Insufficient energy for effective defibrillation." },
-                { id: "c", text: "360 J", correct: false, explanation: "Higher energy levels are used if initial attempts are unsuccessful." },
-                { id: "d", text: "200 J monophasic", correct: false, explanation: "Biphasic waveform is preferred for better efficacy." }
+                { id: "a", text: "Take with orange juice, avoid tea/coffee within 1 hour", correct: true, explanation: "Vitamin C enhances absorption. Tea/coffee tannins inhibit absorption. Separate by 1-2 hours." },
+                { id: "b", text: "Take with milk for stomach protection", correct: false, explanation: "Calcium in milk inhibits iron absorption." },
+                { id: "c", text: "Take with breakfast regardless of content", correct: false, explanation: "Cereals with phytates and coffee at breakfast inhibit absorption." },
+                { id: "d", text: "Take on an empty stomach with water only", correct: false, explanation: "While absorption is best on empty stomach, GI side effects often require food. Vitamin C is better." }
               ]
             }
           ]
         },
         {
-          id: "3D-B",
-          title: "Anaphylaxis Management",
+          id: "3M-B",
+          title: "Group B Streptococcus Management",
           mechanics: "mcq",
-          objective: "Recognize and treat anaphylaxis",
-          scenario: "Patient post-bee sting. Stridor, widespread urticaria, BP 70/40, HR 130.",
+          objective: "Identify risk factors and implement intrapartum antibiotic prophylaxis",
+          scenario: "Maria, 36 weeks. Previous baby had early-onset GBS sepsis. Current pregnancy GBS status unknown.",
           questions: [
             {
-              id: "3D-B-q1",
-              stem: "What is the FIRST-line treatment?",
+              id: "3M-B-q1",
+              stem: "What is the risk of early-onset GBS in a subsequent pregnancy after an affected infant?",
+              timeLimit: 45,
+              options: [
+                { id: "a", text: "Approximately 10% (10-fold increased risk)", correct: true, explanation: "Previous affected infant carries ~10% recurrence risk. Intrapartum antibiotic prophylaxis (IAP) is strongly indicated." },
+                { id: "b", text: "Same as general population (0.5%)", correct: false, explanation: "Risk is significantly elevated after an affected infant." },
+                { id: "c", text: "No increased risk", correct: false, explanation: "There is a well-documented increased recurrence risk." },
+                { id: "d", text: "100% risk", correct: false, explanation: "While risk is increased, it is not absolute." }
+              ]
+            },
+            {
+              id: "3M-B-q2",
+              stem: "What intrapartum antibiotic regimen is recommended?",
+              timeLimit: 45,
+              options: [
+                { id: "a", text: "IV Benzylpenicillin 3g then 1.5g 4-hourly until delivery", correct: true, explanation: "Benzylpenicillin is first-line. If penicillin allergic: cefazolin if low-risk allergy, clindamycin if high-risk/anaphylaxis risk." },
+                { id: "b", text: "Oral amoxicillin once in labour", correct: false, explanation: "Oral antibiotics are insufficient - IV antibiotics must be given at least 4 hours before delivery for optimal effect." },
+                { id: "c", text: "Metronidazole 400mg TDS", correct: false, explanation: "Metronidazole covers anaerobes, not GBS." },
+                { id: "d", text: "No antibiotics needed if previous baby was treated successfully", correct: false, explanation: "Previous affected infant is an indication for IAP regardless of that baby's outcome." }
+              ]
+            },
+            {
+              id: "3M-B-q3",
+              stem: "When should IAP ideally be started?",
               timeLimit: 30,
               options: [
-                { id: "a", text: "IM Adrenaline 0.5mg (1:1000)", correct: true, explanation: "IM adrenaline is life-saving in anaphylaxis. Give immediately in lateral thigh." },
-                { id: "b", text: "IV Chlorphenamine", correct: false, explanation: "Chlorphenamine is not the first-line treatment for anaphylaxis." },
-                { id: "c", text: "IV Hydrocortisone", correct: false, explanation: "Hydrocortisone is not the first-line treatment for anaphylaxis." },
-                { id: "d", text: "Nebulized salbutamol", correct: false, explanation: "Salbutamol is used for bronchospasm, not anaphylaxis." }
-              ]
-            },
-            {
-              id: "3D-B-q2",
-              stem: "What is the correct positioning?",
-              timeLimit: 45,
-              options: [
-                { id: "a", text: "Supine with legs elevated", correct: true, explanation: "This improves venous return and cardiac output." },
-                { id: "b", text: "Upright sitting", correct: false, explanation: "Upright positioning may worsen respiratory distress in anaphylaxis." },
-                { id: "c", text: "Recovery position", correct: false, explanation: "Recovery position is not the preferred positioning for anaphylaxis." },
-                { id: "d", text: "Trendelenburg", correct: false, explanation: "Trendelenburg positioning is not indicated for anaphylaxis." }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-
-    nurse: {
-      sims: [
-        {
-          id: "3N-A",
-          title: "Airway Management",
-          mechanics: "mcq",
-          objective: "Select and insert appropriate airway adjunct",
-          scenario: "Patient unconscious, snoring respirations, GCS 8.",
-          questions: [
-            {
-              id: "3N-A-q1",
-              stem: "How do you measure a Guedel (oropharyngeal) airway?",
-              timeLimit: 45,
-              options: [
-                { id: "a", text: "From incisors to angle of jaw", correct: true, explanation: "Correct sizing prevents trauma and ensures airway patency." },
-                { id: "b", text: "From nose to earlobe", correct: false, explanation: "This measurement is not used for Guedel airway sizing." },
-                { id: "c", text: "From chin to sternum", correct: false, explanation: "This measurement is not used for Guedel airway sizing." },
-                { id: "d", text: "Width of patient's thumb", correct: false, explanation: "This is not a standard method for measuring Guedel airways." }
-              ]
-            },
-            {
-              id: "3N-A-q2",
-              stem: "When should you NOT use an oropharyngeal airway?",
-              timeLimit: 45,
-              options: [
-                { id: "a", text: "Patient with intact gag reflex", correct: true, explanation: "OPA will trigger vomiting/laryngospasm if gag reflex present." },
-                { id: "b", text: "Unconscious patient", correct: false, explanation: "Unconscious patients may require airway adjuncts." },
-                { id: "c", text: "Patient with snoring respirations", correct: false, explanation: "Snoring respirations may indicate partial airway obstruction." },
-                { id: "d", text: "Patient with GCS 3", correct: false }
+                { id: "a", text: "As soon as labour is established or membranes ruptured, aiming for 4 hours before delivery", correct: true, explanation: "IAP should be given at least 4 hours before delivery for maximum efficacy in preventing vertical transmission." },
+                { id: "b", text: "Only if fever develops in labour", correct: false, explanation: "Prophylaxis is given based on risk factors, not just if chorioamnionitis develops." },
+                { id: "c", text: "At 36 weeks antenatally", correct: false, explanation: "Antenatal antibiotics do not prevent early-onset GBS - intrapartum is required." },
+                { id: "d", text: "After delivery to the baby", correct: false, explanation: "Postnatal baby antibiotics are for suspected infection, not prophylaxis." }
               ]
             }
           ]
         },
         {
-          id: "3N-B",
-          title: "Crash Team Response",
+          id: "3M-C",
+          title: "HIV in Pregnancy",
           mechanics: "drag_drop",
-          objective: "Assign roles during cardiac arrest",
-          scenario: "Crash call activated. You are the first nurse on scene. Organize the team.",
+          objective: "Counsel on vertical transmission prevention",
+          scenario: "Grace, newly diagnosed HIV positive at booking. CD4 450, viral load 25,000. Wants to know risks to baby.",
           questions: [
             {
-              id: "3N-B-q1",
-              stem: "Match the team member to their role.",
+              id: "3M-C-q1",
+              stem: "Drag the interventions in order to reduce vertical transmission from 25% to <1%.",
               timeLimit: 90,
               dragItems: [
-                { id: "a", label: "Team Leader", role: "Coordinates, does not perform tasks" },
-                { id: "b", label: "Airway", role: "Manages airway and breathing" },
-                { id: "c", label: "Compressor", role: "Performs chest compressions" },
-                { id: "d", label: "Drugs/Access", role: "IV access and medication administration" },
-                { id: "e", label: "Recorder", role: "Documents timing and interventions" }
+                { id: "1", label: "Antiretroviral therapy from second trimester", order: 1 },
+                { id: "2", label: "Planned caesarean if viral load >1000 at 36 weeks", order: 2 },
+                { id: "3", label: "IV AZT in labour", order: 3 },
+                { id: "4", label: "Avoid breastfeeding if formula available", order: 4 },
+                { id: "5", label: "Baby oral AZT for 4-6 weeks", order: 5 }
               ],
               options: [
-                { id: "a", text: "All roles correctly assigned", correct: true, explanation: "Clear role allocation prevents chaos during arrest." },
-                { id: "b", text: "Some roles incorrect", correct: false, explanation: "Each team member should have a clear and appropriate role." }
+                { id: "a", text: "ART → Delivery mode → IV AZT → Feeding → Baby prophylaxis", correct: true, explanation: "Comprehensive strategy reduces transmission to <1%. ART suppresses viral load, mode of delivery based on VL, baby gets prophylaxis." },
+                { id: "b", text: "Delivery mode → ART → Baby prophylaxis → Feeding → IV AZT", correct: false, explanation: "ART must come first to reduce viral load before delivery decisions." },
+                { id: "c", text: "Feeding → ART → IV AZT → Delivery mode → Baby prophylaxis", correct: false, explanation: "Feeding is important but not the first intervention in sequence." },
+                { id: "d", text: "Baby prophylaxis → IV AZT → ART → Delivery mode → Feeding", correct: false, explanation: "Baby prophylaxis is last, not first." }
               ]
             }
           ]
@@ -668,112 +446,128 @@ export const CLERKSHIP = [
   },
 
   // ═══════════════════════════════════════════════════════════════════════════════
-  // CLASS 04: FLUIDS & SHOCK
+  // CLASS 04: NORMAL PREGNANCY PHYSIOLOGY & COMMON COMPLAINTS
   // ═══════════════════════════════════════════════════════════════════════════════
   {
     id: 4,
     num: "04",
     level: "clerkship",
-    title: "Fluids & Shock",
-    subtitle: "The Science of Resuscitation",
-    tagline: "Circulation is life. Know when to fill and when to squeeze.",
-    estimatedMinutes: { doctor: 50, nurse: 45 },
+    title: "Pregnancy Physiology",
+    subtitle: "Understanding Normal Changes & Reassuring Women",
+    tagline: "Every complaint has a story. Know normal to spot abnormal.",
+    estimatedMinutes: { midwife: 50 },
     passMark: 70,
     xpReward: 175,
     media: {
       images: {
         "4A": "https://images.unsplash.com/photo-1581056771107-24ca5f033842?w=800"
       },
-      ambience: "/audio/ed_ambience.mp3",
-      pdfs: { "fluid_resuscitation": "/pdfs/class04_fluids.pdf" }
+      ambience: "/audio/clinic_background.mp3",
+      pdfs: { "physiology_guide": "/pdfs/class04_physiology.pdf" }
     },
 
-    doctor: {
+    midwife: {
       sims: [
         {
-          id: "4D-A",
-          title: "Hypovolaemic Shock",
+          id: "4M-A",
+          title: "Physiological Anaemia of Pregnancy",
           mechanics: "mcq",
-          objective: "Prescribe appropriate fluid resuscitation",
-          scenario: "Trauma patient, BP 80/40, HR 130, cold peripheries, CRT 4 seconds.",
+          objective: "Distinguish physiological dilutional anaemia from true iron deficiency",
+          scenario: "Priya, 24 weeks. Hb 105, MCV 88, MCH 30. Ferritin 45. She is worried about being anaemic.",
           questions: [
             {
-              id: "4D-A-q1",
-              stem: "Which fluid is preferred for initial trauma resuscitation?",
+              id: "4M-A-q1",
+              stem: "What is the primary cause of lower Hb in normal pregnancy?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Balanced Crystalloid (e.g., Hartmann's)", correct: true, explanation: "Balanced crystalloids avoid hyperchloraemic acidosis seen with 0.9% saline." },
-                { id: "b", text: "5% Dextrose", correct: false, explanation: "Dextrose is not used for fluid resuscitation in trauma." },
-                { id: "c", text: "Colloids (e.g., Gelofusin)", correct: false, explanation: "Colloids are not first-line for initial trauma resuscitation." },
-                { id: "d", text: "Blood products immediately", correct: false, explanation: "Blood products are not the first-line treatment for hypovolaemic shock." }
+                { id: "a", text: "Plasma volume expansion (50% increase) exceeds red cell mass increase (25%)", correct: true, explanation: "Haemodilution is normal in pregnancy. Hb 105 with normal MCV/MCH and ferritin 45 is physiological, not pathological." },
+                { id: "b", text: "Iron deficiency from fetal demands", correct: false, explanation: "While iron deficiency is common, this case shows normal ferritin and normal MCV/MCH - this is physiological haemodilution." },
+                { id: "c", text: "Vitamin B12 deficiency", correct: false, explanation: "B12 deficiency would show macrocytosis (MCV >100), not MCV 88." },
+                { id: "d", text: "Bone marrow suppression", correct: false, explanation: "Bone marrow suppression is not a feature of normal pregnancy." }
               ]
             },
             {
-              id: "4D-A-q2",
-              stem: "What is the target MAP in septic shock?",
+              id: "4M-A-q2",
+              stem: "What Hb threshold defines anaemia in pregnancy at sea level?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "65 mmHg", correct: true, explanation: "MAP ≥65 mmHg ensures adequate organ perfusion." },
-                { id: "b", text: "45 mmHg", correct: false, explanation: "This is too low for adequate organ perfusion." },
-                { id: "c", text: "85 mmHg", correct: false, explanation: "This is unnecessarily high and may cause complications." },
-                { id: "d", text: "100 mmHg", correct: false, explanation: "This is unnecessarily high and may cause complications." }
+                { id: "a", text: "<110 g/L in first and third trimester, <105 g/L in second trimester", correct: true, explanation: "WHO thresholds: <110 g/L (1st/3rd trimester), <105 g/L (2nd trimester). Below this, investigate and treat." },
+                { id: "b", text: "<120 g/L at all stages", correct: false, explanation: "120 g/L is the non-pregnant threshold. Pregnancy thresholds are lower due to physiological haemodilution." },
+                { id: "c", text: "<100 g/L only in third trimester", correct: false, explanation: "Thresholds vary by trimester, not just third trimester." },
+                { id: "d", text: "<90 g/L at any stage", correct: false, explanation: "90 g/L is severe anaemia requiring urgent intervention, not the diagnostic threshold." }
               ]
             }
           ]
         },
         {
-          id: "4D-B",
-          title: "Fluid Prescription",
-          mechanics: "text_input",
-          objective: "Calculate daily fluid requirements",
-          scenario: "70-year-old nil-by-mouth post-op. Weight 70kg. Calculate maintenance fluids.",
-          questions: [
-            {
-              id: "4D-B-q1",
-              stem: "Using the 4-2-1 rule, what is the hourly maintenance rate?",
-              timeLimit: 90,
-              textAnswer: "110",
-              tolerance: 5,
-              options: [
-                { id: "a", text: "110 ml/hour", correct: true, explanation: "(10×4) + (10×2) + (50×1) = 110 ml/hr for 70kg patient." },
-                { id: "b", text: "70 ml/hour", correct: false, explanation: "This would be the rate for a 50kg patient." },
-                { id: "c", text: "140 ml/hour", correct: false, explanation: "This would be the rate for a 90kg patient." }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-
-    nurse: {
-      sims: [
-        {
-          id: "4N-A",
-          title: "Cannulation & Infusion",
+          id: "4M-B",
+          title: "Pregnancy-Induced Hypertension vs Pre-Eclampsia",
           mechanics: "mcq",
-          objective: "Select appropriate cannula for clinical scenario",
-          scenario: "Doctor orders 500ml Saline bolus over 15 minutes for hypovolaemic patient.",
+          objective: "Differentiate gestational hypertension from pre-eclampsia",
+          scenario: "Amina, 32 weeks. BP 145/92 (was 118/76 at booking). No proteinuria. No symptoms. Fetal growth normal.",
           questions: [
             {
-              id: "4N-A-q1",
-              stem: "Which cannula has the largest bore for rapid fluids?",
+              id: "4M-B-q1",
+              stem: "What is the correct classification?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Grey (16G) or Orange (14G)", correct: true, explanation: "Large bore cannulas allow rapid fluid administration. Grey 16G or Orange 14G are best for resuscitation." },
-                { id: "b", text: "Blue (22G)", correct: false, explanation: "Blue 22G is too small for rapid fluid administration." },
-                { id: "c", text: "Pink (20G)", correct: false, explanation: "Pink 20G is not typically used for rapid fluid administration." },
-                { id: "d", text: "Green (18G)", correct: false, explanation: "Green 18G is not the largest bore option." }
+                { id: "a", text: "Gestational hypertension (new onset >20 weeks, no proteinuria)", correct: true, explanation: "Gestational hypertension: new onset >20 weeks without proteinuria or other systemic features. Monitor closely for progression to pre-eclampsia." },
+                { id: "b", text: "Pre-eclampsia", correct: false, explanation: "Pre-eclampsia requires hypertension PLUS proteinuria or other end-organ dysfunction." },
+                { id: "c", text: "Chronic hypertension", correct: false, explanation: "Chronic hypertension is pre-existing or diagnosed <20 weeks. This is new onset at 32 weeks." },
+                { id: "d", text: "White coat hypertension", correct: false, explanation: "While possible, new onset at 32 weeks should be managed as gestational hypertension until proven otherwise." }
               ]
             },
             {
-              id: "4N-A-q2",
-              stem: "How do you calculate the flow rate for 500ml over 15 minutes?",
-              timeLimit: 60,
+              id: "4M-B-q2",
+              stem: "What is the immediate management?",
+              timeLimit: 45,
               options: [
-                { id: "a", text: "2000 ml/hour or 33 drops/minute (20 drops/ml set)", correct: true, explanation: "500ml × (60/15min) = 2000 ml/hr. For 20 drops/ml: 2000/60 × 20 = 33 drops/min." },
-                { id: "b", text: "500 ml/hour", correct: false, explanation: "This is not the correct flow rate for 500ml over 15 minutes." },
-                { id: "c", text: "125 ml/hour", correct: false, explanation: "This is not the correct flow rate for 500ml over 15 minutes." },
-                { id: "d", text: "1000 ml/hour", correct: false, explanation: "This is not the correct flow rate for 500ml over 15 minutes." }
+                { id: "a", text: "BP monitoring twice weekly, urine dip for protein, bloods (FBC, LFT, U&E), fetal monitoring", correct: true, explanation: "Gestational hypertension requires surveillance for progression. BP monitoring, proteinuria checks, and blood monitoring are essential." },
+                { id: "b", text: "Immediate delivery", correct: false, explanation: "Delivery is not indicated for gestational hypertension without severe features." },
+                { id: "c", text: "Start antihypertensives immediately", correct: false, explanation: "Antihypertensives (labetalol/nifedipine) if BP >150/100 or for maternal indication. 145/92 requires monitoring first." },
+                { id: "d", text: "Reassure and discharge to routine care", correct: false, explanation: "Gestational hypertension requires enhanced surveillance, not routine care." }
+              ]
+            }
+          ]
+        },
+        {
+          id: "4M-C",
+          title: "Common Pregnancy Complaints",
+          mechanics: "mcq",
+          objective: "Provide evidence-based advice for common symptoms",
+          scenario: "Joanna, 18 weeks. Complains of heartburn, constipation, and leg cramps. Worried about taking any medication.",
+          questions: [
+            {
+              id: "4M-C-q1",
+              stem: "What is the first-line management for pregnancy heartburn?",
+              timeLimit: 45,
+              options: [
+                { id: "a", text: "Lifestyle modifications (small meals, avoid triggers, head elevated) + antacids or ranitidine if needed", correct: true, explanation: "Antacids and ranitidine are safe in pregnancy. PPIs if refractory. Avoid sodium bicarbonate (fluid retention)." },
+                { id: "b", text: "Omeprazole 40mg immediately", correct: false, explanation: "Step-up approach: lifestyle first, then antacids, then H2 blockers, then PPIs if needed." },
+                { id: "c", text: "No medication - it will resolve after delivery", correct: false, explanation: "While true that it resolves postpartum, women need symptom relief during pregnancy." },
+                { id: "d", text: "Sodium bicarbonate tablets", correct: false, explanation: "Sodium bicarbonate causes fluid retention and alkalosis - avoid in pregnancy." }
+              ]
+            },
+            {
+              id: "4M-C-q2",
+              stem: "Which supplement reduces pregnancy leg cramps?",
+              timeLimit: 45,
+              options: [
+                { id: "a", text: "Magnesium 200-400mg daily", correct: true, explanation: "Magnesium supplementation reduces leg cramps in pregnancy. Also ensure adequate calcium." },
+                { id: "b", text: "Iron 200mg daily", correct: false, explanation: "Iron does not reduce leg cramps and may worsen constipation." },
+                { id: "c", text: "Vitamin D 1000IU", correct: false, explanation: "Vitamin D is important but not specifically for leg cramps." },
+                { id: "d", text: "Quinine 300mg nocte", correct: false, explanation: "Quinine is no longer recommended in pregnancy due to safety concerns." }
+              ]
+            },
+            {
+              id: "4M-C-q3",
+              stem: "What is the safest laxative in pregnancy?",
+              timeLimit: 45,
+              options: [
+                { id: "a", text: "Dietary fibre + fluids + bulk-forming laxatives (ispaghula)", correct: true, explanation: "Bulk-forming laxatives are safe first-line. Osmotic (lactulose) if needed. Avoid stimulant laxatives long-term." },
+                { id: "b", text: "Senna daily", correct: false, explanation: "Stimulant laxatives can cause uterine contractions if overused. Reserve for short-term use." },
+                { id: "c", text: "Sodium phosphate enema", correct: false, explanation: "Phosphate enemas can cause electrolyte disturbances - avoid in pregnancy." },
+                { id: "d", text: "Castor oil", correct: false, explanation: "Castor oil stimulates uterine contractions and is contraindicated in pregnancy." }
               ]
             }
           ]

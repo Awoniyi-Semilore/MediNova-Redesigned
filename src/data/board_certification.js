@@ -1,6 +1,5 @@
 // board_certification.js - Classes 19-20: The Final Assessment
 // Complex multi-system cases requiring synthesis of all prior learning
-// No hints. No guidance. Just the patient and everything you know.
 
 export const BOARD_CERTIFICATION = [
   // ═══════════════════════════════════════════════════════════════════════════════
@@ -11,12 +10,12 @@ export const BOARD_CERTIFICATION = [
     num: "19",
     level: "board_certification",
     title: "Advanced Clinical Reasoning",
-    subtitle: "Multi-System Organ Failure & Complex Comorbidity",
+    subtitle: "Multi-System Complications & Complex Decision Making",
     tagline: "The final exam part one. No hints. No help. Only your knowledge.",
-    estimatedMinutes: { doctor: 90, nurse: 85 },
+    estimatedMinutes: { midwife: 90 },
     passMark: 85,
     xpReward: 1000,
-    certificateTitle: "Board Certified Clinician — Part I",
+    certificateTitle: "Board Certified Midwife — Part I",
     examConfig: {
       timeMinutes: 90,
       questionCount: 15,
@@ -28,208 +27,177 @@ export const BOARD_CERTIFICATION = [
         "19A": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800",
         "19B": "https://images.unsplash.com/photo-1581056771107-24ca5f033842?w=800"
       },
-      ambience: "/audio/heart_sounds_normal.mp3",
+      ambience: "/audio/birth_unit.mp3",
       pdfs: { "complex_cases": "/pdfs/class19_complex.pdf" }
     },
 
-    doctor: {
+    midwife: {
       sims: [
         {
-          id: "19D-A",
-          title: "The Dying Patient - Ethics & Futility",
+          id: "19M-A",
+          title: "The Deteriorating Woman - Sepsis in Labour",
           mechanics: "mcq",
-          objective: "Navigate end-of-life decisions and family conflict",
-          scenario: `Patient with end-stage COPD, severe dementia, recurrent pneumonia. Multiple ICU admissions. 
-          Family insists on "everything done." Patient never made advance directive. Third ICU admission this month. 
-          Ventilator-dependent, not weaning. Multi-organ failure developing.`,
+          objective: "Recognize sepsis early and escalate appropriately",
+          scenario: `Priya, 38 weeks. In spontaneous labour, 6cm dilated. Temp 38.8°C, HR 128, RR 26, BP 95/60. 
+          Shivering, confused, saying she feels 'terrible'. Fetal tachycardia 170. 
+          Prolonged rupture of membranes 36 hours. Meconium-stained liquor. 
+          GBS positive on antenatal swab but no IAP given (admitted in advanced labour).`,
           questions: [
             {
-              id: "19D-A-q1",
-              stem: "Who has the final legal authority regarding CPR decisions in hospital?",
+              id: "19M-A-q1",
+              stem: "What is your immediate priority using the Sepsis Six framework?",
               timeLimit: 60,
               options: [
-                { id: "a", text: "The Next of Kin", correct: false, explanation: "Next of kin can provide input but do not have legal authority to demand treatment."  },
-                { id: "b", text: "The Consultant In Charge", correct: true, explanation: "Medical futility is a clinical decision. While consultation is vital, the senior physician decides when treatment is no longer beneficial." },
-                { id: "c", text: "The Hospital CEO", correct: false, explanation: "Hospital administration does not make clinical decisions about individual patient care." },
-                { id: "d", text: "The Court", correct: false, explanation: "Courts may get involved in extreme cases, but typically only after all clinical avenues are exhausted." }
+                { id: "a", text: "High-flow oxygen, IV access, blood cultures, IV antibiotics (broad-spectrum within 1 hour), IV fluids, monitor urine output", correct: true, explanation: "Sepsis Six in pregnancy: every hour of delay increases mortality. Broad-spectrum antibiotics (piperacillin-tazobactam or cefuroxime + metronidazole) within 1 hour." },
+                { id: "b", text: "Wait for blood culture results before antibiotics", correct: false, explanation: "Never wait for cultures in suspected sepsis. Empiric antibiotics within 1 hour is standard. Cultures taken but do not delay treatment." },
+                { id: "c", text: "Continue labour and monitor only", correct: false, explanation: "Sepsis in labour is an emergency. Maternal condition takes priority over labour progress." },
+                { id: "d", text: "Immediate caesarean regardless of maternal stability", correct: false, explanation: "Delivery may be needed but maternal resuscitation comes first. Unstable mother cannot safely undergo surgery." }
               ]
             },
             {
-              id: "19D-A-q2",
-              stem: "What is the most appropriate next step?",
+              id: "19M-A-q2",
+              stem: "Which antibiotic regimen covers the most likely pathogens?",
               timeLimit: 60,
               options: [
-                { id: "a", text: "Family meeting to discuss ceiling of care and transition to comfort-focused approach", correct: true, explanation: "Best interests framework: burdens of treatment now exceed benefits. Compassionate communication is key." },
-                { id: "b", text: "Continue full active treatment indefinitely", correct: false, explanation: "Continuing aggressive treatment when it's no longer beneficial is not in the patient's best interests." },
-                { id: "c", text: "Withdraw all treatment immediately without discussion", correct: false, explanation: "Withdrawing treatment without family discussion or ethical review is not appropriate." },
-                { id: "d", text: "Transfer to another hospital", correct: false, explanation: "Transferring the patient does not address the underlying ethical and clinical issues." }
+                { id: "a", text: "Piperacillin-tazobactam 4.5g IV TDS OR cefuroxime 1.5g TDS + metronidazole 500mg TDS + gentamicin if severe", correct: true, explanation: "Chorioamnionitis/sepsis in labour: cover Gram-negatives, anaerobes, and GBS. Piperacillin-tazobactam is broad-spectrum. Alternative: cefuroxime + metronidazole + gentamicin." },
+                { id: "b", text: "Oral amoxicillin only", correct: false, explanation: "Oral antibiotics are insufficient for sepsis. IV broad-spectrum required." },
+                { id: "c", text: "Flucloxacillin for GBS only", correct: false, explanation: "Flucloxacillin covers Staph aureus, not GBS (needs penicillin/ampicillin). Also needs Gram-negative and anaerobic coverage." },
+                { id: "d", text: "Metronidazole alone", correct: false, explanation: "Metronidazole covers anaerobes only. Insufficient for polymicrobial chorioamnionitis." }
               ]
             },
             {
-              id: "19D-A-q3",
-              stem: "Which principle supports limiting treatment in this case?",
+              id: "19M-A-q3",
+              stem: "What is the mode of delivery if maternal condition deteriorates despite antibiotics?",
               timeLimit: 60,
               options: [
-                { id: "a", text: "Non-maleficence - treatment is causing harm without proportional benefit", correct: true, explanation: "Continued aggressive treatment may be futile and cause suffering." },
-                { id: "b", text: "Autonomy - patient previously expressed wishes", correct: false, explanation: "Patient has not made an advance directive." },
-                { id: "c", text: "Justice - resource allocation", correct: false, explanation: "While resource allocation is a consideration, it is not the primary principle in this case." },
-                { id: "d", text: "Beneficence - all treatment is beneficial", correct: false, explanation: "Treatment that causes more harm than benefit does not align with beneficence." }
+                { id: "a", text: "Expedite delivery (instrumental if fully dilated, caesarean if not) to remove infected source (placenta/membranes)", correct: true, explanation: "Source control is critical in sepsis. Delivery removes infected tissue. Balance with maternal stability - resuscitate while preparing for delivery." },
+                { id: "b", text: "Continue labour regardless", correct: false, explanation: "Continuing labour with deteriorating sepsis risks maternal death. Source control through delivery is essential." },
+                { id: "c", text: "Wait for full antibiotic course before delivery", correct: false, explanation: "Waiting for antibiotics to work before delivery is dangerous. Sepsis requires source control (delivery) alongside antibiotics." },
+                { id: "d", text: "No delivery - antibiotics will cure infection", correct: false, explanation: "Antibiotics alone cannot clear established chorioamnionitis. Infected placenta and membranes must be delivered." }
               ]
             }
           ]
         },
         {
-          id: "19D-B",
-          title: "Multi-System Failure - The Perfect Storm",
+          id: "19M-B",
+          title: "The Complex Birth - Shoulder Dystocia with Complications",
           mechanics: "mcq",
-          objective: "Prioritize interventions in multi-organ dysfunction",
-          scenario: `68-year-old septic from cholangitis. ARDS (PaO2/FiO2 120), AKI Stage 3 (Cr 450), 
-          DIC (INR 3.5, Fibrinogen 0.6), Encephalopathy (GCS 10). BP 65/40 on noradrenaline 0.8 mcg/kg/min. 
-          Bilirubin 280, lactate 8.5.`,
+          objective: "Manage shoulder dystocia with additional complications",
+          scenario: `Emma, GDM, 40 weeks. Induced for macrosomia (EFW 4.6kg). 
+          Second stage 2.5 hours. Forceps for delay. 
+          Head delivers but turtle sign. McRoberts performed. Suprapubic pressure applied. 
+          Anterior shoulder still impacted. Baby's face turning blue.`,
           questions: [
             {
-              id: "19D-B-q1",
-              stem: "What is the immediate priority?",
+              id: "19M-B-q1",
+              stem: "What is the next manoeuvre after McRoberts and suprapubic pressure fail?",
               timeLimit: 60,
               options: [
-                { id: "a", text: "Maximize vasopressors and add vasopressin to achieve MAP >65", correct: false, explanation: "While optimizing hemodynamics is important, source control is the priority in septic shock." },
-                { id: "b", text: "Urgent ERCP for biliary drainage", correct: true, explanation: "Source control is critical in sepsis. Biliary sepsis requires drainage - antibiotics alone insufficient." },
-                { id: "c", text: "Start renal replacement therapy", correct: false, explanation: "Renal replacement therapy may be needed, but source control is the priority." },
-                { id: "d", text: "Platelet transfusion for DIC", correct: false, explanation: "Platelet transfusion may be indicated, but addressing the underlying cause is paramount." }
+                { id: "a", text: "Internal manoeuvre: Rubin or Woods screw to rotate anterior shoulder into oblique diameter", correct: true, explanation: "Internal rotation manoeuvres are next step. Rubin: push anterior shoulder towards baby's chest. Woods: rotate posterior shoulder 180°. Avoid excessive force." },
+                { id: "b", text: "Pull harder on the head", correct: false, explanation: "Pulling harder causes brachial plexus injury (Erb's palsy), clavicle fracture, or cervical spine injury. Never pull hard on head." },
+                { id: "c", text: "Fundal pressure", correct: false, explanation: "Fundal pressure worsens impaction and increases uterine rupture risk. Absolutely contraindicated." },
+                { id: "d", text: "Wait for next contraction", correct: false, explanation: "Waiting with shoulder dystocia causes hypoxia. Active manoeuvres required immediately." }
               ]
             },
             {
-              id: "19D-B-q2",
-              stem: "What ventilator strategy is appropriate for ARDS?",
+              id: "19M-B-q2",
+              stem: "If internal manoeuvres fail, what is the next step?",
               timeLimit: 60,
               options: [
-                { id: "a", text: "Low tidal volume (6ml/kg), high PEEP, prone positioning if severe", correct: true, explanation: "Lung-protective ventilation: TV 6ml/kg, plateau pressure <30, appropriate PEEP." },
-                { id: "b", text: "High tidal volume (12ml/kg) to maximize minute ventilation", correct: false, explanation: "High tidal volumes cause ventilator-induced lung injury." },
-                { id: "c", text: "Avoid PEEP to prevent barotrauma", correct: false, explanation: "PEEP is important for maintaining alveolar patency and preventing derecruitment." },
-                { id: "d", text: "Immediate ECMO", correct: false, explanation: "ECMO is reserved for refractory cases where conventional ventilation is insufficient." }
+                { id: "a", text: "Deliver posterior arm: flex elbow, sweep arm across chest, deliver arm", correct: true, explanation: "Posterior arm delivery reduces bisacromial diameter. Grasp posterior arm, flex elbow, sweep hand across chest, deliver arm. Then anterior shoulder usually delivers." },
+                { id: "b", text: "Continue internal manoeuvres indefinitely", correct: false, explanation: "If internal manoeuvres fail after 1-2 attempts, move to next step. Time is critical." },
+                { id: "c", text: "Perform Zavanelli manoeuvre (cephalic replacement) immediately", correct: false, explanation: "Zavanelli is last resort before symphysiotomy or decapitation. Not routine next step." },
+                { id: "d", text: "Call for help but continue waiting", correct: false, explanation: "Help should already be called (HELPERR). Active progression through manoeuvres is required." }
               ]
             },
             {
-              id: "19D-B-q3",
-              stem: "What blood product strategy is correct in DIC with bleeding?",
+              id: "19M-B-q3",
+              stem: "What complication is most likely after this shoulder dystocia?",
               timeLimit: 60,
               options: [
-                { id: "a", text: "Give platelets if <10×10⁹/L (or <50 if procedure planned), FFP if PT>1.5×normal", correct: true, explanation: "Targeted replacement based on counts and coagulation studies, not formulaic." },
-                { id: "b", text: "Transfuse platelets to >100 regardless", correct: false, explanation: "Platelet transfusion should be targeted based on clinical need and bleeding risk." },
-                { id: "c", text: "FFP to completely normalize INR", correct: false, explanation: "FFP should be used judiciously based on clinical indication and coagulation status." },
-                { id: "d", text: "Cryoprecipitate only if fibrinogen <0.5", correct: false, explanation: "Cryoprecipitate is indicated for severe fibrinogen deficiency, but other factors should also be considered." }
+                { id: "a", text: "Brachial plexus injury (Erb's palsy) in 10-20% of shoulder dystocia cases", correct: true, explanation: "Erb's palsy (C5-C6) most common. Most resolve spontaneously. Document manoeuvres, duration, and traction applied for medicolegal purposes." },
+                { id: "b", text: "Fractured skull", correct: false, explanation: "Skull fracture is not typical of shoulder dystocia. Clavicle or humerus fracture may occur with excessive traction." },
+                { id: "c", text: "Cerebral palsy in 50% of cases", correct: false, explanation: "Cerebral palsy risk increases with prolonged hypoxia (>5-7 minutes) but is not 50%. Most shoulder dystocia resolved within 2-3 minutes have good outcomes." },
+                { id: "d", text: "No complications expected", correct: false, explanation: "Shoulder dystocia carries significant complication risk. Always document and debrief parents." }
               ]
             }
           ]
         },
         {
-          id: "19D-C",
-          title: "Diagnostic Uncertainty - The Unknown",
+          id: "19M-C",
+          title: "The Undifferentiated Collapse - Amniotic Fluid Embolism",
           mechanics: "text_input",
-          objective: "Develop differential and investigative strategy",
-          scenario: `45-year-old with 6 months of fever, weight loss (15kg), night sweats. 
-          Intermittent abdominal pain. Multiple negative cultures. CT shows retroperitoneal lymphadenopathy. 
-          Autoimmune screen negative. TB negative. HIV negative. Blood cultures repeatedly negative.`,
+          objective: "Recognize AFE and initiate immediate resuscitation",
+          scenario: `Immediately after normal vaginal birth of term baby. 
+          Woman suddenly gasping, cyanosed, BP unrecordable, HR 160. 
+          Profuse bleeding from vagina. Confused, then unresponsive. 
+          No prior warning signs. Normal labour until delivery.`,
           questions: [
             {
-              id: "19D-C-q1",
-              stem: "What is the most likely diagnosis category?",
+              id: "19M-C-q1",
+              stem: "What is the most likely diagnosis?",
               timeLimit: 90,
               options: [
-                { id: "a", text: "Lymphoma (especially non-Hodgkin)", correct: true, explanation: "B symptoms + lymphadenopathy + negative infection workup = lymphoma until proven otherwise." },
-                { id: "b", text: "TB (disseminated)", correct: false, explanation: "TB is a consideration, but multiple negative tests and lack of response to empiric treatment make it less likely." },
-                { id: "c", text: "Autoimmune disease", correct: false, explanation: "Autoimmune disease is a consideration, but the clinical presentation is more consistent with lymphoma." },
-                { id: "d", text: "Factitious disorder", correct: false, explanation: "Factitious disorder is unlikely given the objective findings and lack of psychological history." }
+                { id: "a", text: "Amniotic fluid embolism (AFE)", correct: true, explanation: "Classic AFE: sudden cardiovascular collapse during/after delivery with coagulopathy. Mortality 20-60%. Diagnosis of exclusion." },
+                { id: "b", text: "Simple postpartum haemorrhage", correct: false, explanation: "PPH does not explain the sudden cardiorespiratory collapse preceding bleeding. AFE causes DIC which then causes bleeding." },
+                { id: "c", text: "Pulmonary embolism from DVT", correct: false, explanation: "PE presents with dyspnoea, pleuritic pain, but not typically with immediate coagulopathy and collapse at delivery." },
+                { id: "d", text: "Eclampsia seizure", correct: false, explanation: "Eclampsia has preceding pre-eclampsia, and seizure is primary event. AFE has no warning and different presentation." }
               ]
             },
             {
-              id: "19D-C-q2",
-              stem: "What is the definitive diagnostic test?",
+              id: "19M-C-q2",
+              stem: "What is the immediate management priority?",
               timeLimit: 60,
               options: [
-                { id: "a", text: "Excisional lymph node biopsy (not FNA)", correct: true, explanation: "FNA insufficient for lymphoma architecture. Need excisional biopsy for definitive diagnosis." },
-                { id: "b", text: "Repeat blood cultures", correct: false, explanation: "Blood cultures have been repeatedly negative and are unlikely to yield a diagnosis at this point."   },
-                { id: "c", text: "Bone marrow aspirate only", correct: false, explanation: "Bone marrow biopsy may be helpful but is not the first step in diagnosis." },
-                { id: "d", text: "PET-CT alone", correct: false, explanation: "PET-CT is useful for staging but not definitive for diagnosis." }
+                { id: "a", text: "ABCDE resuscitation, high-flow oxygen, massive transfusion protocol, ICU admission, treat DIC", correct: true, explanation: "AFE: call for help, resuscitate, manage DIC with blood products (1:1:1 ratio), ICU for ventilatory and cardiovascular support. No specific antidote." },
+                { id: "b", text: "Adrenaline 0.5mg IM for anaphylaxis", correct: false, explanation: "While AFE is anaphylactoid, it is not simple anaphylaxis. Requires full resuscitation and DIC management, not just adrenaline." },
+                { id: "c", text: "Heparin for presumed PE", correct: false, explanation: "Heparin worsens AFE-related DIC and bleeding. AFE is not PE." },
+                { id: "d", text: "Wait for blood results", correct: false, explanation: "AFE is clinical diagnosis. Do not wait for results - resuscitate immediately while sending tests." }
               ]
             }
           ]
         },
         {
-          id: "19D-D",
-          title: "Drug Interactions & Prescribing",
+          id: "19M-D",
+          title: "Ethics & Complex Decision Making",
           mechanics: "mcq",
-          objective: "Identify and manage complex drug interactions",
-          scenario: `Patient on warfarin (INR 2.5), amiodarone, simvastatin, omeprazole. 
-          Prescribed clarithromycin for pneumonia. 5 days later: INR 6.8, myalgia, dark urine.`,
+          objective: "Navigate end-of-life decisions and family conflict",
+          scenario: `24 weeks. Preterm prelabour rupture of membranes. 
+          No liquor visible on scan. Cervix closed. No contractions. 
+          No signs of infection. Parents want 'everything done' including caesarean if needed. 
+          You counsel on prognosis.`,
           questions: [
             {
-              id: "19D-D-q1",
-              stem: "What caused the INR rise?",
+              id: "19M-D-q1",
+              stem: "What is the survival rate for babies born at 24 weeks with PPROM and oligohydramnios?",
               timeLimit: 60,
               options: [
-                { id: "a", text: "Clarithromycin inhibits CYP3A4 and P-gp, reducing warfarin metabolism", correct: true, explanation: "Macrolides inhibit warfarin metabolism. Amiodarone also inhibits - double whammy effect." },
-                { id: "b", text: "Omeprazole interaction", correct: false, explanation: "Omeprazole has minimal effect on warfarin metabolism and is unlikely to cause significant INR changes." },
-                { id: "c", text: "Simvastatin effect", correct: false, explanation: "Simvastatin can increase the risk of myopathy when combined with certain drugs." },
-                { id: "d", text: "Pneumonia itself", correct: false, explanation: "Pneumonia can cause systemic inflammation and affect coagulation, but is less likely to be the primary cause of such a significant INR rise." }
+                { id: "a", text: "Approximately 30-40% survival with significant disability risk (40-50% neurodevelopmental impairment)", correct: true, explanation: "24 weeks: 30-40% survival. PPROM with oligohydramnios reduces lung development (pulmonary hypoplasia), further reducing survival. Honest compassionate counselling required." },
+                { id: "b", text: "90% survival with no disability", correct: false, explanation: "90% is far too optimistic. Even at 24 weeks with intact membranes, survival is 30-40% with significant morbidity." },
+                { id: "c", text: "No chance of survival - advise termination", correct: false, explanation: "While prognosis is poor, 30-40% survival means some babies do survive. Offer balanced information, not directive counselling." },
+                { id: "d", text: "100% survival if caesarean performed", correct: false, explanation: "Caesarean does not guarantee survival at 24 weeks. Mode of delivery has less impact than gestation and lung development." }
               ]
             },
             {
-              id: "19D-D-q2",
-              stem: "What is the likely cause of myalgia and dark urine?",
+              id: "19M-D-q2",
+              stem: "What is the most appropriate counselling approach?",
               timeLimit: 60,
               options: [
-                { id: "a", text: "Rhabdomyolysis from simvastatin-clarithromycin interaction", correct: true, explanation: "Clarithromycin inhibits simvastatin metabolism → increased risk myopathy/rhabdomyolysis." },
-                { id: "b", text: "Warfarin skin necrosis", correct: false, explanation: "Warfarin skin necrosis is a rare but serious complication of warfarin therapy." },
-                { id: "c", text: "Dehydration from pneumonia", correct: false, explanation: "Dehydration can contribute to coagulopathy but is less likely to cause such a significant INR rise." },
-                { id: "d", text: "Amiodarone toxicity", correct: false, explanation: "Amiodarone toxicity can cause various complications but is not the primary concern here." }
+                { id: "a", text: "Balanced, honest information about risks and benefits, support parental decision-making, document discussions", correct: true, explanation: "Non-directive counselling: provide information, support decision. Parents may choose expectant management, active intervention, or palliative care. Respect autonomy." },
+                { id: "b", text: "Tell them caesarean is only option", correct: false, explanation: "Directive counselling breaches autonomy. Parents need balanced information to make informed decisions." },
+                { id: "c", text: "Advise termination immediately", correct: false, explanation: "While prognosis is poor, advising termination is directive. Present options and support their decision." },
+                { id: "d", text: "Avoid discussing poor prognosis to prevent distress", correct: false, explanation: "Withholding information breaches duty of candour. Parents need honest information for informed decisions." }
               ]
             },
             {
-              id: "19D-D-q3",
-              stem: "What is the immediate management?",
+              id: "19M-D-q3",
+              stem: "Which principle supports offering palliative care as an option?",
               timeLimit: 60,
               options: [
-                { id: "a", text: "Stop warfarin, simvastatin, clarithromycin; check CK, renal function; consider vitamin K if bleeding", correct: true, explanation: "Stop offending drugs, investigate rhabdomyolysis, reverse anticoagulation if bleeding." },
-                { id: "b", text: "Continue all medications", correct: false, explanation: "Continuing the interacting medications would likely worsen the patient's condition." },
-                { id: "c", text: "Increase warfarin dose", correct: false, explanation: "Increasing the warfarin dose would further elevate the INR and increase bleeding risk." },
-                { id: "d", text: "Start heparin", correct: false, explanation: "Heparin is not appropriate for managing warfarin-induced bleeding." }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-
-    nurse: {
-      sims: [
-        {
-          id: "19N-A",
-          title: "End of Life Care",
-          mechanics: "mcq",
-          objective: "Recognize dying phase and implement comfort measures",
-          scenario: "Patient with end-stage heart failure. Increasingly drowsy, reduced oral intake, mottled peripheries.",
-          questions: [
-            {
-              id: "19N-A-q1",
-              stem: "What medication is essential for comfort in dying patients?",
-              timeLimit: 60,
-              options: [
-                { id: "a", text: "PRN opioids for pain/dyspnoea, anxiolytics for agitation, antiemetics", correct: true, explanation: "Anticipatory prescribing ensures symptoms are managed promptly without delay." },
-                { id: "b", text: "Continue all chronic medications", correct: false, explanation: "Continuing chronic medications may not be appropriate in the final stages of life." },
-                { id: "c", text: "Antibiotics for possible infection", correct: false, explanation: "Antibiotics are not always indicated in end-of-life care and may cause unnecessary burden." },
-                { id: "d", text: "IV fluids to prevent dehydration", correct: false, explanation: "IV fluids are generally not recommended in the final stages of life as they may cause discomfort." }
-              ]
-            },
-            {
-              id: "19N-A-q2",
-              stem: "What is a sign of imminent death (hours)?",
-              timeLimit: 60,
-              options: [
-                { id: "a", text: "Cheyne-Stokes breathing + inability to swallow + peripheral shutdown", correct: true, explanation: "These signs indicate death likely within hours - inform family, increase vigilance." },
-                { id: "b", text: "Increased appetite", correct: false, explanation: "Increased appetite is not a sign of imminent death." },
-                { id: "c", text: "Rising blood pressure", correct: false, explanation: "Rising blood pressure is not a sign of imminent death." },
-                { id: "d", text: "Improved consciousness", correct: false, explanation: "Improved consciousness is not a sign of imminent death." }
+                { id: "a", text: "Non-maleficence - preventing suffering when chance of benefit is minimal", correct: true, explanation: "When prognosis is extremely poor, non-maleficence (do no harm) supports offering palliative care to prevent suffering from invasive interventions with minimal chance of success." },
+                { id: "b", text: "Justice - resource allocation", correct: false, explanation: "While resources are finite, justice is not the primary principle in individual end-of-life decisions." },
+                { id: "c", text: "Autonomy - parents must choose intensive care", correct: false, explanation: "Autonomy means parents choose from options, not that intensive care is mandatory." },
+                { id: "d", text: "Beneficence - all treatment is beneficial", correct: false, explanation: "Not all treatment is beneficial. Invasive treatment with minimal chance of success may cause more harm than benefit." }
               ]
             }
           ]
@@ -246,13 +214,13 @@ export const BOARD_CERTIFICATION = [
     num: "20",
     level: "board_certification",
     title: "The Grand Rounds",
-    subtitle: "Consultant Level Practice & Clinical Synthesis",
+    subtitle: "Master Midwife Practice & Clinical Synthesis",
     tagline: "Everything you've learned. All at once. This is your moment.",
     isFinal: true,
-    estimatedMinutes: { doctor: 120, nurse: 110 },
+    estimatedMinutes: { midwife: 120 },
     passMark: 90,
     xpReward: 2000,
-    certificateTitle: "Master of MediNova Medicine",
+    certificateTitle: "Master of Midwifery Practice",
     examConfig: {
       timeMinutes: 120,
       questionCount: 20,
@@ -264,227 +232,192 @@ export const BOARD_CERTIFICATION = [
         "20A": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800",
         "20B": "https://images.unsplash.com/photo-1581056771107-24ca5f033842?w=800"
       },
-      ambience: "/audio/monitor_alarm.mp3.mp3",
+      ambience: "/audio/birth_centre_ambience.mp3",
       pdfs: { "final_assessment": "/pdfs/class20_final.pdf" }
     },
 
-    doctor: {
+    midwife: {
       sims: [
         {
-          id: "20D-A",
-          title: "The Synthesis - Complex Comorbidity",
+          id: "20M-A",
+          title: "The Synthesis - Complex Multiparous Woman",
           mechanics: "mcq",
-          objective: "Integrate multiple specialties in one complex patient",
-          scenario: `Pregnant patient at 32 weeks. Sepsis from pyelonephritis. 
-          History of sickle cell disease (HbSS). Now with acute chest syndrome developing. 
-          Suspected pulmonary embolism (dyspnoea out of proportion). 
-          BP 85/50, HR 135, SpO2 88% on 15L, Temp 39.2°C. 
-          Hb 52, WCC 28, Platelets 95. Bilirubin 85. Lactate 6.5.`,
+          objective: "Integrate multiple risk factors in one complex woman",
+          scenario: `Priya, 38 years old. G5P4. Previous PPH 2500ml (uterine atony). 
+          BMI 38. Type 2 diabetes on metformin. Hb 85 at 28 weeks (on iron). 
+          36 weeks. Breech presentation. Wants vaginal birth. 
+          BP 155/95. Proteinuria +++. Fetal growth 90th centile. 
+          Previous caesarean for fetal distress 8 years ago.`,
           questions: [
             {
-              id: "20D-A-q1",
-              stem: "What is the PRIMARY consideration for fetal wellbeing?",
+              id: "20M-A-q1",
+              stem: "What is the PRIMARY risk factor for recurrent PPH in this woman?",
               timeLimit: 60,
               options: [
-                { id: "a", text: "Fetal heart monitoring", correct: false, explanation: "Fetal monitoring is important but maternal stability is the priority for fetal outcomes." },
-                { id: "b", text: "Aggressive resuscitation of the mother", correct: true, explanation: "The best way to save the fetus is to stabilize the mother. Maternal physiology determines fetal outcomes." },
-                { id: "c", text: "Emergency Caesarean section", correct: false, explanation: "Delivery may be necessary if maternal condition deteriorates, but initial focus should be on maternal resuscitation." },
-                { id: "d", text: "Tocolysis to prevent preterm labour", correct: false, explanation: "Tocolysis is not appropriate in the context of maternal sepsis and instability." }
+                { id: "a", text: "Previous PPH from uterine atony (strongest predictor of recurrence)", correct: true, explanation: "Previous PPH from atony: 20-30% recurrence risk. Plus BMI >35, multiparity, diabetes, polyhydramnios (if present). Active third stage essential." },
+                { id: "b", text: "Maternal age 38", correct: false, explanation: "Advanced maternal age increases some risks but is not the strongest predictor of recurrent PPH." },
+                { id: "c", text: "BMI 38", correct: false, explanation: "Obesity increases PPH risk but previous PPH is the strongest predictor." },
+                { id: "d", text: "Previous caesarean", correct: false, explanation: "Previous caesarean increases rupture risk but not specifically PPH risk unless placenta praevia/accreta develops." }
               ]
             },
             {
-              id: "20D-A-q2",
-              stem: "What is the priority intervention?",
+              id: "20M-A-q2",
+              stem: "What is the priority intervention for the breech presentation at 36 weeks?",
               timeLimit: 60,
               options: [
-                { id: "a", text: "Exchange transfusion for ACS + broad antibiotics + ICU admission", correct: true, explanation: "ACS in sickle cell is life-threatening. Exchange transfusion reduces HbS, improves oxygenation." },
-                { id: "b", text: "Therapeutic anticoagulation for PE first", correct: false, explanation: "Therapeutic anticoagulation is not the priority in this scenario." },
-                { id: "c", text: "Delivery of baby", correct: false, explanation: "Delivery may be necessary if maternal condition deteriorates, but initial focus should be on maternal resuscitation." },
-                { id: "d", text: "Simple transfusion only", correct: false, explanation: "Simple transfusion is not sufficient for managing ACS in sickle cell disease." }
+                { id: "a", text: "Offer ECV at 37 weeks after controlling BP and starting antihypertensives", correct: true, explanation: "ECV contraindicated if severe pre-eclampsia or uncontrolled BP. Control BP first, then ECV if safe. If ECV fails, plan caesarean at 39 weeks." },
+                { id: "b", text: "Immediate caesarean today", correct: false, explanation: "36 weeks is too early for elective delivery unless severe complications. Aim for 37-39 weeks." },
+                { id: "c", text: "Vaginal breech birth regardless of risk factors", correct: false, explanation: "Vaginal breech with previous caesarean, pre-eclampsia, and macrosomia risk is contraindicated." },
+                { id: "d", text: "No action - wait for spontaneous version", correct: false, explanation: "Spontaneous version after 36 weeks is unlikely. Active management (ECV or planned caesarean) required." }
               ]
             },
             {
-              id: "20D-A-q3",
-              stem: "What antibiotic regimen covers the likely pathogens?",
+              id: "20M-A-q3",
+              stem: "What antihypertensive is safe to start in pregnancy?",
               timeLimit: 60,
               options: [
-                { id: "a", text: "Ceftriaxone + Azithromycin (atypical coverage) ± Vancomycin if MRSA risk", correct: true, explanation: "ACS often triggered by infection. Cover typical + atypical organisms." },
-                { id: "b", text: "Metronidazole alone", correct: false, explanation: "Metronidazole is not effective against the likely pathogens in this scenario." },
-                { id: "c", text: "Amoxicillin", correct: false, explanation: "Amoxicillin is not appropriate for treating the suspected infection in this scenario." },
-                { id: "d", text: "Ciprofloxacin", correct: false, explanation: "Ciprofloxacin is not the preferred antibiotic for treating the suspected infection in this scenario." }
+                { id: "a", text: "Labetalol 200mg BD or nifedipine MR 20mg BD", correct: true, explanation: "Labetalol and nifedipine are first-line in pregnancy. Avoid ACE inhibitors (teratogenic). Methyldopa if labetalol contraindicated (asthma)." },
+                { id: "b", text: "Ramipril", correct: false, explanation: "ACE inhibitors are absolutely contraindicated in pregnancy - fetal renal agenesis, oligohydramnios." },
+                { id: "c", text: "Atenolol", correct: false, explanation: "Atenolol is associated with fetal growth restriction. Labetalol or metoprolol preferred." },
+                { id: "d", text: "No antihypertensives - delivery will cure it", correct: false, explanation: "While delivery cures pre-eclampsia, BP control is needed before delivery to prevent stroke." }
               ]
             },
             {
-              id: "20D-A-q4",
-              stem: "What is the transfusion target?",
+              id: "20M-A-q4",
+              stem: "What PPH prevention bundle is essential for this woman?",
               timeLimit: 60,
               options: [
-                { id: "a", text: "Hb 100, HbS <30%", correct: true, explanation: "Exchange transfusion target: Hb ~100 (not too high → viscosity), HbS <30%." },
-                { id: "b", text: "Hb 70", correct: false, explanation: "Hb 70 is too low for a patient in this condition." },
-                { id: "c", text: "Hb 150", correct: false, explanation: "Hb 150 is too high and could increase viscosity and risk of complications." },
-                { id: "d", text: "Any HbS level acceptable", correct: false, explanation: "Specific HbS levels are important for effective exchange transfusion." }
+                { id: "a", text: "Active third stage (10 units IM oxytocin), IV access, blood cross-matched, uterotonics ready, cell salvage if available", correct: true, explanation: "High-risk PPH bundle: active management, IV access, cross-match blood, warming devices, cell salvage, senior staff present, haematology alert." },
+                { id: "b", text: "Physiological third stage", correct: false, explanation: "Physiological management is inappropriate for high PPH risk. Active management reduces PPH by 60%." },
+                { id: "c", text: "No special precautions", correct: false, explanation: "This woman has multiple high-risk factors. Enhanced precautions mandatory." },
+                { id: "d", text: "Elective caesarean without labour", correct: false, explanation: "Caesarean does not prevent PPH and may increase it. Vaginal birth with precautions is preferred if safe." }
               ]
             }
           ]
         },
         {
-          id: "20D-B",
-          title: "The Undifferentiated Collapse",
+          id: "20M-B",
+          title: "The Undifferentiated Emergency - Maternal Collapse",
           mechanics: "mcq",
           objective: "Diagnostic reasoning with minimal information",
-          scenario: `55-year-old found collapsed at home. Unknown downtime. 
-          GCS 3. Pupils fixed dilated. Asystole on monitor. 
-          Family arrived and are distraught. 
-          History: Hypertension, diabetes, depression. 
-          Empty medication bottles nearby (metformin, amlodipine, amitriptyline - all recently filled).`,
+          scenario: `Postpartum day 1 after normal vaginal birth. 
+          Found collapsed on bathroom floor. 
+          Unresponsive. No pulse. Partner says she complained of sudden severe headache then collapsed. 
+          History: 42 years old. IVF twin pregnancy. Emergency caesarean for twin 2 after vaginal birth of twin 1. 
+          BP was 160/100 in labour. No proteinuria documented.`,
           questions: [
             {
-              id: "20D-B-q1",
+              id: "20M-B-q1",
               stem: "What is the most likely cause of collapse?",
               timeLimit: 60,
               options: [
-                { id: "a", text: "Tricyclic antidepressant overdose (amitriptyline)", correct: true, explanation: "Amitriptyline overdose causes seizures, arrhythmias, anticholinergic effects, cardiac arrest." },
-                { id: "b", text: "Hypoglycaemia from metformin", correct: false, explanation: "Hypoglycaemia is a possibility but less likely given the clinical presentation." },
-                { id: "c", text: "Hypertensive emergency", correct: false, explanation: "Hypertensive emergency would present differently with elevated blood pressure." },
-                { id: "d", text: "Stroke", correct: false, explanation: "Stroke would typically present with focal neurological deficits." }
+                { id: "a", text: "Postpartum intracranial haemorrhage from uncontrolled hypertension/eclampsia", correct: true, explanation: "Sudden severe headache then collapse = intracranial haemorrhage until proven otherwise. Postpartum eclampsia can occur up to 4 weeks. Emergency CT head." },
+                { id: "b", text: "Simple vasovagal syncope", correct: false, explanation: "Vasovagal syncope does not cause unresponsiveness with no pulse. This is a collapse, not a faint." },
+                { id: "c", text: "Postpartum haemorrhage", correct: false, explanation: "No excessive bleeding documented. Collapse with headache points to neurological cause, not haemorrhage." },
+                { id: "d", text: "Pulmonary embolism", correct: false, explanation: "PE causes dyspnoea, chest pain, collapse. Sudden headache is not typical of PE." }
               ]
             },
             {
-              id: "20D-B-q2",
-              stem: "What is the specific antidote?",
+              id: "20M-B-q2",
+              stem: "What is the immediate management?",
               timeLimit: 60,
               options: [
-                { id: "a", text: "Sodium bicarbonate (for sodium channel blockade)", correct: true, explanation: "TCA overdose: Sodium bicarbonate for wide QRS, hypotension, arrhythmias." },
-                { id: "b", text: "Naloxone", correct: false, explanation: "Naloxone is used for opioid overdose." },
-                { id: "c", text: "Flumazenil", correct: false, explanation: "Flumazenil is used for benzodiazepine overdose." },
-                { id: "d", text: "Vitamin K", correct: false, explanation: "Vitamin K is used for warfarin overdose." }
+                { id: "a", text: "Call resus team, CPR if no pulse, CT head if ROSC, magnesium sulfate if eclampsia suspected, neurosurgical referral", correct: true, explanation: "Postpartum collapse: resuscitate, investigate. If eclampsia suspected, magnesium sulfate. CT head for neurological symptoms. Multidisciplinary care." },
+                { id: "b", text: "Wait for CT before any treatment", correct: false, explanation: "Do not delay resuscitation for CT. Stabilize first, then investigate." },
+                { id: "c", text: "Give antibiotics for presumed sepsis", correct: false, explanation: "Sepsis is possible but headache points to neurological cause. Do not delay appropriate investigation." },
+                { id: "d", text: "Heparin for presumed PE", correct: false, explanation: "Heparin worsens intracranial haemorrhage. Do not give anticoagulation until CT excludes bleed." }
               ]
             },
             {
-              id: "20D-B-q3",
-              stem: "What ECG finding indicates severe toxicity?",
+              id: "20M-B-q3",
+              stem: "What BP threshold in postpartum requires urgent treatment?",
               timeLimit: 60,
               options: [
-                { id: "a", text: "QRS >100ms or terminal R wave in aVR", correct: true, explanation: "QRS >100ms predicts seizures, >160ms predicts ventricular arrhythmias." },
-                { id: "b", text: "ST elevation", correct: false, explanation: "ST elevation is not typically associated with TCA overdose." },
-                { id: "c", text: "Short PR interval", correct: false, explanation: "Short PR interval is not a typical finding in TCA overdose." },
-                { id: "d", text: "Sinus bradycardia", correct: false, explanation: "Sinus bradycardia is not a typical finding in TCA overdose." }
+                { id: "a", text: "≥160/110 mmHg - treat to prevent intracranial haemorrhage and eclampsia", correct: true, explanation: "Postpartum BP ≥160/110 requires urgent treatment. Stroke risk increases dramatically above this threshold. Labetalol or nifedipine first-line." },
+                { id: "b", text: "≥140/90", correct: false, explanation: "140/90 is hypertensive but not an emergency threshold. Monitor and treat if persistent." },
+                { id: "c", text: "≥180/120 only", correct: false, explanation: "Waiting for 180/120 increases stroke risk. 160/110 is the treatment threshold." },
+                { id: "d", text: "No treatment needed postpartum", correct: false, explanation: "Postpartum pre-eclampsia/eclampsia can occur up to 4 weeks. BP monitoring and treatment essential." }
               ]
             }
           ]
         },
         {
-          id: "20D-C",
-          title: "The Rare Diagnosis",
+          id: "20M-C",
+          title: "The Rare Diagnosis - Acute Fatty Liver of Pregnancy",
           mechanics: "text_input",
           objective: "Recognize atypical presentation of rare disease",
-          scenario: `28-year-old with recurrent venous thrombosis (DVT x2, PE x1). 
-          Miscarriage at 16 weeks (pre-eclampsia). 
-          Now with livedo reticularis, thrombocytopenia, hemolytic anemia. 
-          APS antibodies negative. ADAMTS13 pending.`,
+          scenario: `38 weeks. Nulliparous. 
+          2-week history of nausea, vomiting, malaise. 
+          Now jaundiced, confused, hypoglycaemic (glucose 2.1). 
+          ALT 450, bilirubin 120, INR 2.5, creatinine 180, platelets 85. 
+          BP 130/80. No proteinuria. Fetal movements reduced.`,
           questions: [
             {
-              id: "20D-C-q1",
+              id: "20M-C-q1",
               stem: "What is the most likely diagnosis?",
               timeLimit: 90,
               options: [
-                { id: "a", text: "Antiphospholipid syndrome (despite negative initial tests - need repeat)", correct: false },
-                { id: "b", text: "Thrombotic thrombocytopenic purpura (TTP)", correct: true, explanation: "Pentad: Thrombocytopenia, MAHA, neurologic symptoms, renal, fever. ADAMTS13 deficiency." },
-                { id: "c", text: "Heparin-induced thrombocytopenia", correct: false, explanation: "HIT typically occurs after heparin exposure and presents with thrombocytopenia and thrombosis, but the clinical picture here is more consistent with TTP." },
-                { id: "d", text: "Disseminated intravascular coagulation", correct: false, explanation: "DIC is a systemic disorder of coagulation, not the primary concern here." }
+                { id: "a", text: "Acute fatty liver of pregnancy (AFLP)", correct: true, explanation: "AFLP: third trimester, nulliparous, male fetus risk. Triad: jaundice, coagulopathy, encephalopathy. Swansea criteria for diagnosis. Maternal mortality 10-20%." },
+                { id: "b", text: "Pre-eclampsia/HELLP", correct: false, explanation: "No hypertension, no proteinuria. HELLP has haemolysis (LDH, bilirubin from haemolysis). AFLP has synthetic liver failure (low glucose, high ammonia, coagulopathy)." },
+                { id: "c", text: "Viral hepatitis", correct: false, explanation: "Viral hepatitis possible but 2-week prodrome with coagulopathy and hypoglycaemia is more typical of AFLP." },
+                { id: "d", text: "Cholestasis of pregnancy", correct: false, explanation: "Cholestasis causes pruritus and raised bile acids, not coagulopathy, encephalopathy, or hypoglycaemia." }
               ]
             },
             {
-              id: "20D-C-q2",
+              id: "20M-C-q2",
               stem: "What is the emergency treatment?",
               timeLimit: 60,
               options: [
-                { id: "a", text: "Plasma exchange (daily until ADAMTS13 recovered)", correct: true, explanation: "TTP is hematologic emergency. Plasma exchange removes inhibitors, replaces ADAMTS13." },
-                { id: "b", text: "Heparin infusion", correct: false, explanation: "Heparin is not appropriate for treating TTP and may worsen thrombocytopenia." },
-                { id: "c", text: "Platelet transfusion", correct: false, explanation: "Platelet transfusion is not the primary treatment for TTP." },
-                { id: "d", text: "Splenectomy", correct: false, explanation: "Splenectomy is not a standard treatment for TTP." }
+                { id: "a", text: "Delivery immediately (source control) + ICU support (glucose, clotting factors, possible liver transplant)", correct: true, explanation: "AFLP: delivery is only cure. Stabilize glucose, correct coagulopathy, deliver. ICU postpartum. Liver transplant if fulminant liver failure." },
+                { id: "b", text: "Wait for spontaneous labour", correct: false, explanation: "AFLP is life-threatening. Waiting risks maternal death from liver failure, coagulopathy, encephalopathy." },
+                { id: "c", text: "Steroids to improve liver function", correct: false, explanation: "Steroids do not treat AFLP. Delivery is the only definitive treatment." },
+                { id: "d", text: "Antibiotics for presumed sepsis", correct: false, explanation: "While infection can coexist, AFLP is a metabolic liver disease, not infection. Delivery is priority." }
               ]
             }
           ]
         },
         {
-          id: "20D-D",
+          id: "20M-D",
           title: "Leadership & Team Management",
           mechanics: "mcq",
           objective: "Direct team during crisis and manage resources",
-          scenario: `Major incident declared. 15 casualties arriving. 
-          You are the senior clinician. 2 junior doctors, 4 nurses, 1 anaesthetist. 
-          Limited resources. First patient: Pregnant, 30 weeks, major trauma, unconscious. 
-          Second patient: Child, severe asthma, arresting. 
-          Third: Elderly, obviously deceased (head injury, signs incompatible with life).`,
+          scenario: `Major incident in birth centre. Two women in active labour. 
+          You are the senior midwife. One junior midwife, one student. 
+          Woman 1: Term, fully dilated, pushing, fetal bradycardia 60. 
+          Woman 2: 30 weeks, preterm labour, cervix 4cm, no steroids given, no neonatal cot available. 
+          Woman 3 (just arrived): 41 weeks, thick meconium, fetal tachycardia 180, temp 38.5°C.`,
           questions: [
             {
-              id: "20D-D-q1",
+              id: "20M-D-q1",
               stem: "What is your first action?",
               timeLimit: 60,
               options: [
-                { id: "a", text: "Triage and allocate resources based on survivability and need", correct: true, explanation: "Major incident triage: Do most for most. Expectant category for unsalvageable." },
-                { id: "b", text: "Work on the pregnant patient first (two lives)", correct: false, explanation: "While the pregnant patient is a priority, triage principles still apply. The child may have better chances of survival." },
-                { id: "c", text: "Work on the child first (most emotive)", correct: false, explanation: "The child's condition is critical, but triage principles must be followed." },
-                { id: "d", text: "Attempt resuscitation of the deceased patient", correct: false, explanation: "Resuscitation efforts should be focused on salvageable patients." }
+                { id: "a", text: "Triage by immediate threat to life: Woman 1 (fetal bradycardia = immediate delivery) → Woman 3 (possible chorioamnionitis) → Woman 2 (preterm, stable for now)", correct: true, explanation: "Crisis resource management: prioritize by acuity. Fetal bradycardia in second stage = immediate threat. Chorioamnionitis needs antibiotics and delivery. Preterm labour stable for transfer/steroids." },
+                                { id: "b", text: "Attend to Woman 2 first because preterm baby is most vulnerable", correct: false, explanation: "While preterm is vulnerable, she is currently stable at 4cm. Fetal bradycardia in second stage is an immediate life threat requiring instant action." },
+                { id: "c", text: "Attend to Woman 3 first because infection spreads", correct: false, explanation: "Chorioamnionitis needs urgent attention but fetal bradycardia in second stage takes priority. Delegate antibiotics for Woman 3 while managing Woman 1." },
+                { id: "d", text: "Call for help and wait", correct: false, explanation: "Calling for help is correct but waiting is dangerous. Triage and act simultaneously while help arrives." }
               ]
             },
             {
-              id: "20D-D-q2",
-              stem: "How do you manage the obviously deceased patient?",
+              id: "20M-D-q2",
+              stem: "How do you manage Woman 1 with fetal bradycardia in second stage?",
               timeLimit: 60,
               options: [
-                { id: "a", text: "Expectant category - do not use resources. Document and protect body.", correct: true, explanation: "In major incidents, resources are directed to salvageable patients." },
-                { id: "b", text: "Attempt resuscitation anyway", correct: false, explanation: "Resuscitation efforts should be focused on salvageable patients." },
-                { id: "c", text: "Ignore and focus on others", correct: false, explanation: "In major incidents, resources are directed to salvageable patients." },
-                { id: "d", text: "Request more resources for this patient", correct: false, explanation: "In major incidents, resources are directed to salvageable patients." }
+                { id: "a", text: "Immediate instrumental delivery (ventouse/forceps) if head on perineum, or emergency caesarean if not. Call obstetrician immediately.", correct: true, explanation: "Fetal bradycardia in second stage = immediate delivery. If head visible/on perineum: instrumental. If high/not fully dilated: category 1 caesarean. Every minute increases hypoxic brain injury risk." },
+                { id: "b", text: "Change position and continue pushing", correct: false, explanation: "Position change may help with cord compression but bradycardia in second stage requires immediate delivery, not conservative measures." },
+                { id: "c", text: "Give terbutaline to stop contractions", correct: false, explanation: "Tocolysis is for fetal distress in first stage to allow resuscitation. In second stage, delivery is the only option." },
+                { id: "d", text: "Start syntocinon augmentation", correct: false, explanation: "Augmentation worsens fetal distress. Bradycardia in second stage requires delivery, not stronger contractions." }
               ]
             },
             {
-              id: "20D-D-q3",
-              stem: "What communication is essential?",
+              id: "20M-D-q3",
+              stem: "What communication is essential during this crisis?",
               timeLimit: 60,
               options: [
-                { id: "a", text: "Clear, closed-loop communication with role allocation and regular updates", correct: true, explanation: "Crisis resource management: Clear roles, closed-loop communication, situational awareness." },
-                { id: "b", text: "Work independently without communication", correct: false, explanation: "Effective communication is crucial during crises." },
-                { id: "c", text: "Only communicate with family", correct: false, explanation: "Communication should be comprehensive and include all relevant stakeholders." },
-                { id: "d", text: "Delegate all decisions to juniors", correct: false, explanation: "Senior staff should maintain oversight and make critical decisions." }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-
-    nurse: {
-      sims: [
-        {
-          id: "20N-A",
-          title: "Clinical Leadership",
-          mechanics: "mcq",
-          objective: "Delegate effectively and maintain safety during crisis",
-          scenario: "Short-staffed shift. 6 high-dependency patients. 2 HCAs. You are the senior nurse.",
-          questions: [
-            {
-              id: "20N-A-q1",
-              stem: "What is your priority?",
-              timeLimit: 60,
-              options: [
-                { id: "a", text: "Rapid assessment of all patients, delegate tasks by acuity, escalate for help", correct: true, explanation: "Safety-first approach: Assess, prioritize, delegate, escalate." },
-                { id: "b", text: "Focus on one patient only", correct: false, explanation: "A comprehensive approach is necessary to ensure all patients receive appropriate care." },
-                { id: "c", text: "Do all tasks yourself", correct: false, explanation: "Effective delegation is crucial for managing high-dependency patient loads." },
-                { id: "d", text: "Send patients home early", correct: false, explanation: "Discharge decisions should be made based on clinical criteria, not resource constraints." }
-              ]
-            },
-            {
-              id: "20N-A-q2",
-              stem: "What should you delegate to HCAs?",
-              timeLimit: 60,
-              options: [
-                { id: "a", text: "Vital signs, personal care, mobilization - NOT medication or complex assessments", correct: true, explanation: "Delegation within scope of practice maintains safety while optimizing resources." },
-                { id: "b", text: "Medication administration", correct: false, explanation: "Medication administration is outside the scope of practice for HCAs." },
-                { id: "c", text: "Discharge planning", correct: false, explanation: "Discharge planning requires clinical judgment and is typically the responsibility of registered nurses." },
-                { id: "d", text: "Nothing - do everything yourself", correct: false, explanation: "Effective delegation is crucial for managing high-dependency patient loads." }
+                { id: "a", text: "Clear closed-loop communication, allocate specific roles, regular updates, document times and decisions", correct: true, explanation: "Crisis resource management: clear roles (who does what), closed-loop (confirm instructions heard), situational awareness, debrief afterwards." },
+                { id: "b", text: "Work independently without communicating", correct: false, explanation: "Independent work in crisis leads to errors and omissions. Communication is essential." },
+                { id: "c", text: "Only communicate with family", correct: false, explanation: "Family communication is important but clinical team coordination takes priority during active crisis." },
+                { id: "d", text: "Delegate all decisions to junior midwife", correct: false, explanation: "Senior midwife retains leadership. Delegate tasks, not decision-making responsibility." }
               ]
             }
           ]

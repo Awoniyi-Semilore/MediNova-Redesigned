@@ -1,3 +1,5 @@
+/* src/styles/profile.module.css */
+
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@300;400;500&family=Share+Tech+Mono&display=swap');
 
 .page { font-family: 'DM Sans', sans-serif; min-height: 100vh; transition: background 0.4s; }
@@ -182,4 +184,359 @@
   .twoCol { grid-template-columns: 1fr; }
   .rvMetrics { grid-template-columns: 1fr; }
   .body { padding: 1.5rem 1.2rem 3rem; }
+}
+
+
+/* ===== ADDITIONAL STYLES FOR UPDATED PROFILE COMPONENTS ===== */
+/* Add these to your existing src/styles/profile.module.css */
+
+/* Avatar preview in AccountSettings */
+.avatarPreviewWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.avatarEditDot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: #1565c0;
+  border-radius: 50%;
+  padding: 5px;
+  border: 2px solid white;
+}
+
+.avatarHint {
+  font-size: 0.6rem;
+  color: #90a4ae;
+  margin-top: 10px;
+  font-family: 'Share Tech Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.dark .avatarHint {
+  color: rgba(255,255,255,0.35);
+}
+
+/* Message pills */
+.msgPill {
+  font-size: 0.75rem;
+  padding: 0.5rem 0.8rem;
+  border-radius: 20px;
+  margin: 0.5rem 0;
+  font-family: 'DM Sans', sans-serif;
+  text-align: center;
+}
+
+.msgSuccess {
+  background: rgba(46, 125, 50, 0.1);
+  color: #2e7d32;
+  border: 1px solid rgba(46, 125, 50, 0.2);
+}
+
+.dark .msgSuccess {
+  background: rgba(76, 175, 80, 0.15);
+  color: #81c784;
+  border-color: rgba(76, 175, 80, 0.3);
+}
+
+.msgError {
+  background: rgba(198, 40, 40, 0.1);
+  color: #c62828;
+  border: 1px solid rgba(198, 40, 40, 0.2);
+}
+
+.dark .msgError {
+  background: rgba(239, 83, 80, 0.15);
+  color: #ef5350;
+  border-color: rgba(239, 83, 80, 0.3);
+}
+
+/* Account info rows */
+.accountInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid;
+}
+
+.light .infoRow {
+  border-color: #e3eaf6;
+}
+
+.dark .infoRow {
+  border-color: rgba(255,255,255,0.07);
+}
+
+.infoLabel {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.light .infoLabel {
+  color: #90a4ae;
+}
+
+.dark .infoLabel {
+  color: rgba(255,255,255,0.35);
+}
+
+.infoValue {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+.light .infoValue {
+  color: #0d2d5e;
+}
+
+.dark .infoValue {
+  color: rgba(255,255,255,0.8);
+}
+
+/* Action list */
+.actionList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+/* Reset toast */
+.resetToast {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.6rem;
+  padding: 4px 10px;
+  border-radius: 10px;
+  background: rgba(76, 175, 80, 0.2);
+  color: #81c784;
+  animation: fadeInOut 3s ease;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(-5px); }
+  10% { opacity: 1; transform: translateY(0); }
+  90% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-5px); }
+}
+
+/* Hero name accent in dark mode */
+.dark .heroNameAccent {
+  color: #90caf9;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .avatarPreviewWrap {
+    margin-bottom: 1.5rem;
+  }
+  
+  .accountInfo {
+    gap: 0.5rem;
+  }
+  
+  .infoRow {
+    padding: 0.5rem 0;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ===== ADDITIONAL STYLES FOR UPDATED PROFILE COMPONENTS ===== */
+/* Add these to your existing src/styles/profile.module.css */
+
+/* Avatar preview in AccountSettings */
+.avatarPreviewWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.avatarEditDot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: #1565c0;
+  border-radius: 50%;
+  padding: 5px;
+  border: 2px solid white;
+}
+
+.avatarHint {
+  font-size: 0.6rem;
+  color: #90a4ae;
+  margin-top: 10px;
+  font-family: 'Share Tech Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.dark .avatarHint {
+  color: rgba(255,255,255,0.35);
+}
+
+/* Message pills */
+.msgPill {
+  font-size: 0.75rem;
+  padding: 0.5rem 0.8rem;
+  border-radius: 20px;
+  margin: 0.5rem 0;
+  font-family: 'DM Sans', sans-serif;
+  text-align: center;
+}
+
+.msgSuccess {
+  background: rgba(46, 125, 50, 0.1);
+  color: #2e7d32;
+  border: 1px solid rgba(46, 125, 50, 0.2);
+}
+
+.dark .msgSuccess {
+  background: rgba(76, 175, 80, 0.15);
+  color: #81c784;
+  border-color: rgba(76, 175, 80, 0.3);
+}
+
+.msgError {
+  background: rgba(198, 40, 40, 0.1);
+  color: #c62828;
+  border: 1px solid rgba(198, 40, 40, 0.2);
+}
+
+.dark .msgError {
+  background: rgba(239, 83, 80, 0.15);
+  color: #ef5350;
+  border-color: rgba(239, 83, 80, 0.3);
+}
+
+/* Account info rows */
+.accountInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid;
+}
+
+.light .infoRow {
+  border-color: #e3eaf6;
+}
+
+.dark .infoRow {
+  border-color: rgba(255,255,255,0.07);
+}
+
+.infoLabel {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.light .infoLabel {
+  color: #90a4ae;
+}
+
+.dark .infoLabel {
+  color: rgba(255,255,255,0.35);
+}
+
+.infoValue {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+.light .infoValue {
+  color: #0d2d5e;
+}
+
+.dark .infoValue {
+  color: rgba(255,255,255,0.8);
+}
+
+/* Action list */
+.actionList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+/* Reset toast */
+.resetToast {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.6rem;
+  padding: 4px 10px;
+  border-radius: 10px;
+  background: rgba(76, 175, 80, 0.2);
+  color: #81c784;
+  animation: fadeInOut 3s ease;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(-5px); }
+  10% { opacity: 1; transform: translateY(0); }
+  90% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-5px); }
+}
+
+/* Hero name accent in dark mode */
+.dark .heroNameAccent {
+  color: #90caf9;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .avatarPreviewWrap {
+    margin-bottom: 1.5rem;
+  }
+
+  .accountInfo {
+    gap: 0.5rem;
+  }
+
+  .infoRow {
+    padding: 0.5rem 0;
+  }
 }

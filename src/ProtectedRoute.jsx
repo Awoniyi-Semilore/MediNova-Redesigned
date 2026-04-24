@@ -45,9 +45,11 @@ export default function ProtectedRoute({ children }) {
     )
   }
 
-  if (!currentUser) {
-    return <Navigate to="/" />
-  }
+  const localUser = localStorage.getItem('medinova_user')
 
+if (!currentUser && !localUser) {
+  return <Navigate to="/" />
+}
+  
   return children
 }

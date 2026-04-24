@@ -1,3 +1,5 @@
+// src/components/ward-map/ClassDetail.jsx
+
 import { useParams, useNavigate } from 'react-router-dom'
 import { useTheme } from '../../contexts/ThemeContext'
 import { useProgress } from '../../contexts/ProgressContext'
@@ -29,8 +31,6 @@ export default function ClassDetail() {
   const { isDark } = useTheme()
   
   const {
-    track,
-    setTrack,
     classStatus,
     classScore,
     classAttempts,
@@ -39,7 +39,6 @@ export default function ClassDetail() {
     isCertEarned,
   } = useProgress()
 
-  // FIXED: IDs are usually strings like 'class01'. Removed Number()
   const cls = CURRICULUM.find(c => String(c.id) === String(classId));
   const themeClass = isDark ? styles.dark : styles.light
 
@@ -54,17 +53,16 @@ export default function ClassDetail() {
   const attempts = typeof classAttempts === 'function' ? classAttempts(cls.id) : 0
   const level = LEVELS.find(l => l.id === cls.level)
 
-  // Extract numeric part of ID for color calculation if it's a string like 'class02'
   const idNum = typeof cls.id === 'string' 
-  ? (parseInt(cls.id.replace(/\D/g, '')) || 0) 
-  : cls.id;
+    ? (parseInt(cls.id.replace(/\D/g, '')) || 0) 
+    : cls.id;
   const accentColor = level?.colorPool ? level.colorPool[idNum % level.colorPool.length] : '#1565c0'
 
-  const trackData = cls[track] || cls.doctor
+  const trackData = cls.midwife || {}
   const sims = trackData?.sims || []
   const desc = cls.description 
-  ? (typeof cls.description === 'object' ? (cls.description[track] || cls.description.doctor) : cls.description)
-  : (cls.tagline || "Clinical documentation and briefing for this case are pending.");
+    ? (typeof cls.description === 'object' ? (cls.description.midwife || '') : cls.description)
+    : (cls.tagline || "Clinical documentation and briefing for this case are pending.");
 
   const history = (results || [])
     .filter(h => h.classId === cls.id)
@@ -76,19 +74,19 @@ export default function ClassDetail() {
 
   function statusBadgeClass() {
     if (status === 'done')   return `${styles.ssBadge} ${styles.badgeDone}`
-    if (status === 'active' || status === 'next') return `${styles.ssBadge} ${styles.badgeActive}`
+    if (status === 'next')   return `${styles.ssBadge} ${styles.badgeActive}`
     return `${styles.ssBadge} ${styles.badgeLocked}`
   }
   
   function statusLabel() {
     if (status === 'done')   return 'Completed'
-    if (status === 'active' || status === 'next') return 'In Progress'
+    if (status === 'next')   return 'In Progress'
     return 'Locked'
   }
 
   function getSimStatus(si) {
     if (status === 'done')   return 'done'
-    if (status === 'active' || status === 'next') return si === 0 ? 'active' : 'lock'
+    if (status === 'next')   return si === 0 ? 'active' : 'lock'
     return 'lock'
   }
 
@@ -98,10 +96,11 @@ export default function ClassDetail() {
     return `${styles.simItem} ${styles.simItemLock}`
   }
 
-  const canEnter = status === 'active' || status === 'done' || status === 'next'
+  // FIX: Use 'next' (not 'active') — this is what classStatus() returns
+  const canEnter = status === 'next' || status === 'done'
   const ctaLabel = status === 'done'
     ? 'Review Case File'
-    : status === 'active' || status === 'next'
+    : status === 'next'
     ? 'Begin Simulation →'
     : 'Locked — Complete Previous Case'
 
@@ -134,7 +133,7 @@ export default function ClassDetail() {
           <div className={styles.heroLeft}>
             <div className={styles.heroLevel}>
               <div className={styles.heroLevelDot} style={{ background: accentColor }} />
-              {level?.label || cls.level} &nbsp;·&nbsp; {track === 'doctor' ? 'Physician Track' : 'Nurse Track'}
+              {level?.label || cls.level}
             </div>
             <div className={styles.heroNum}>Class {cls.num}</div>
             <div className={styles.heroTitle}>
@@ -146,7 +145,7 @@ export default function ClassDetail() {
             <div className={styles.heroXp}>+{cls.xpReward} XP on completion</div>
             <div className={styles.heroPassMark}>Pass mark: {cls.passMark}%</div>
             <div className={styles.heroTime}>
-              ~{cls.estimatedMinutes?.[track] || 30} min
+              ~{cls.estimatedMinutes?.midwife || 30} min
             </div>
           </div>
         </div>
@@ -174,18 +173,6 @@ export default function ClassDetail() {
       </div>
 
       <div className={styles.body}>
-        <div className={styles.trackToggle}>
-          <span className={styles.ttLabel}>Viewing as:</span>
-          <button
-            className={`${styles.ttBtn} ${track === 'doctor' ? styles.ttBtnActive : ''}`}
-            onClick={() => setTrack('doctor')}
-          > Physician </button>
-          <button
-            className={`${styles.ttBtn} ${track === 'nurse' ? styles.ttBtnActive : ''}`}
-            onClick={() => setTrack('nurse')}
-          > Nurse </button>
-        </div>
-
         <div className={styles.sectionLabel}>Case Briefing</div>
         <div className={styles.descCard}>
           <div className={styles.descHead}>
@@ -227,7 +214,7 @@ export default function ClassDetail() {
                       <div className={styles.histDate}>
                         {new Date(h.date).toLocaleDateString()}
                       </div>
-                      <div className={styles.histTrack}>{h.track}</div>
+                      <div className={styles.histTrack}>{h.track || 'Midwife'}</div>
                       <div className={`${styles.histScore} ${h.score >= cls.passMark ? styles.histScorePass : styles.histScoreFail}`}>
                         {h.score}%
                       </div>

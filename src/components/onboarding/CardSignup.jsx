@@ -1,3 +1,5 @@
+// src/components/onboarding/CardSignup.jsx
+
 import { useState } from 'react'
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { auth } from '../../lib/firebase'

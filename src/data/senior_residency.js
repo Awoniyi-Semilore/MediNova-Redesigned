@@ -1,191 +1,125 @@
-// senior_residency.js - Classes 10-14: High Acuity & Complex Decision Making
-// Competing priorities, time-critical decisions, leadership skills
+// senior_residency.js - Classes 10-14: Labour, Birth & Immediate Postpartum
+// High acuity scenarios, competing priorities, emergency skills
 
 export const SENIOR_RESIDENCY = [
   // ═══════════════════════════════════════════════════════════════════════════════
-  // CLASS 10: ENDOCRINE EMERGENCIES
+  // CLASS 10: NORMAL LABOUR & BIRTH
   // ═══════════════════════════════════════════════════════════════════════════════
   {
     id: 10,
     num: "10",
     level: "senior_residency",
-    title: "Endocrine Emergencies",
-    subtitle: "DKA, HHS & Adrenal Crisis",
-    tagline: "The blood turns to acid. Restore the pH before it's too late.",
-    estimatedMinutes: { doctor: 65, nurse: 60 },
+    title: "Normal Labour",
+    subtitle: "First Stage, Pain Relief & Birth Preparation",
+    tagline: "Labour is a journey. Guide her through it with skill and compassion.",
+    estimatedMinutes: { midwife: 65 },
     passMark: 80,
     xpReward: 350,
     media: {
       images: {
         "10A": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800"
       },
-      ambience: "/audio/heart_sounds_normal.mp3",
-      pdfs: { "jbds_dka": "/pdfs/class10_dka_guidelines.pdf" }
+      ambience: "/audio/labour_ward.mp3",
+      pdfs: { "labour_guidelines": "/pdfs/class10_labour.pdf" }
     },
 
-    doctor: {
+    midwife: {
       sims: [
         {
-          id: "10D-A",
-          title: "Severe DKA Management",
+          id: "10M-A",
+          title: "Latent Phase Assessment",
           mechanics: "mcq",
-          objective: "Execute the DKA protocol safely",
-          scenario: "19-year-old Type 1. pH 7.05, Ketones 6.8, Glucose 32, K+ 3.2. Confused, Kussmaul breathing.",
+          objective: "Differentiate latent from active labour and manage expectations",
+          scenario: "Priya, 39 weeks. Contractions every 10-15 minutes, lasting 30 seconds. Cervix 2cm, soft, anterior, 50% effaced. Membranes intact.",
           questions: [
             {
-              id: "10D-A-q1",
-              stem: "What is the PRIMARY goal of insulin in DKA?",
+              id: "10M-A-q1",
+              stem: "What is the definition of active labour?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "To suppress ketogenesis", correct: true, explanation: "Insulin stops fat breakdown into ketones - this resolves the acidosis." },
-                { id: "b", text: "To lower glucose to 5 mmol/L", correct: false, explanation: "Glucose reduction is a secondary effect - avoid rapid drops to prevent cerebral oedema." },
-                { id: "c", text: "To prevent hypoglycaemia", correct: false, explanation: "Preventing hypoglycaemia is a secondary consideration in DKA management." },
-                { id: "d", text: "To reduce potassium", correct: false, explanation: "Potassium management is a secondary consideration in DKA management." }
+                { id: "a", text: "Regular painful contractions with cervical dilation ≥4cm and progressive effacement", correct: true, explanation: "Active labour: ≥4cm with progressive change. Latent phase: 0-3cm. Admission in latent phase increases intervention rates." },
+                { id: "b", text: "Any regular contractions regardless of cervical dilatation", correct: false, explanation: "Regular contractions alone do not define active labour. Cervical change is required." },
+                { id: "c", text: "Ruptured membranes regardless of contractions", correct: false, explanation: "SROM without contractions is not active labour. May need induction if not in labour within 24 hours." },
+                { id: "d", text: "When woman requests epidural", correct: false, explanation: "Pain relief request does not define labour stage. Assess cervix objectively." }
               ]
             },
             {
-              id: "10D-A-q2",
-              stem: "When should you add 10% dextrose to fluids?",
+              id: "10M-A-q2",
+              stem: "What is the recommended management for latent phase at home?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "When glucose drops below 14 mmol/L", correct: true, explanation: "Continue FRII to clear ketones while preventing hypoglycaemia with dextrose." },
-                { id: "b", text: "Immediately on admission", correct: false, explanation: "Adding dextrose immediately on admission is not appropriate and could worsen the condition." },
-                { id: "c", text: "When pH normalizes", correct: false, explanation: "pH normalization is a goal of treatment, but adding dextrose is based on glucose levels." },
-                { id: "d", text: "Never in DKA", correct: false, explanation: "Dextrose is sometimes needed in DKA management to prevent hypoglycaemia." }
+                { id: "a", text: "Stay home, rest, eat, hydrate, use TENS/paracetamol, return when contractions 3-4 min apart or waters break", correct: true, explanation: "Latent phase at home reduces admission time and intervention. Provide clear criteria for return." },
+                { id: "b", text: "Admit immediately for monitoring", correct: false, explanation: "Admission in latent phase increases risk of augmentation, epidural, and caesarean without improving outcomes." },
+                { id: "c", text: "Start syntocinon augmentation", correct: false, explanation: "Augmentation is for arrested active labour, not latent phase. Inappropriate use increases uterine hyperstimulation." },
+                { id: "d", text: "Perform amniotomy to speed labour", correct: false, explanation: "Amniotomy in latent phase increases infection risk and may not shorten labour." }
               ]
             },
             {
-              id: "10D-A-q3",
-              stem: "What is the most feared complication of DKA treatment?",
+              id: "10M-A-q3",
+              stem: "What is the normal rate of cervical dilation in active labour?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Cerebral oedema", correct: true, explanation: "Cerebral oedema is the leading cause of DKA mortality, especially in children/young adults." },
-                { id: "b", text: "Hypoglycaemia", correct: false, explanation: "Hypoglycaemia is a common complication but is usually manageable." },
-                { id: "c", text: "Hyperkalaemia", correct: false, explanation: "Hyperkalaemia is a common complication but is usually manageable." },
-                { id: "d", text: "Pulmonary embolism", correct: false, explanation: "Pulmonary embolism is not a typical complication of DKA management." }
+                { id: "a", text: "At least 0.5cm/hour for nulliparous, 1cm/hour for multiparous", correct: true, explanation: "Friedman curve: minimum 0.5cm/hr nulliparous, 1cm/hr multiparous. Slower progress warrants assessment for CPD or inefficient contractions." },
+                { id: "b", text: "Exactly 1cm every 30 minutes", correct: false, explanation: "Labour progress is not linear. Some hours faster, some slower. Average rates guide, not dictate." },
+                { id: "c", text: "No minimum - every labour is different", correct: false, explanation: "While individual variation exists, extremely slow progress may indicate obstruction and needs assessment." },
+                { id: "d", text: "3cm per hour minimum", correct: false, explanation: "3cm/hour is rapid labour, not minimum. This expectation would lead to unnecessary intervention." }
               ]
             }
           ]
         },
         {
-          id: "10D-B",
-          title: "Adrenal Crisis",
-          mechanics: "mcq",
-          objective: "Recognize and treat adrenal insufficiency",
-          scenario: "Patient on long-term steroids for 6 months. Presenting with vomiting, hypotension (80/50), hyponatraemia 118, hyperkalaemia 5.8.",
-          questions: [
-            {
-              id: "10D-B-q1",
-              stem: "What is the immediate life-saving treatment?",
-              timeLimit: 30,
-              options: [
-                { id: "a", text: "IV Hydrocortisone 100mg immediately", correct: true, explanation: "Steroid replacement is urgent - do not wait for tests in suspected crisis." },
-                { id: "b", text: "Fluid restriction", correct: false, explanation: "Fluid restriction is not the appropriate management for adrenal crisis." },
-                { id: "c", text: "Wait for ACTH stimulation test", correct: false, explanation: "Waiting for tests in a suspected adrenal crisis is dangerous and delays life-saving treatment." },
-                { id: "d", text: "Oral prednisolone", correct: false, explanation: "Oral prednisolone is not appropriate for immediate management in adrenal crisis." }
-              ]
-            },
-            {
-              id: "10D-B-q2",
-              stem: "Why the hyperkalaemia in adrenal crisis?",
-              timeLimit: 45,
-              options: [
-                { id: "a", text: "Aldosterone deficiency reduces renal potassium excretion", correct: true, explanation: "Mineralocorticoid deficiency causes salt wasting, hyperkalaemia, and acidosis." },
-                { id: "b", text: "Insulin deficiency", correct: false, explanation: "Insulin deficiency is not the primary cause of hyperkalaemia in adrenal crisis." },
-                { id: "c", text: "Renal failure", correct: false, explanation: "Renal failure is not the primary cause of hyperkalaemia in adrenal crisis." },
-                { id: "d", text: "Cellular shift", correct: false, explanation: "Cellular shift is not the primary cause of hyperkalaemia in adrenal crisis." }
-              ]
-            }
-          ]
-        },
-        {
-          id: "10D-C",
-          title: "Thyroid Storm",
+          id: "10M-B",
+          title: "Pain Relief in Labour",
           mechanics: "drag_drop",
-          objective: "Apply the 'BLOCK' protocol for thyroid storm",
-          scenario: "Patient with known Graves' disease. Fever 40°C, HR 160, agitated, jaundiced, confused.",
+          objective: "Match pain relief options to clinical scenarios",
+          scenario: "Labour ward with multiple women requesting different pain relief. Match the best option.",
           questions: [
             {
-              id: "10D-C-q1",
-              stem: "Match the drug to its mechanism in thyroid storm.",
+              id: "10M-B-q1",
+              stem: "Match the pain relief method to the appropriate scenario.",
               timeLimit: 90,
               dragItems: [
-                { id: "a", label: "Propylthiouracil", mechanism: "Blocks new hormone synthesis AND peripheral T4→T3 conversion" },
-                { id: "b", label: "Iodine (Lugol's)", mechanism: "Blocks hormone release (Wolff-Chaikoff effect) - give 1hr AFTER PTU" },
-                { id: "c", label: "Propranolol", mechanism: "Blocks adrenergic symptoms and peripheral T4→T3" },
-                { id: "d", label: "Hydrocortisone", mechanism: "Treats relative adrenal insufficiency and blocks T4→T3" }
+                { id: "a", label: "Entonox (50% N2O + 50% O2)", scenario: "First stage, self-administered, short-acting, woman remains mobile" },
+                { id: "b", label: "Epidural analgesia", scenario: "Severe pain, long labour, or medical indication (pre-eclampsia, breech, twins)" },
+                { id: "c", label: "Intramuscular diamorphine", scenario: "Moderate pain in early labour, need rest, not near delivery" },
+                { id: "d", label: "TENS machine", scenario: "Latent phase or early labour at home, non-pharmacological preference" }
               ],
               options: [
-                { id: "a", text: "All correctly matched", correct: true, explanation: "The 'BLOCK' protocol: Beta-blocker, Lugol's, Oxygen, Cooling, steroids/PTU." },
-                { id: "b", text: "Some errors", correct: false, explanation: "Review the mechanisms of each drug in the 'BLOCK' protocol." }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-
-    nurse: {
-      sims: [
-        {
-          id: "10N-A",
-          title: "Hourly DKA Monitoring",
-          mechanics: "mcq",
-          objective: "Track metabolic progress and detect complications",
-          scenario: "Patient on FRII and sliding scale. Hourly bloods required.",
-          questions: [
-            {
-              id: "10N-A-q1",
-              stem: "What is the target rate of ketone reduction?",
-              timeLimit: 45,
-              options: [
-                { id: "a", text: "0.5 mmol/L per hour", correct: true, explanation: "Ketones should fall by ~0.5 mmol/L/hr with appropriate insulin therapy." },
-                { id: "b", text: "5.0 mmol/L per hour", correct: false, explanation: "A rate of 5.0 mmol/L/hr is too fast and could lead to complications." },
-                { id: "c", text: "2.0 mmol/L per hour", correct: false, explanation: "A rate of 2.0 mmol/L/hr is too slow and may delay recovery." },
-                { id: "d", text: "No specific target", correct: false, explanation: "There is a specific target for ketone reduction in DKA management." }
-              ]
-            },
-            {
-              id: "10N-A-q2",
-              stem: "What early sign suggests cerebral oedema?",
-              timeLimit: 45,
-              options: [
-                { id: "a", text: "Headache with sudden drop in GCS", correct: true, explanation: "Headache is the earliest sign - act immediately if GCS drops." },
-                { id: "b", text: "Rising glucose", correct: false, explanation: "Rising glucose is not a specific sign of cerebral oedema." },
-                { id: "c", text: "Tachycardia", correct: false, explanation: "Tachycardia is not a specific sign of cerebral oedema." },
-                { id: "d", text: "Polyuria", correct: false, explanation: "Polyuria is not a specific sign of cerebral oedema." }
+                { id: "a", text: "All correctly matched", correct: true, explanation: "Entonox: self-administered, short-acting. Epidural: gold standard but restricts mobility. Diamorphine: sedating, avoid near delivery. TENS: early labour only." },
+                { id: "b", text: "Some errors", correct: false, explanation: "Review the indications and contraindications for each analgesic method." },
+                { id: "c", text: "All incorrect", correct: false, explanation: "Review the indications and contraindications for each analgesic method." }
               ]
             }
           ]
         },
         {
-          id: "10N-B",
-          title: "Potassium Replacement",
-          mechanics: "text_input",
-          objective: "Calculate and administer potassium safely",
-          scenario: "Serum K+ 3.4 mmol/L. Patient on FRII. 70kg.",
+          id: "10M-C",
+          title: "Fetal Monitoring in Labour",
+          mechanics: "hotspot",
+          objective: "Interpret CTG patterns and classify using FIGO guidelines",
+          scenario: "CTG in active labour: Baseline 145, variability 10-15, accelerations present, no decelerations for 40 minutes.",
+          image: "/images/normal_ctg.jpeg",
           questions: [
             {
-              id: "10N-B-q1",
-              stem: "What is the maximum safe peripheral potassium infusion rate?",
-              timeLimit: 45,
-              textAnswer: "10",
-              tolerance: 0,
+              id: "10M-C-q1",
+              stem: "Click on the CTG feature that defines a normal (Category 1) trace.",
+              timeLimit: 60,
               options: [
-                { id: "a", text: "10 mmol/hour peripherally", correct: true, explanation: "Peripheral: max 10 mmol/hr. Central: max 20 mmol/hr." },
-                { id: "b", text: "40 mmol/hour", correct: false, explanation: "40 mmol/hr exceeds safe limits for both peripheral and central administration." },
-                { id: "c", text: "No limit", correct: false, explanation: "There are safe limits for potassium infusion rates." }
+                { id: "a", text: "Baseline 110-160, variability 5-25, no late/variable decelerations, accelerations present", correct: true, explanation: "Category 1 (normal): baseline 110-160, variability ≥5, no decelerations (or early only), accelerations present (not required if normal otherwise)." },
+                { id: "b", text: "Baseline >160 with variability <3", correct: false, explanation: "Tachycardia with reduced variability is abnormal. Could indicate fetal infection, hypoxia, or maternal pyrexia." },
+                { id: "c", text: "Late decelerations with every contraction", correct: false, explanation: "Late decelerations indicate uteroplacental insufficiency - Category 2 (suspicious) or 3 (pathological)." },
+                { id: "d", text: "Variable decelerations dropping to 60 for >60 seconds", correct: false, explanation: "Profound variable decelerations are Category 3 (pathological) requiring immediate action." }
               ]
             },
             {
-              id: "10N-B-q2",
-              stem: "Why does potassium fall during DKA treatment?",
+              id: "10M-C-q2",
+              stem: "How often should the CTG be reviewed and documented in active labour?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Insulin drives K+ intracellularly", correct: true, explanation: "Insulin stimulates Na+/K+ ATPase, shifting K+ into cells." },
-                { id: "b", text: "Acidosis worsens", correct: false, explanation: "Acidosis can cause potassium to shift out of cells, but it's not the primary mechanism." },
-                { id: "c", text: "Diuresis stops", correct: false, explanation: "Diuresis stopping can affect potassium levels, but it's not the main cause." },
-                { id: "d", text: "Aldosterone increases", correct: false, explanation: "Aldosterone increases can cause potassium loss, but it's not the primary mechanism during DKA treatment." }
+                { id: "a", text: "Every 15-30 minutes, with full assessment every hour", correct: true, explanation: "NICE: CTG reviewed every 15-30 min in active labour. Full documentation hourly. Escalate if any concern." },
+                { id: "b", text: "Once on admission then only if called", correct: false, explanation: "Continuous CTG requires continuous attention. Intermittent auscultation is an alternative for low-risk women." },
+                { id: "c", text: "Every 2 hours is sufficient", correct: false, explanation: "2-hourly review is too infrequent for continuous CTG. Abnormalities can develop rapidly." },
+                { id: "d", text: "Only when midwife has time", correct: false, explanation: "CTG monitoring is a continuous responsibility, not discretionary." }
               ]
             }
           ]
@@ -195,133 +129,137 @@ export const SENIOR_RESIDENCY = [
   },
 
   // ═══════════════════════════════════════════════════════════════════════════════
-  // CLASS 11: HAEMATOLOGY
+  // CLASS 11: SECOND STAGE & BIRTH
   // ═══════════════════════════════════════════════════════════════════════════════
   {
     id: 11,
     num: "11",
     level: "senior_residency",
-    title: "Haematology",
-    subtitle: "Sickle Cell, Coagulopathy & Transfusion",
-    tagline: "Blood is life. Respect its complexity.",
-    estimatedMinutes: { doctor: 60, nurse: 55 },
+    title: "Second Stage & Birth",
+    subtitle: "Pushing, Positioning & Perineal Protection",
+    tagline: "The moment of truth. Support her power, protect her body.",
+    estimatedMinutes: { midwife: 60 },
     passMark: 80,
     xpReward: 325,
     media: {
       images: {
         "11A": "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800"
       },
-      ambience: "/audio/monitor_beeping.mp3",
-      pdfs: { "sickle_guidelines": "/pdfs/class11_sickle.pdf" }
+      ambience: "/audio/birth_room.mp3",
+      pdfs: { "second_stage": "/pdfs/class11_birth.pdf" }
     },
 
-    doctor: {
+    midwife: {
       sims: [
         {
-          id: "11D-A",
-          title: "Acute Chest Syndrome",
+          id: "11M-A",
+          title: "Active Second Stage Management",
           mechanics: "mcq",
-          objective: "Recognize and manage this life-threatening complication",
-          scenario: "Sickle cell patient with chest pain, fever 38.5°C, new infiltrate on CXR, falling SpO2.",
+          objective: "Support physiological pushing and recognize delay",
+          scenario: "Nulliparous woman, fully dilated 2 hours. Strong contractions. Head visible at introitus with pushing. No progress in last 30 minutes.",
           questions: [
             {
-              id: "11D-A-q1",
-              stem: "What is the diagnostic criteria for Acute Chest Syndrome?",
+              id: "11M-A-q1",
+              stem: "What is the definition of delayed second stage in nulliparous women?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "New pulmonary infiltrate + respiratory symptoms/fever", correct: true, explanation: "ACS = new infiltrate involving at least one lung segment + symptoms." },
-                { id: "b", text: "Chest pain only", correct: false, explanation: "Chest pain alone does not meet the criteria for ACS." },
-                { id: "c", text: "Positive blood culture", correct: false, explanation: "Positive blood culture is not a diagnostic criterion for ACS." },
-                { id: "d", text: "Elevated troponin", correct: false, explanation: "Elevated troponin is not a diagnostic criterion for ACS." }
+                { id: "a", text: ">2 hours without epidural, >3 hours with epidural", correct: true, explanation: "NICE: Delayed second stage nulliparous >2 hours (no epidural) or >3 hours (with epidural). Multiparous: >1 hour (no epidural) or >2 hours (with epidural)." },
+                { id: "b", text: ">1 hour regardless of parity or analgesia", correct: false, explanation: "1 hour is too short for nulliparous. Parity and epidural status affect thresholds." },
+                { id: "c", text: ">30 minutes if head visible", correct: false, explanation: "30 minutes with head visible may indicate obstruction but is not the definition of delayed second stage." },
+                { id: "d", text: ">4 hours for everyone", correct: false, explanation: "4 hours is far too long. Intervention would be needed well before this." }
               ]
             },
             {
-              id: "11D-A-q2",
-              stem: "What is the priority treatment?",
+              id: "11M-A-q2",
+              stem: "What position is associated with shortest second stage and lowest episiotomy rate?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Exchange transfusion + antibiotics + oxygen", correct: true, explanation: "ACS requires aggressive management - exchange transfusion if severe." },
-                { id: "b", text: "Simple analgesia only", correct: false, explanation: "Simple analgesia is not sufficient for managing ACS." },
-                { id: "c", text: "Thrombolysis", correct: false, explanation: "Thrombolysis is not indicated for ACS." },
-                { id: "d", text: "Steroids alone", correct: false, explanation: "Steroids alone are not the primary treatment for ACS." }
+                { id: "a", text: "Upright positions (squatting, kneeling, standing, birth stool)", correct: true, explanation: "Upright positions use gravity, increase pelvic outlet, reduce episiotomy and instrumental delivery. Support woman's choice." },
+                { id: "b", text: "Supine lithotomy", correct: false, explanation: "Supine is associated with longer second stage, more interventions, and reduced pelvic outlet. Avoid unless medical indication." },
+                { id: "c", text: "Left lateral only", correct: false, explanation: "Left lateral is useful for slow birth or perineal tear prevention but not associated with shortest second stage." },
+                { id: "d", text: "Position does not matter", correct: false, explanation: "Position significantly affects labour outcomes. Upright positions are evidence-based for optimal birth." }
               ]
             },
             {
-              id: "11D-A-q3",
-              stem: "What is the most likely infectious organism?",
+              id: "11M-A-q3",
+              stem: "What is the first intervention for delayed second stage with good contractions?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Chlamydia pneumoniae or Mycoplasma", correct: true, explanation: "Atypical organisms are common in ACS, especially in children/young adults." },
-                { id: "b", text: "Staphylococcus aureus only", correct: false, explanation: "Staphylococcus aureus is not the most likely infectious organism in ACS." },
-                { id: "c", text: "Fungal", correct: false, explanation: "Fungal infections are not the most likely cause of ACS." },
-                { id: "d", text: "Viral only", correct: false, explanation: "Viral infections are not the most likely cause of ACS." }
+                { id: "a", text: "Change position, encourage mobilization, empty bladder, consider oxytocin augmentation", correct: true, explanation: "Conservative measures first: position change, bladder emptying (catheter if needed), then oxytocin if contractions inadequate." },
+                { id: "b", text: "Immediate forceps delivery", correct: false, explanation: "Instrumental delivery is last resort after conservative measures and if fetal/maternal compromise develops." },
+                { id: "c", text: "Immediate caesarean section", correct: false, explanation: "Caesarean in second stage is difficult and risky. Try conservative measures and instrumental if appropriate." },
+                { id: "d", text: "Tell her to push harder", correct: false, explanation: "Directed pushing (Valsalva) reduces oxygen transfer to fetus. Support physiological pushing with position changes." }
               ]
             }
           ]
         },
         {
-          id: "11D-B",
-          title: "Disseminated Intravascular Coagulation",
+          id: "11M-B",
+          title: "Perineal Protection & Episiotomy",
           mechanics: "mcq",
-          objective: "Recognize DIC and treat the underlying cause",
-          scenario: "Sepsis patient with bleeding from IV sites, purpura fulminans. PT 18, APTT 56, Fibrinogen 0.8, D-dimer >80, Platelets 45.",
+          objective: "Prevent tears and perform episiotomy only when indicated",
+          scenario: "Nulliparous woman, spontaneous birth, head crowning rapidly. Perineum stretching. You need to control the birth.",
           questions: [
             {
-              id: "11D-B-q1",
-              stem: "What is the primary treatment?",
+              id: "11M-B-q1",
+              stem: "What technique reduces third and fourth degree tears?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Treat the underlying cause (sepsis)", correct: true, explanation: "DIC is a symptom - treating the cause is essential. Supportive care for bleeding." },
-                { id: "b", text: "Heparin infusion", correct: false, explanation: "Heparin infusion is not the primary treatment for DIC." },
-                { id: "c", text: "Tranexamic acid alone", correct: false, explanation: "Tranexamic acid alone is not the primary treatment for DIC." },
-                { id: "d", text: "Platelet transfusion only", correct: false, explanation: "Platelet transfusion only is not the primary treatment for DIC." }
+                { id: "a", text: "Warm compress on perineum, hands-on (guard perineum), controlled delivery of head and shoulders, communicate with woman", correct: true, explanation: "Hands-on with warm compress reduces OASI by 50%. Controlled delivery, shoulder rotation, and communication are key." },
+                { id: "b", text: "Hands-off (wait and see) approach", correct: false, explanation: "Hands-off is associated with higher tear rates. Hands-on with warm compress is evidence-based." },
+                { id: "c", text: "Routine episiotomy for all nulliparous women", correct: false, explanation: "Routine episiotomy increases perineal trauma, pain, dyspareunia. Restricted use is evidence-based." },
+                { id: "d", text: "Tell her to push as hard and fast as possible", correct: false, explanation: "Rapid explosive delivery increases tear risk. Controlled, guided birth protects perineum." }
               ]
             },
             {
-              id: "11D-B-q2",
-              stem: "When should you give blood products?",
+              id: "11M-B-q2",
+              stem: "What are the indications for episiotomy?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "If bleeding or for invasive procedures only", correct: true, explanation: "Prophylactic transfusions not recommended - only if bleeding or procedure planned." },
-                { id: "b", text: "To normalize all clotting tests", correct: false, explanation: "Normalizing clotting tests is not the primary indication for blood product transfusion." },
-                { id: "c", text: "Immediately for all DIC", correct: false, explanation: "Immediate transfusion is not indicated for all DIC cases." },
-                { id: "d", text: "Never in DIC", correct: false, explanation: "Blood products may be indicated in certain DIC cases." }
+                { id: "a", text: "Fetal distress requiring instrumental delivery, shoulder dystocia, breech birth, rigid perineum preventing birth", correct: true, explanation: "Indications: instrumental delivery, shoulder dystocia, breech, rigid perineum. NOT routine for nulliparity or predicted tear." },
+                { id: "b", text: "All nulliparous women to prevent tears", correct: false, explanation: "Routine episiotomy does not prevent severe tears and increases overall perineal trauma." },
+                { id: "c", text: "If perineum looks like it might tear", correct: false, explanation: "Predicting tears is inaccurate. Most tears heal better than episiotomy. Episiotomy only for specific indications." },
+                { id: "d", text: "At woman's request without indication", correct: false, explanation: "While woman has choice, episiotomy is a surgical procedure with risks. Counsel on evidence if no indication." }
+              ]
+            },
+            {
+              id: "11M-B-q3",
+              stem: "What angle should a mediolateral episiotomy be cut at?",
+              timeLimit: 45,
+              options: [
+                { id: "a", text: "60 degrees from midline (not 45) to avoid sphincter", correct: true, explanation: "NICE: 60 degrees from midline (45 degrees from vertical). This angle protects external anal sphincter. 45 degrees from midline is too close to sphincter." },
+                { id: "b", text: "90 degrees (direct lateral)", correct: false, explanation: "90 degrees causes excessive bleeding and poor healing. Not recommended." },
+                { id: "c", text: "30 degrees (close to midline)", correct: false, explanation: "30 degrees is essentially midline and risks extension into sphincter and rectum." },
+                { id: "d", text: "45 degrees from midline (old teaching)", correct: false, explanation: "45 degrees from midline (which is 45 from vertical) was old teaching. Current evidence supports 60 degrees from midline." }
               ]
             }
           ]
-        }
-      ]
-    },
-
-    nurse: {
-      sims: [
+        },
         {
-          id: "11N-A",
-          title: "Sickle Cell Pain Crisis",
-          mechanics: "mcq",
-          objective: "Provide rapid, effective analgesia",
-          scenario: "Patient in 10/10 pain. Known HbSS. Demanding pain relief.",
+          id: "11M-C",
+          title: "Shoulder Dystocia Emergency",
+          mechanics: "drag_drop",
+          objective: "Execute the shoulder dystocia drill in correct sequence",
+          scenario: "Head delivered but retracts against perineum (turtle sign). Shoulders not delivering with next contraction. Fetal heart dropping.",
           questions: [
             {
-              id: "11N-A-q1",
-              stem: "What is the recommended timeframe for first dose of analgesia?",
-              timeLimit: 45,
+              id: "11M-C-q1",
+              stem: "Arrange the HELPERR manoeuvres in correct order.",
+              timeLimit: 90,
+              dragItems: [
+                { id: "a", label: "H - Help", action: "Call for help, call obstetrician, anaesthetist, paediatrician" },
+                { id: "b", label: "E - Evaluate for episiotomy", action: "Cut episiotomy if needed for manoeuvres (not always necessary)" },
+                { id: "c", label: "L - Legs (McRoberts)", action: "Hyperflex mother's thighs onto abdomen - resolves 90% of cases" },
+                { id: "d", label: "P - Pressure (suprapubic)", action: "Apply suprapubic pressure to displace anterior shoulder from symphysis" },
+                { id: "e", label: "E - Enter (internal manoeuvres)", action: "Woods screw or Rubin manoeuvre - rotate shoulders obliquely" },
+                { id: "f", label: "R - Remove posterior arm", action: "Deliver posterior arm across chest - reduces diameter" },
+                { id: "g", label: "R - Roll (all-fours)", action: "Gaskin manoeuvre - mother on hands and knees" }
+              ],
               options: [
-                { id: "a", text: "Within 30 minutes", correct: true, explanation: "'Golden 30 minutes' - rapid analgesia prevents pain escalation and complications." },
-                { id: "b", text: "Within 2 hours", correct: false, explanation: "Delaying analgesia can lead to pain escalation and complications." },
-                { id: "c", text: "After confirming with haematology", correct: false, explanation: "Confirming with haematology should not delay the administration of analgesia." },
-                { id: "d", text: "When observations stable", correct: false, explanation: "Stable observations should not prevent the administration of analgesia for severe pain." }
-              ]
-            },
-            {
-              id: "11N-A-q2",
-              stem: "Why might patients appear 'drug-seeking'?",
-              timeLimit: 45,
-              options: [
-                { id: "a", text: "Vaso-occlusive pain is severe and opioids are first-line", correct: true, explanation: "Sickle pain is one of the most severe pains - high opioid requirements are appropriate." },
-                { id: "b", text: "They are addicted", correct: false, explanation: "Addiction is not the primary reason for increased opioid requirements in sickle cell pain." },
-                { id: "c", text: "Placebo effect", correct: false, explanation: "The placebo effect is not the primary reason for increased opioid requirements in sickle cell pain." },
-                { id: "d", text: "Psychological dependence only", correct: false, explanation: "Psychological dependence is not the primary reason for increased opioid requirements in sickle cell pain." }
+                { id: "a", text: "Help → Evaluate → Legs → Pressure → Enter → Remove → Roll", correct: true, explanation: "HELPERR sequence. McRoberts + suprapubic pressure resolve most. Internal manoeuvres if persistent. Document manoeuvres and time." },
+                { id: "b", text: "Episiotomy first → then call help", correct: false, explanation: "Help first. Episiotomy may not be needed if McRoberts works. Don't delay calling for help." },
+                { id: "c", text: "Internal manoeuvres first", correct: false, explanation: "Internal manoeuvres are invasive and reserved for after external manoeuvres fail." },
+                { id: "d", text: "Roll to all-fours first", correct: false, explanation: "All-fours is effective but usually tried after McRoberts and suprapubic pressure." }
               ]
             }
           ]
@@ -331,133 +269,140 @@ export const SENIOR_RESIDENCY = [
   },
 
   // ═══════════════════════════════════════════════════════════════════════════════
-  // CLASS 12: TROPICAL MEDICINE
+  // CLASS 12: THIRD STAGE & POSTPARTUM HAEMORRHAGE
   // ═══════════════════════════════════════════════════════════════════════════════
   {
     id: 12,
     num: "12",
     level: "senior_residency",
-    title: "Tropical Medicine",
-    subtitle: "Malaria, Dengue & Viral Haemorrhagic Fevers",
-    tagline: "The fever has a thousand faces. Find the right one.",
-    estimatedMinutes: { doctor: 60, nurse: 55 },
+    title: "Third Stage & PPH",
+    subtitle: "Active Management, Haemorrhage & Resuscitation",
+    tagline: "The most dangerous minute in midwifery. Be ready.",
+    estimatedMinutes: { midwife: 60 },
     passMark: 80,
     xpReward: 325,
     media: {
       images: {
         "12A": "https://images.unsplash.com/photo-1581056771107-24ca5f033842?w=800"
       },
-      ambience: "/audio/resus_ambience.mp3",
-      pdfs: { "who_malaria": "/pdfs/class12_malaria.pdf" }
+      ambience: "/audio/emergency_buzzer.mp3",
+      pdfs: { "pph_protocol": "/pdfs/class12_pph.pdf" }
     },
 
-    doctor: {
+    midwife: {
       sims: [
         {
-          id: "12D-A",
-          title: "Cerebral Malaria",
+          id: "12M-A",
+          title: "Active Third Stage Management",
           mechanics: "mcq",
-          objective: "Recognize severe malaria and initiate artesunate",
-          scenario: "Returned from Nigeria 5 days ago. Fever, rigors, confusion, seizures. Parasitaemia 8%.",
+          objective: "Administer oxytocin and deliver placenta safely",
+          scenario: "Baby born 2 minutes ago. Apgars 9 and 9. Cord pulsation ceased. Signs of placental separation visible.",
           questions: [
             {
-              id: "12D-A-q1",
-              stem: "Which Plasmodium species causes cerebral malaria?",
+              id: "12M-A-q1",
+              stem: "What is the correct oxytocin regimen for active third stage?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "P. falciparum", correct: true, explanation: "P. falciparum is the only species causing cerebral malaria due to cytoadherence." },
-                { id: "b", text: "P. vivax", correct: false, explanation: "P. vivax is not typically associated with cerebral malaria." },
-                { id: "c", text: "P. ovale", correct: false, explanation: "P. ovale is not typically associated with cerebral malaria." },
-                { id: "d", text: "P. malariae", correct: false, explanation: "P. malariae is not typically associated with cerebral malaria." }
+                { id: "a", text: "10 units IM oxytocin with birth of anterior shoulder OR immediately after birth", correct: true, explanation: "10 units IM oxytocin is standard. Can give with anterior shoulder or immediately after birth. Then controlled cord traction with counter-traction." },
+                { id: "b", text: "Syntometrine (oxytocin + ergometrine) for all women", correct: false, explanation: "Syntometrine is second-line or if no oxytocin. Contraindicated in hypertension (ergometrine causes vasoconstriction)." },
+                { id: "c", text: "40 units oxytocin in 500ml saline IV infusion", correct: false, explanation: "40 units in 500ml is for PPH treatment, not prophylaxis. Prophylaxis is 10 units IM." },
+                { id: "d", text: "No oxytocin - physiological third stage", correct: false, explanation: "Active management reduces PPH by 60%. Physiological management only if woman specifically requests and low risk." }
               ]
             },
             {
-              id: "12D-A-q2",
-              stem: "What is the first-line treatment for severe malaria?",
+              id: "12M-A-q2",
+              stem: "What are the signs of placental separation?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "IV Artesunate", correct: true, explanation: "IV artesunate reduces mortality by 35% vs quinine in severe malaria." },
-                { id: "b", text: "Oral artemether-lumefantrine", correct: false, explanation: "Oral artemether-lumefantrine is not the first-line treatment for severe malaria." },
-                { id: "c", text: "IV Quinine", correct: false, explanation: "IV quinine is a second-line treatment for severe malaria." },
-                { id: "d", text: "Chloroquine", correct: false, explanation: "Chloroquine is not effective against severe malaria." }
+                { id: "a", text: "Cord lengthening, small gush of blood, uterus rises and becomes globular, fundus hard", correct: true, explanation: "These are the classic signs. Do not pull before signs appear - risk of cord avulsion or uterine inversion." },
+                { id: "b", text: "Pull cord immediately after birth", correct: false, explanation: "Pulling before separation causes cord avulsion, retained placenta, or uterine inversion." },
+                { id: "c", text: "Wait 30 minutes regardless of signs", correct: false, explanation: "30 minutes is threshold for retained placenta. If signs present, deliver with controlled traction." },
+                { id: "d", text: "Push on fundus to expel placenta", correct: false, explanation: "Fundal pressure (Credé) is dangerous - causes uterine inversion. Use controlled cord traction with counter-traction." }
               ]
             },
             {
-              id: "12D-A-q3",
-              stem: "What is the most specific sign of cerebral malaria?",
+              id: "12M-A-q3",
+              stem: "What is the definition of primary postpartum haemorrhage?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Retinal whitening with vessel changes", correct: true, explanation: "Retinal changes are pathognomonic for cerebral malaria and correlate with severity." },
-                { id: "b", text: "Neck stiffness", correct: false, explanation: "Neck stiffness is not specific to cerebral malaria." },
-                { id: "c", text: "Focal weakness", correct: false, explanation: "Focal weakness is not specific to cerebral malaria." },
-                { id: "d", text: "Papilloedema", correct: false, explanation: "Papilloedema is not specific to cerebral malaria." }
+                { id: "a", text: "Blood loss ≥500ml from genital tract within 24 hours of birth", correct: true, explanation: "Minor PPH: 500-1000ml. Major PPH: >1000ml. Severe: >1000ml with signs of shock. Secondary PPH: 24 hours to 12 weeks." },
+                { id: "b", text: "Any bleeding in first hour", correct: false, explanation: "Any bleeding is not PPH. 500ml threshold defines PPH. Visual estimation underestimates by 30-50%." },
+                { id: "c", text: "Blood loss >2000ml only", correct: false, explanation: "2000ml is life-threatening major PPH. 500ml is the diagnostic threshold." },
+                { id: "d", text: "Bleeding after 24 hours", correct: false, explanation: "Bleeding after 24 hours is secondary PPH, usually due to infection or retained tissue." }
               ]
             }
           ]
         },
         {
-          id: "12D-B",
-          title: "Dengue Shock Syndrome",
+          id: "12M-B",
+          title: "Major PPH Management",
           mechanics: "mcq",
-          objective: "Recognize critical phase and manage plasma leakage",
-          scenario: "Day 4 of illness. Fever resolving but patient looks unwell. Rising haematocrit, pleural effusion on CXR, pulse pressure narrow.",
+          objective: "Execute the major haemorrhage protocol",
+          scenario: "Blood loss 1500ml in 10 minutes. BP 85/50, HR 125. Uterus boggy. Oxytocin given but continued bleeding.",
           questions: [
             {
-              id: "12D-B-q1",
-              stem: "What defines the critical phase of dengue?",
-              timeLimit: 45,
+              id: "12M-B-q1",
+              stem: "What is the first-line uterotonic after oxytocin fails?",
+              timeLimit: 30,
               options: [
-                { id: "a", text: "Plasma leakage phase around defervescence (days 3-7)", correct: true, explanation: "Critical phase = plasma leakage, haemoconcentration, thrombocytopenia - usually day 3-7." },
-                { id: "b", text: "First 24 hours of fever", correct: false, explanation: "The first 24 hours of fever are not considered the critical phase." },
-                { id: "c", text: "Convalescent phase", correct: false, explanation: "The convalescent phase is not the critical phase." },
-                { id: "d", text: "When fever exceeds 40°C", correct: false, explanation: "Fever exceeding 40°C is not the defining characteristic of the critical phase." }
+                { id: "a", text: "Ergometrine 0.5mg IM (if no hypertension) or carboprost 0.25mg IM", correct: true, explanation: "Second-line: ergometrine (if normotensive) or carboprost (PGF2α). Third-line: misoprostol 800mcg PR." },
+                { id: "b", text: "More oxytocin 10 units", correct: false, explanation: "Additional oxytocin is unlikely to work if first dose failed. Move to second-line agents." },
+                { id: "c", text: "Wait for placenta to deliver spontaneously", correct: false, explanation: "Active management required. Waiting in major PPH is dangerous." },
+                { id: "d", text: "Immediate hysterectomy", correct: false, explanation: "Hysterectomy is last resort after all medical and surgical measures fail." }
               ]
             },
             {
-              id: "12D-B-q2",
-              stem: "What is the fluid of choice for DSS?",
+              id: "12M-B-q2",
+              stem: "What is the 4 Ts mnemonic for PPH causes?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Crystalloid boluses (10-20 ml/kg)", correct: true, explanation: "Aggressive crystalloid resuscitation - colloids if no response after 2 boluses." },
-                { id: "b", text: "Blood transfusion", correct: false, explanation: "Blood transfusion is not the fluid of choice for DSS." },
-                { id: "c", text: "5% Dextrose", correct: false, explanation: "5% Dextrose is not the fluid of choice for DSS." },
-                { id: "d", text: "Oral rehydration", correct: false, explanation: "Oral rehydration is not the fluid of choice for DSS." }
+                { id: "a", text: "Tone (atony), Trauma (lacerations), Tissue (retained placenta), Thrombin (coagulopathy)", correct: true, explanation: "Tone (70% of PPH) - atony. Trauma - cervical/vaginal tears. Tissue - retained placenta/membranes. Thrombin - DIC/coagulopathy." },
+                { id: "b", text: "Time, Temperature, Tension, Trauma", correct: false, explanation: "This is not the PPH mnemonic. 4 Ts specifically address the four main causes of PPH." },
+                { id: "c", text: "Tachycardia, Thirst, Temperature drop, Tissue pallor", correct: false, explanation: "These are shock signs, not PPH causes." },
+                { id: "d", text: "Tears, Tamponade, Tourniquet, Transfusion", correct: false, explanation: "These are management options, not the cause classification." }
+              ]
+            },
+            {
+              id: "12M-B-q3",
+              stem: "What is the minimum fluid resuscitation for major PPH?",
+              timeLimit: 45,
+              options: [
+                { id: "a", text: "Crystalloid 3:1 ratio (3ml for every 1ml blood lost) + call for blood products early", correct: true, explanation: "3:1 crystalloid replacement. Activate major haemorrhage protocol early. O-negative if crossmatch unavailable. FFP:platelets:RBC in 1:1:1 if massive." },
+                { id: "b", text: "1:1 ratio (1ml for 1ml lost)", correct: false, explanation: "1:1 is for blood products, not crystalloid. Crystalloid distributes throughout extracellular space, requiring 3:1." },
+                { id: "c", text: "No fluids - give blood only", correct: false, explanation: "Blood takes time to prepare. Crystalloid resuscitation is immediate while awaiting blood." },
+                { id: "d", text: "Dextrose 5% infusion", correct: false, explanation: "Dextrose 5% is not appropriate for volume resuscitation. Use Hartmann's or Plasma-Lyte." }
               ]
             }
           ]
-        }
-      ]
-    },
-
-    nurse: {
-      sims: [
+        },
         {
-          id: "12N-A",
-          title: "Quinine Monitoring",
-          mechanics: "mcq",
-          objective: "Monitor for cardiotoxicity and hypoglycaemia",
-          scenario: "Patient on IV Quinine loading dose for severe malaria.",
+          id: "12M-C",
+          title: "Uterine Atony & Bimanual Compression",
+          mechanics: "hotspot",
+          objective: "Perform bimanual compression and identify when to escalate",
+          scenario: "PPH 2000ml. Uterus boggy and atonic. Oxytocin and ergometrine given. Bleeding continues.",
+          image: "/images/bimanual_compression.jpeg",
           questions: [
             {
-              id: "12N-A-q1",
-              stem: "Which ECG change indicates Quinine toxicity?",
-              timeLimit: 45,
+              id: "12M-C-q1",
+              stem: "Click on the correct hand placement for bimanual uterine compression.",
+              timeLimit: 60,
               options: [
-                { id: "a", text: "QT prolongation", correct: true, explanation: "Quinine prolongs QT - monitor ECG. Risk of torsades." },
-                { id: "b", text: "ST elevation", correct: false, explanation: "ST elevation is not a characteristic feature of Quinine toxicity." },
-                { id: "c", text: "Short PR interval", correct: false, explanation: "Short PR interval is not associated with Quinine toxicity." },
-                { id: "d", text: "Delta waves", correct: false, explanation: "Delta waves are not a feature of Quinine toxicity." }
+                { id: "a", text: "One hand on abdomen compressing fundus, other fist in vagina elevating uterus against abdominal hand", correct: true, explanation: "Bimanual compression: abdominal hand compresses fundus posteriorly, vaginal fist elevates uterus anteriorly. Maintains apposition of anterior and posterior walls." },
+                { id: "b", text: "Both hands on abdomen only", correct: false, explanation: "External massage alone is insufficient for major atony. Bimanual compression is required." },
+                { id: "c", text: "Pull cord while pushing on fundus", correct: false, explanation: "This is dangerous and can cause uterine inversion. Never pull cord while pushing fundus." },
+                { id: "d", text: "Insert both hands into vagina", correct: false, explanation: "Both hands in vagina does not provide the fundal compression needed for bimanual compression." }
               ]
             },
             {
-              id: "12N-A-q2",
-              stem: "Why does Quinine cause hypoglycaemia?",
+              id: "12M-C-q2",
+              stem: "When should a Rusch balloon (uterine tamponade) be inserted?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Stimulates pancreatic insulin release", correct: true, explanation: "Quinine is a potent stimulator of insulin - monitor glucose closely." },
-                { id: "b", text: "Inhibits glycogenolysis", correct: false, explanation: "Inhibits glycogenolysis is not the mechanism of Quinine-induced hypoglycaemia." },
-                { id: "c", text: "Blocks glucagon", correct: false, explanation: "Blocks glucagon is not the mechanism of Quinine-induced hypoglycaemia." },
-                { id: "d", text: "Liver toxicity", correct: false, explanation: "Liver toxicity is not a recognized side effect of Quinine." }
+                { id: "a", text: "After uterotonics fail and before surgical intervention, to tamponade bleeding", correct: true, explanation: "Bakri/Rusch balloon provides tamponade when medical management fails. Fills with 300-500ml saline. If bleeding stops, leave 24 hours." },
+                { id: "b", text: "First-line before any drugs", correct: false, explanation: "Balloon is second-line after uterotonics fail. Drugs are faster and less invasive." },
+                { id: "c", text: "Only after hysterectomy", correct: false, explanation: "Balloon is used to avoid hysterectomy. If balloon fails, then surgical options (B-Lynch, ligation, hysterectomy)." },
+                { id: "d", text: "Never - it causes infection", correct: false, explanation: "Balloon is evidence-based and safe. Infection risk is low with antibiotic prophylaxis." }
               ]
             }
           ]
@@ -467,144 +412,128 @@ export const SENIOR_RESIDENCY = [
   },
 
   // ═══════════════════════════════════════════════════════════════════════════════
-  // CLASS 13: OBSTETRIC EMERGENCIES
+  // CLASS 13: EMERGENCY OBSTETRIC SCENARIOS
   // ═══════════════════════════════════════════════════════════════════════════════
   {
     id: 13,
     num: "13",
     level: "senior_residency",
     title: "Obstetric Emergencies",
-    subtitle: "PPH, Eclampsia & Maternal Collapse",
-    tagline: "Two lives hang in the balance. Every second counts.",
-    estimatedMinutes: { doctor: 70, nurse: 65 },
+    subtitle: "Cord Prolapse, Uterine Rupture & Amniotic Fluid Embolism",
+    tagline: "When seconds decide between life and death. Act without hesitation.",
+    estimatedMinutes: { midwife: 70 },
     passMark: 85,
     xpReward: 400,
     media: {
       images: {
         "13A": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800"
       },
-      ambience: "/audio/paediatric_ward.mp3",
-      pdfs: { "rcog_pph": "/pdfs/class13_pph.pdf" }
+      ambience: "/audio/crash_call.mp3",
+      pdfs: { "obstetric_emergencies": "/pdfs/class13_emergencies.pdf" }
     },
 
-    doctor: {
+    midwife: {
       sims: [
         {
-          id: "13D-A",
-          title: "Major Postpartum Haemorrhage",
+          id: "13M-A",
+          title: "Cord Prolapse",
           mechanics: "mcq",
-          objective: "Execute the 4 Ts protocol and manage massive bleeding",
-          scenario: "Delivered 4.5kg baby. Bleeding heavily. Fundus boggy. Blood loss >1500ml. HR 120, BP 85/50.",
+          objective: "Recognize and manage cord prolapse immediately",
+          scenario: "Artificial rupture of membranes at 5cm. Sudden fetal bradycardia (60bpm). Vaginal examination: cord palpable beside head, pulsating.",
           questions: [
             {
-              id: "13D-A-q1",
-              stem: "The boggy fundus indicates which cause?",
+              id: "13M-A-q1",
+              stem: "What is the immediate first action?",
               timeLimit: 30,
               options: [
-                { id: "a", text: "Tone (Uterine atony)", correct: true, explanation: "Atony is the most common cause of PPH (70-80%). Boggy fundus = poor contraction." },
-                { id: "b", text: "Tissue (Retained placenta)", correct: false },
-                { id: "c", text: "Trauma (Cervical tear)", correct: false },
-                { id: "d", text: "Thrombin (Coagulopathy)", correct: false }
+                { id: "a", text: "Push presenting part off cord manually (keep fingers in vagina), call for help, prepare for emergency caesarean", correct: true, explanation: "Immediate manual elevation of presenting part relieves cord compression. Do not remove hand until in theatre. All-fours position or knee-chest also helps." },
+                { id: "b", text: "Start syntocinon augmentation", correct: false, explanation: "Augmentation worsens cord compression. Stop any oxytocin immediately." },
+                { id: "c", text: "Wait for next contraction to see if heart rate recovers", correct: false, explanation: "Cord prolapse causes immediate hypoxia. Waiting risks fetal death within minutes." },
+                { id: "d", text: "Perform amnioinfusion", correct: false, explanation: "Amnioinfusion is not appropriate for cord prolapse. Immediate manual relief and delivery required." }
               ]
             },
             {
-              id: "13D-A-q2",
-              stem: "What is the first-line uterotonic?",
-              timeLimit: 30,
-              options: [
-                { id: "a", text: "Oxytocin 5-10 IU IV/IM", correct: true, explanation: "Oxytocin is first-line for atony - immediate bolus then infusion." },
-                { id: "b", text: "Carboprost", correct: false, explanation: "Carboprost is a second-line option for atony." },
-                { id: "c", text: "Misoprostol", correct: false, explanation: "Misoprostol is used in resource-limited settings for atony." },
-                { id: "d", text: "Ergometrine", correct: false, explanation: "Ergometrine is contraindicated in certain conditions and is not first-line." }
-              ]
-            },
-            {
-              id: "13D-A-q3",
-              stem: "When should you activate major haemorrhage protocol?",
+              id: "13M-A-q2",
+              stem: "What position helps relieve cord compression while preparing for theatre?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Blood loss >1500ml or haemodynamic compromise", correct: true, explanation: "Early activation ensures blood products and team availability." },
-                { id: "b", text: "Only after 2 litres lost", correct: false, explanation: "Activating too late can lead to complications." },
-                { id: "c", text: "Only if Hb drops below 70", correct: false, explanation: "Hemoglobin level is not the sole indicator for major haemorrhage protocol." },
-                { id: "d", text: "Only if patient collapses", correct: false, explanation: "Delaying activation can be life-threatening." }
+                { id: "a", text: "All-fours (knee-chest) or left lateral with head down and pillow under hips", correct: true, explanation: "Gravity displaces uterus off cord. Knee-chest or steep Trendelenburg with manual elevation. Continuous fetal monitoring." },
+                { id: "b", text: "Supine flat", correct: false, explanation: "Supine increases uterine compression of cord against sacrum and maternal vessels." },
+                { id: "c", text: "Sitting upright", correct: false, explanation: "Upright increases downward pressure of presenting part on cord." },
+                { id: "d", text: "Standing", correct: false, explanation: "Standing is impractical and increases pressure on cord." }
+              ]
+            },
+            {
+              id: "13M-A-q3",
+              stem: "What is the target 'decision to delivery' interval?",
+              timeLimit: 45,
+              options: [
+                { id: "a", text: "Within 15 minutes for cord prolapse with fetal bradycardia", correct: true, explanation: "Cord prolapse: 15-minute decision-to-delivery interval. Category 1 caesarean. Fetal mortality increases dramatically after 10-15 minutes." },
+                { id: "b", text: "30 minutes is acceptable", correct: false, explanation: "30 minutes is too long for cord prolapse. Brain damage occurs after 8-10 minutes of complete hypoxia." },
+                { id: "c", text: "60 minutes", correct: false, explanation: "60 minutes would result in fetal death or severe neurological damage." },
+                { id: "d", text: "No rush - monitor first", correct: false, explanation: "Cord prolapse is a category 1 emergency. Every second counts." }
               ]
             }
           ]
         },
         {
-          id: "13D-B",
-          title: "Eclampsia Management",
+          id: "13M-B",
+          title: "Uterine Rupture",
           mechanics: "mcq",
-          objective: "Control seizures and manage severe pre-eclampsia",
-          scenario: "34 weeks pregnant. BP 175/115, proteinuria +++, suddenly seizing. GCS 10 during seizure.",
+          objective: "Recognize signs of impending or actual rupture",
+          scenario: "Previous caesarean section. Induction with syntocinon. Contractions every 2 minutes, lasting 90 seconds. Sudden severe abdominal pain, scar tenderness, fetal bradycardia.",
           questions: [
             {
-              id: "13D-B-q1",
-              stem: "What is the first-line anticonvulsant?",
-              timeLimit: 30,
+              id: "13M-B-q1",
+              stem: "What is the classic sign of uterine rupture?",
+              timeLimit: 45,
               options: [
-                { id: "a", text: "Magnesium Sulfate IV", correct: true, explanation: "MgSO4 is superior to diazepam/phenytoin for eclampsia - prevents recurrence." },
-                { id: "b", text: "Diazepam", correct: false, explanation: "Diazepam is not the first-line treatment for eclampsia." },
-                { id: "c", text: "Phenytoin", correct: false, explanation: "Phenytoin is not the first-line treatment for eclampsia." },
-                { id: "d", text: "Thiopental", correct: false, explanation: "Thiopental is not the first-line treatment for eclampsia." }
+                { id: "a", text: "Sudden onset of constant severe pain with scar tenderness, fetal bradycardia, and loss of contractions on monitor", correct: true, explanation: "Rupture: pain (may be absent with epidural), scar tenderness, fetal distress, vaginal bleeding, haematuria, loss of uterine tone, maternal shock." },
+                { id: "b", text: "Gradual increase in contraction strength", correct: false, explanation: "Rupture is sudden, not gradual. Loss of contractions is more typical than increase." },
+                { id: "c", text: "Improved fetal heart rate", correct: false, explanation: "Fetal heart rate deteriorates with rupture due to placental separation and maternal shock." },
+                { id: "d", text: "Decreased pain with epidural", correct: false, explanation: "Epidural may mask pain, making diagnosis harder. Other signs (fetal distress, scar tenderness, bleeding) become more important." }
               ]
             },
             {
-              id: "13D-B-q2",
-              stem: "What is the definitive treatment?",
+              id: "13M-B-q2",
+              stem: "What is the immediate management?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Delivery once stabilized", correct: true, explanation: "Delivery is the only cure - stabilize mother first, then deliver." },
-                { id: "b", text: "Continue pregnancy with medications", correct: false, explanation: "Continuing pregnancy with medications is not the definitive treatment for eclampsia." },
-                { id: "c", text: "Caesarean immediately regardless of stability", correct: false, explanation: "Caesarean delivery is not always immediately indicated and depends on the patient's condition." },
-                { id: "d", text: "Wait for spontaneous labour", correct: false, explanation: "Waiting for spontaneous labour is not appropriate in eclampsia." }
-              ]
-            },
-            {
-              id: "13D-B-q3",
-              stem: "What antihypertensive is safe in pregnancy?",
-              timeLimit: 45,
-              options: [
-                { id: "a", text: "Labetalol", correct: true, explanation: "Labetalol and hydralazine are first-line. Avoid ACE inhibitors." },
-                { id: "b", text: "Ramipril", correct: false, explanation: "Ramipril is contraindicated in pregnancy." },
-                { id: "c", text: "Amlodipine", correct: false, explanation: "Amlodipine is not the first-line treatment for eclampsia." },
-                { id: "d", text: "Atenolol", correct: false, explanation: "Atenolol is not the first-line treatment for eclampsia." }
+                { id: "a", text: "Stop syntocinon immediately, large-bore IV access, cross-match blood, emergency laparotomy", correct: true, explanation: "Stop oxytocin, resuscitate, prepare for laparotomy. Delivery baby, repair uterus or hysterectomy if uncontrollable." },
+                { id: "b", text: "Continue syntocinon to deliver quickly", correct: false, explanation: "Continuing oxytocin worsens rupture and causes uterine expulsion of fetus into abdomen." },
+                { id: "c", text: "Attempt vaginal birth", correct: false, explanation: "Vaginal birth with uterine rupture is impossible and dangerous. Emergency laparotomy required." },
+                { id: "d", text: "Wait for senior review", correct: false, explanation: "Uterine rupture is an emergency. Do not wait - immediate laparotomy while resuscitating." }
               ]
             }
           ]
-        }
-      ]
-    },
-
-    nurse: {
-      sims: [
+        },
         {
-          id: "13N-A",
-          title: "Fundal Massage & Balloon",
+          id: "13M-C",
+          title: "Amniotic Fluid Embolism",
           mechanics: "mcq",
-          objective: "Perform mechanical management of atony",
-          scenario: "Patient bleeding. Boggy fundus. Oxytocin given but continued bleeding.",
+          objective: "Recognize this rare catastrophic emergency",
+          scenario: "Immediately after normal vaginal birth. Woman suddenly gasping, cyanosed, BP drops to 60/40, HR 140. Profuse bleeding. Confused.",
           questions: [
             {
-              id: "13N-A-q1",
-              stem: "What is the correct technique for fundal massage?",
+              id: "13M-C-q1",
+              stem: "What is the pathophysiology of amniotic fluid embolism?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Firm circular massage to stimulate contraction", correct: true, explanation: "Firm pressure stimulates uterine contraction - be vigorous if needed." },
-                { id: "b", text: "Gentle stroking", correct: false, explanation: "Gentle stroking is not effective for managing atony." },
-                { id: "c", text: "Avoid touching the fundus", correct: false, explanation: "Avoiding touch to the fundus is not the correct approach." },
-                { id: "d", text: "Apply pressure to the abdomen only", correct: false, explanation: "Applying pressure to the abdomen only is not the correct technique for fundal massage." }
+                { id: "a", text: "Anaphylactoid reaction to fetal cells entering maternal circulation causing DIC and cardiopulmonary collapse", correct: true, explanation: "AFE is an immunological reaction, not simple embolism. Triggers: fetal squames, hair, meconium in maternal circulation. Mortality 20-60%." },
+                { id: "b", text: "Bacterial infection of amniotic fluid", correct: false, explanation: "Chorioamnionitis is infection. AFE is an immunological/anaphylactoid reaction, not infectious." },
+                { id: "c", text: "Simple mechanical blockage of pulmonary vessels", correct: false, explanation: "While fetal cells enter circulation, the reaction is immunological (anaphylactoid), not mechanical blockage." },
+                { id: "d", text: "Allergic reaction to oxytocin", correct: false, explanation: "Oxytocin allergy is rare and presents differently. AFE is specifically related to amniotic fluid components." }
               ]
             },
             {
-              id: "13N-A-q2",
-              stem: "When is a Bakri balloon indicated?",
+              id: "13M-C-q2",
+              stem: "What is the immediate management?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "When medical management fails and before surgery", correct: true, explanation: "Bakri balloon provides tamponade - bridge to definitive treatment or allows conservative management." },
-                { id: "b", text: "First-line before any drugs", correct: false, explanation: "First-line treatment for atony is usually oxytocin or other uterotonic agents." },
-                { id: "c", text: "Only after hysterectomy", correct: false, explanation: "Bakri balloon is used as a temporary measure before definitive treatment." },
-                { id: "d", text: "Never in PPH", correct: false, explanation: "Bakri balloon can be used in PPH when other measures fail." }
+                { id: "a", text: "Immediate resuscitation (ABCDE), high-flow oxygen, blood products for DIC, ICU admission, notify haematology", correct: true, explanation: "AFE: call for help, resuscitate, manage DIC with blood products, ICU for ventilatory and cardiovascular support. No specific antidote." },
+                { id: "b", text: "Give adrenaline 0.5mg IM", correct: false, explanation: "Adrenaline is for anaphylaxis. AFE is anaphylactoid but management is resuscitation and DIC management, not just adrenaline." },
+                { id: "c", text: "Antibiotics immediately", correct: false, explanation: "Antibiotics treat infection. AFE is not infectious. DIC and cardiovascular collapse are the priorities." },
+                { id: "d", text: "Wait for blood results before treating", correct: false, explanation: "AFE is a clinical diagnosis. Do not wait for results - resuscitate immediately while sending tests." }
               ]
             }
           ]
@@ -614,130 +543,123 @@ export const SENIOR_RESIDENCY = [
   },
 
   // ═══════════════════════════════════════════════════════════════════════════════
-  // CLASS 14: INFECTIOUS DISEASE
+  // CLASS 14: NEONATAL RESUSCITATION & TRANSITION
   // ═══════════════════════════════════════════════════════════════════════════════
   {
     id: 14,
     num: "14",
     level: "senior_residency",
-    title: "Infectious Disease",
-    subtitle: "Sepsis, HIV Complications & TB",
-    tagline: "The invisible enemy. Fight it with knowledge.",
-    estimatedMinutes: { doctor: 60, nurse: 55 },
+    title: "Neonatal Resuscitation",
+    subtitle: "Birth to Breathing, NRP & Stabilization",
+    tagline: "The first minute determines the first year. Make it count.",
+    estimatedMinutes: { midwife: 60 },
     passMark: 80,
     xpReward: 350,
     media: {
       images: {
         "14A": "https://images.unsplash.com/photo-1581056771107-24ca5f033842?w=800"
       },
-      ambience: "/audio/resus_ambience.mp3",
-      pdfs: { "sepsis_surviving": "/pdfs/class14_sepsis.pdf" }
+      ambience: "/audio/resus_room.mp3",
+      pdfs: { "nrp_guidelines": "/pdfs/class14_nrp.pdf" }
     },
 
-    doctor: {
+    midwife: {
       sims: [
         {
-          id: "14D-A",
-          title: "Septic Shock Management",
-          mechanics: "mcq",
-          objective: "Apply the Surviving Sepsis Campaign bundle",
-          scenario: "Lactate 4.5, BP 75/45 after 2L fluids, HR 135, Temp 38.8°C, Confused. Suspected pneumonia.",
+          id: "14M-A",
+          title: "Newborn Life Support",
+          mechanics: "drag_drop",
+          objective: "Execute the NRP algorithm for a non-breathing baby",
+          scenario: "Term baby born. Not crying. Floppy. Blue. Heart rate 80 on stethoscope.",
           questions: [
             {
-              id: "14D-A-q1",
-              stem: "What is the target MAP?",
-              timeLimit: 45,
+              id: "14M-A-q1",
+              stem: "Arrange the initial steps in correct order.",
+              timeLimit: 90,
+              dragItems: [
+                { id: "a", label: "Dry and stimulate", action: "Dry baby, remove wet towel, rub back or flick soles" },
+                { id: "b", label: "Position airway", action: "Sniffing position - head neutral, neck slightly extended" },
+                { id: "c", label: "Suction if needed", action: "Suction mouth then nose only if obstructed or meconium-stained and non-vigorous" },
+                { id: "d", label: "Assess breathing and heart rate", action: "Look for chest movement, auscultate heart rate for 6 seconds" }
+              ],
               options: [
-                { id: "a", text: "65 mmHg", correct: true, explanation: "MAP ≥65 mmHg is target for septic shock to maintain organ perfusion." },
-                { id: "b", text: "55 mmHg", correct: false, explanation: "55 mmHg is too low and may lead to organ hypoperfusion." },
-                { id: "c", text: "90 mmHg", correct: false, explanation: "90 mmHg is not the target MAP for septic shock." },
-                { id: "d", text: "100 mmHg", correct: false, explanation: "100 mmHg is too high and may lead to complications." }
-              ]
-            },
-            {
-              id: "14D-A-q2",
-              stem: "Which vasopressor is first-line?",
-              timeLimit: 45,
-              options: [
-                { id: "a", text: "Noradrenaline (Norepinephrine)", correct: true, explanation: "Noradrenaline is first-line vasopressor for septic shock." },
-                { id: "b", text: "Adrenaline", correct: false, explanation: "Adrenaline is not the first-line vasopressor for septic shock." },
-                { id: "c", text: "Dopamine", correct: false, explanation: "Dopamine is not the first-line vasopressor for septic shock." },
-                { id: "d", text: "Vasopressin", correct: false, explanation: "Vasopressin is not the first-line vasopressor for septic shock." }
-              ]
-            },
-            {
-              id: "14D-A-q3",
-              stem: "What is the antibiotic timing target?",
-              timeLimit: 45,
-              options: [
-                { id: "a", text: "Within 1 hour of recognition", correct: true, explanation: "Every hour of delay increases mortality. Give broad-spectrum antibiotics within 1 hour." },
-                { id: "b", text: "Within 4 hours", correct: false, explanation: "Delaying antibiotic administration for more than 1 hour increases mortality." },
-                { id: "c", text: "After cultures return", correct: false, explanation: "Delaying antibiotic administration until cultures return increases mortality." },
-                { id: "d", text: "After CT scan", correct: false, explanation: "Delaying antibiotic administration for a CT scan increases mortality."                                                                                                                       }
+                { id: "a", text: "Dry/stimulate → Position → Suction if needed → Assess breathing and HR", correct: true, explanation: "NRP: Dry, position, suction (if needed), assess. Golden minute: complete these within 60 seconds." },
+                { id: "b", text: "Suction first always", correct: false, explanation: "Routine suction is not recommended. Only if airway obstructed or meconium-stained non-vigorous baby." },
+                { id: "c", text: "Intubate immediately", correct: false, explanation: "Intubation is not first-line. Only if bag-mask ventilation fails or specific indications." },
+                { id: "d", text: "Give cardiac compressions first", correct: false, explanation: "Compressions only if HR <60 after 30 seconds of effective ventilation." }
               ]
             }
           ]
         },
         {
-          id: "14D-B",
-          title: "TB-HIV Co-infection",
+          id: "14M-B",
+          title: "Positive Pressure Ventilation",
           mechanics: "mcq",
-          objective: "Manage immune reconstitution and drug interactions",
-          scenario: "Newly diagnosed HIV, CD4 45. Started ART 2 weeks ago. Now fever, worsening CXR, confusion.",
+          objective: "Perform effective bag-mask ventilation",
+          scenario: "Baby not breathing after initial steps. Heart rate 60. You start bag-mask ventilation.",
           questions: [
             {
-              id: "14D-B-q1",
-              stem: "What is the most likely diagnosis?",
+              id: "14M-B-q1",
+              stem: "What is the correct ventilation rate for newborn resuscitation?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "TB Immune Reconstitution Inflammatory Syndrome (IRIS)", correct: true, explanation: "Paradoxical worsening after ART initiation in undiagnosed TB = IRIS." },
-                { id: "b", text: "ART failure", correct: false, explanation: "ART failure would not typically present with these symptoms." },
-                { id: "c", text: "Bacterial pneumonia", correct: false, explanation: "Bacterial pneumonia would not explain the immune reconstitution aspect." },
-                { id: "d", text: "PML", correct: false, explanation: "PML is a different condition and would not present with these symptoms." }
+                { id: "a", text: "40-60 breaths per minute", correct: true, explanation: "NRP: 40-60 breaths/minute. Squeeze bag to produce visible chest rise. Avoid excessive pressure (pneumothorax risk)." },
+                { id: "b", text: "20 breaths per minute", correct: false, explanation: "20 is too slow. Newborns need 40-60 breaths/minute for adequate ventilation." },
+                { id: "c", text: "100 breaths per minute", correct: false, explanation: "100 is compression rate, not ventilation rate. Ventilation at 100 would cause air trapping." },
+                { id: "d", text: "12 breaths per minute", correct: false, explanation: "12 is adult rate. Newborns have higher respiratory requirements." }
               ]
             },
             {
-              id: "14D-B-q2",
-              stem: "What is the major drug interaction between Rifampicin and ARVs?",
+              id: "14M-B-q2",
+              stem: "Heart rate remains 50 after 30 seconds of bag-mask ventilation. What next?",
               timeLimit: 45,
               options: [
-                { id: "a", text: "Rifampicin induces CYP450, reducing ARV levels", correct: true, explanation: "Rifampicin is potent enzyme inducer - requires dose adjustment of many ARVs." },
-                { id: "b", text: "Rifampicin inhibits ARV metabolism", correct: false, explanation: "Rifampicin is a potent enzyme inducer, not an inhibitor." },
-                { id: "c", text: "ARVs increase Rifampicin toxicity", correct: false, explanation: "ARVs do not significantly increase Rifampicin toxicity." },
-                { id: "d", text: "No interaction", correct: false, explanation: "There is a significant interaction between Rifampicin and ARVs." }
+                { id: "a", text: "Start chest compressions (3:1 ratio with ventilations) and consider intubation", correct: true, explanation: "HR <60 after 30 seconds effective ventilation = compressions. 3 compressions:1 ventilation. Intubate if bag-mask ineffective." },
+                { id: "b", text: "Continue bag-mask only", correct: false, explanation: "HR <60 indicates cardiac compromise. Compressions required alongside ventilation." },
+                { id: "c", text: "Give adrenaline immediately", correct: false, explanation: "Adrenaline is given if HR <60 after 60 seconds of compressions and ventilation." },
+                { id: "d", text: "Stop resuscitation", correct: false, explanation: "HR 50 is not asystole. Continue resuscitation with compressions and ventilation." }
+              ]
+            },
+            {
+              id: "14M-B-q3",
+              stem: "What oxygen concentration should be used for term babies?",
+              timeLimit: 45,
+              options: [
+                { id: "a", text: "21% (room air) initially, titrate up if HR not improving", correct: true, explanation: "NRP 2021: Start with 21% for term babies. Preterm <32 weeks: 21-30%. Titrate based on SpO2 and heart rate response." },
+                { id: "b", text: "100% oxygen for all babies", correct: false, explanation: "100% oxygen is not recommended initially. Hyperoxia causes oxidative stress. Titrate from 21%." },
+                { id: "c", text: "50% oxygen", correct: false, explanation: "50% is not the starting point. Start with 21% and titrate based on response." },
+                { id: "d", text: "No oxygen needed", correct: false, explanation: "Some babies need oxygen supplementation. Start with 21% and assess response." }
               ]
             }
           ]
-        }
-      ]
-    },
-
-    nurse: {
-      sims: [
+        },
         {
-          id: "14N-A",
-          title: "Sepsis Six Bundle",
-          mechanics: "drag_drop",
-          objective: "Complete all elements of the Sepsis Six within 1 hour",
-          scenario: "NEWS2 score 9. Suspected sepsis. You have 60 minutes.",
+          id: "14M-C",
+          title: "Meconium-Stained Liquor",
+          mechanics: "mcq",
+          objective: "Manage the non-vigorous baby born through meconium",
+          scenario: "Thick meconium-stained liquor at birth. Baby born floppy, not crying, HR 90, poor tone.",
           questions: [
             {
-              id: "14N-A-q1",
-              stem: "Match the Sepsis Six intervention to its category (Give/Get/Measure).",
-              timeLimit: 90,
-              dragItems: [
-                { id: "1", label: "High flow oxygen", category: "Give" },
-                { id: "2", label: "Blood cultures", category: "Get" },
-                { id: "3", label: "IV antibiotics", category: "Give" },
-                { id: "4", label: "IV fluid challenge", category: "Give" },
-                { id: "5", label: "Serum lactate", category: "Measure" },
-                { id: "6", label: "Monitor urine output", category: "Measure" }
-              ],
+              id: "14M-C-q1",
+              stem: "What is the management for a non-vigorous baby with meconium-stained liquor?",
+              timeLimit: 45,
               options: [
-                { id: "a", text: "All correctly categorized", correct: true, explanation: "Sepsis Six: 3 Give, 2 Measure, 1 Get." },
-                { id: "b", text: "Some errors", correct: false, explanation: "Make sure to categorize each intervention correctly." },
-                { id: "c", text: "All in one category", correct: false, explanation: "Interventions must be categorized into Give, Get, or Measure." },
-                { id: "d", text: "Missing interventions", correct: false, explanation: "All six interventions must be included and categorized." }
+                { id: "a", text: "Dry, position, suction mouth then nose under direct vision if needed, start ventilation if apnoeic", correct: true, explanation: "NRP 2021: No longer routine intubation and suction for meconium. Dry, stimulate, suction if airway obstructed, then standard resuscitation." },
+                { id: "b", text: "Immediate intubation and tracheal suction before any other steps", correct: false, explanation: "Routine tracheal suction is no longer recommended. It delays ventilation and does not improve outcomes." },
+                { id: "c", text: "No suction needed - just dry and stimulate", correct: false, explanation: "Suction may be needed if airway is obstructed by meconium. Assess and clear if needed." },
+                { id: "d", text: "Give antibiotics immediately", correct: false, explanation: "Antibiotics are not part of immediate resuscitation. Consider if meconium aspiration syndrome develops later." }
+              ]
+            },
+            {
+              id: "14M-C-q2",
+              stem: "What is the definition of a 'vigorous' baby?",
+              timeLimit: 45,
+              options: [
+                { id: "a", text: "Strong respiratory effort, good muscle tone, HR >100", correct: true, explanation: "Vigorous: strong cry/breathing, good tone, HR >100. Non-vigorous: weak/absent breathing, poor tone, HR <100." },
+                                { id: "b", text: "Any baby who cries at birth", correct: false, explanation: "Crying alone does not define vigour. Tone and heart rate are also assessed." },
+                { id: "c", text: "Baby with Apgar 10", correct: false, explanation: "Apgar is assessed at 1 and 5 minutes. Vigour is assessed immediately at birth for resuscitation decisions." },
+                { id: "d", text: "Term baby only", correct: false, explanation: "Vigour applies to all gestations. Preterm babies can be vigorous; term babies can be non-vigorous." }
               ]
             }
           ]

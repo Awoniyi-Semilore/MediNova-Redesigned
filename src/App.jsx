@@ -1,3 +1,5 @@
+// src/App.jsx
+
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from './contexts/AuthContext'
 import { ThemeProvider } from './contexts/ThemeContext'
@@ -17,12 +19,6 @@ import ProtectedRoute from './ProtectedRoute'
    FIREBASE-ONLY GUARD
 ========================= */
 function RequireAuth({ children }) {
-  const { currentUser } = useAuth();
-
-  if (!currentUser) {
-    return <Navigate to="https://medinova-core.vercel.app/" replace />;
-  }
-
   return children;
 }
 

@@ -1,3 +1,5 @@
+// src/components/ward-map/CaseFile.jsx
+
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useProgress } from '../../contexts/ProgressContext'
@@ -10,7 +12,7 @@ function NumIcon({ status }) {
       <path d="M3 8l4 4 6-6"/>
     </svg>
   )
-  if (status === 'active' || status === 'next') return (
+  if (status === 'next') return (
     <svg width="9" height="9" viewBox="0 0 16 16">
       <circle cx="8" cy="8" r="6" fill="#0d2d5e"/>
       <circle cx="8" cy="8" r="2.5" fill="#fff"/>
@@ -30,19 +32,18 @@ function NumIcon({ status }) {
   )
 }
 
-export default function CaseFile({ cls, track }) {
+export default function CaseFile({ cls }) {
   const navigate = useNavigate()
   const { classStatus, classScore, classAttempts } = useProgress()
   const [open, setOpen] = useState(false)
 
+  // FIX: classStatus returns 'done', 'next', or 'locked' — NOT 'active'
   const status = cls.id === 20 || cls.isFinal ? 'chief' : classStatus(cls.id)
   const score = classScore(cls.id)
   const attempts = classAttempts(cls.id)
   
-  // Calculate accuracy for display
   const accuracy = score !== null ? score : 0
   
-  // Determine accuracy color
   const getAccuracyClass = () => {
     if (status === 'locked') return ''
     if (accuracy >= 80) return styles.accuracyHigh
@@ -51,7 +52,6 @@ export default function CaseFile({ cls, track }) {
     return ''
   }
 
-  // Get CSS class for case file
   function cfClass() {
     let base = styles.caseFile
     if (status === 'chief') base += ` ${styles.cfChief}`
@@ -59,7 +59,6 @@ export default function CaseFile({ cls, track }) {
     return base
   }
 
-  // Get button styling based on status
   function getButtonClass() {
     if (status === 'locked') return `${styles.cbBtn} ${styles.btnLocked}`
     if (status === 'chief') return `${styles.cbBtn} ${styles.btnChief}`
@@ -67,7 +66,6 @@ export default function CaseFile({ cls, track }) {
     return `${styles.cbBtn} ${styles.btnContinue}`
   }
 
-  // Get button text based on status
   function getButtonText() {
     if (status === 'locked') return '🔒 Locked'
     if (status === 'done') return 'Re-examine Case'
@@ -75,13 +73,11 @@ export default function CaseFile({ cls, track }) {
     return 'Begin Case'
   }
 
-  // Handle click - don't navigate if locked
   function handleNavigate() {
     if (status === 'locked') return
     navigate(`/class/${cls.id}`)
   }
 
-  // Toggle open state - don't open if locked
   function handleToggle() {
     if (status === 'locked') return
     setOpen(o => !o)
@@ -104,7 +100,6 @@ export default function CaseFile({ cls, track }) {
           </div>
 
           <div className={styles.chbRight}>
-            {/* Circular accuracy indicator - replaces progress bar */}
             <div className={styles.chbAccuracy}>
               <div className={`${styles.accuracyCircle} ${getAccuracyClass()}`}>
                 {status === 'locked' ? '—' : `${accuracy}%`}
@@ -143,7 +138,6 @@ export default function CaseFile({ cls, track }) {
         </div>
       )}
       
-      {/* Locked message when locked and expanded */}
       {open && status === 'locked' && (
         <div className={styles.caseBody}>
           <div className={styles.cbInner}>
@@ -166,4 +160,4 @@ export default function CaseFile({ cls, track }) {
       )}
     </div>
   )
-};
+}

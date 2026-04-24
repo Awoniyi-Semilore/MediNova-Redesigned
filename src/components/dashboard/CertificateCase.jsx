@@ -1,3 +1,7 @@
+
+
+// src/components/dashboard/CertificateCase.jsx
+
 import { useProgress } from '../../contexts/ProgressContext'
 import { CURRICULUM } from '../../data/curriculum'
 import styles from '../../styles/dashboard.module.css'

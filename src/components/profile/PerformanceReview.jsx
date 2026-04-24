@@ -1,3 +1,5 @@
+// src/components/profile/PerformanceReview.jsx
+
 import { useState, useEffect, useCallback } from 'react'
 import styles from '../../styles/profile.module.css'
 
@@ -18,29 +20,29 @@ function getPeriodPercent(nextMonday) {
 }
 
 function buildReview(simsThisPeriod, simsTarget, avgScore, name) {
-  const first = name?.split(' ')[0] || 'Doctor'
+  const first = name?.split(' ')[0] || 'Learner'
   const remaining = Math.max(0, simsTarget - simsThisPeriod)
 
   if (simsThisPeriod >= simsTarget && avgScore >= 75) {
     return {
       status: 'satisfactory',
-      badge: 'Satisfactory',
-      message: `Dr. ${first}, your performance during this review period meets the clinical standard. With an average accuracy of ${avgScore}%, your quality of care is commendable. Engagement remains high, and you are well-positioned for higher ward floor advancement. Keep up this standard.`
+      badge: 'On Track',
+      message: `Hi ${first}, you are doing excellent this week! With an average score of ${avgScore}%, you are mastering the material well. Your engagement is strong, and you are building great clinical reasoning skills. Keep up the fantastic work!`
     }
   }
 
   if (simsThisPeriod >= simsTarget && avgScore < 75) {
     return {
       status: 'warn',
-      badge: 'Review Required',
-      message: `Dr. ${first}, while you meet simulation volume, your accuracy of ${avgScore}% is below the 75% threshold. Completing shifts without precision is a clinical risk. Revisit the debrief materials for your failed modules immediately.`
+      badge: 'Review Suggested',
+      message: `Hi ${first}, you have completed your simulations for this period, which is great! Your accuracy is ${avgScore}%. Consider reviewing the debrief notes for any missed questions to strengthen your understanding. Every review session helps!`
     }
   }
 
   return {
     status: 'warn',
-    badge: 'Incomplete Duty',
-    message: `Dr. ${first}, your appraisal shows only ${simsThisPeriod}/${simsTarget} simulations completed. While your accuracy is ${avgScore}%, consistency is mandatory for licensure. Failure to meet requirements may result in restricted floor access. Complete ${remaining} more sim${remaining > 1 ? 's' : ''} before the Monday reset.`
+    badge: 'In Progress',
+    message: `Hi ${first}, you have completed ${simsThisPeriod}/${simsTarget} simulations this week. Your accuracy is ${avgScore}%. Consistent practice is the key to building confidence. You only need ${remaining} more simulation${remaining > 1 ? 's' : ''} to complete this block. You have got this!`
   }
 }
 
@@ -48,8 +50,6 @@ export default function PerformanceReview({
   name,
   simsThisPeriod,
   simsTarget,
-  simsUrgent,
-  urgentTarget,
   avgScore
 }) {
   const [nextMonday, setNextMonday] = useState(getNextMonday)
@@ -92,9 +92,7 @@ export default function PerformanceReview({
     setReview(buildReview(simsThisPeriod, simsTarget, avgScore, name))
   }, [simsThisPeriod, simsTarget, avgScore, name])
 
-  // Cap bars at 100%
   const simsBarPct = Math.min(100, Math.round((simsThisPeriod / simsTarget) * 100))
-  const urgentBarPct = urgentTarget > 0 ? Math.min(100, Math.round((simsUrgent / urgentTarget) * 100)) : 0
 
   return (
     <div className={styles.reviewCard}>
@@ -104,8 +102,8 @@ export default function PerformanceReview({
             <rect x="4" y="0" width="2" height="10"/><rect x="0" y="4" width="10" height="2"/>
           </svg>
         </div>
-        <div className={styles.rhTitle}>Weekly Appraisal · Chief of Staff</div>
-        {justReset && <div className={styles.resetToast}>↺ Records Reset</div>}
+        <div className={styles.rhTitle}>Weekly Progress Check</div>
+        {justReset && <div className={styles.resetToast}>New week started!</div>}
         <div className={`${styles.rhBadge} ${review.status === 'satisfactory' ? styles.rhOk : styles.rhWarn}`}>
           {review.badge}
         </div>
@@ -120,8 +118,8 @@ export default function PerformanceReview({
               </svg>
             </div>
             <div>
-              <div className={styles.rvSealTitle}>Prof. Chukwuemeka Obi</div>
-              <div className={styles.rvSealSub}>Chief of Staff · MediNova Teaching Hospital</div>
+              <div className={styles.rvSealTitle}>Your Learning Coach</div>
+              <div className={styles.rvSealSub}>MediNova Learning Platform</div>
             </div>
           </div>
 
@@ -130,24 +128,24 @@ export default function PerformanceReview({
 
           <div className={styles.rvMetrics}>
             <div className={styles.rvMetric}>
-              <div className={styles.rvMLabel}>Simulations</div>
+              <div className={styles.rvMLabel}>Simulations Done</div>
               <div className={styles.rvMVal}>{simsThisPeriod}/{simsTarget}</div>
               <div className={styles.rvMBar}>
                 <div className={`${styles.rvMFill} ${simsBarPct < 100 ? styles.fillWarn : styles.fillBlue}`} style={{ width: `${simsBarPct}%` }} />
               </div>
             </div>
             <div className={styles.rvMetric}>
-              <div className={styles.rvMLabel}>Urgent Pages</div>
-              <div className={styles.rvMVal}>{simsUrgent}/{urgentTarget}</div>
-              <div className={styles.rvMBar}>
-                <div className={`${styles.rvMFill} ${styles.fillRed}`} style={{ width: `${urgentBarPct}%` }} />
-              </div>
-            </div>
-            <div className={styles.rvMetric}>
-              <div className={styles.rvMLabel}>Avg Score</div>
+              <div className={styles.rvMLabel}>Average Score</div>
               <div className={styles.rvMVal}>{avgScore}%</div>
               <div className={styles.rvMBar}>
                 <div className={`${styles.rvMFill} ${avgScore < 75 ? styles.fillWarn : styles.fillBlue}`} style={{ width: `${avgScore}%` }} />
+              </div>
+            </div>
+            <div className={styles.rvMetric}>
+              <div className={styles.rvMLabel}>Completion</div>
+              <div className={styles.rvMVal}>{simsBarPct}%</div>
+              <div className={styles.rvMBar}>
+                <div className={`${styles.rvMFill} ${simsBarPct < 100 ? styles.fillWarn : styles.fillBlue}`} style={{ width: `${simsBarPct}%` }} />
               </div>
             </div>
           </div>
@@ -155,13 +153,13 @@ export default function PerformanceReview({
 
         <div className={styles.countdownStrip}>
           <div className={styles.cdLeft}>
-            <div className={styles.cdLabel}>Next Appraisal In</div>
+            <div className={styles.cdLabel}>Next Week Starts In</div>
             <div className={styles.cdTime}>{countdown}</div>
-            <div className={styles.cdNote}>Resets Monday · 00:00</div>
+            <div className={styles.cdNote}>Resets Monday at midnight</div>
           </div>
           <div className={styles.cdProg}>
             <div className={styles.cdProgRow}>
-              <span>Period elapsed</span>
+              <span>Week progress</span>
               <span>{periodPct}%</span>
             </div>
             <div className={styles.cdTrack}>
@@ -169,9 +167,9 @@ export default function PerformanceReview({
             </div>
           </div>
           <div className={styles.cdRight}>
-            <div className={styles.cdRLabel}>Pending Duty</div>
+            <div className={styles.cdRLabel}>Remaining</div>
             <div className={styles.cdRVal}>{Math.max(0, simsTarget - simsThisPeriod)}</div>
-            <div className={styles.cdRSub}>Required sims</div>
+            <div className={styles.cdRSub}>Simulations</div>
           </div>
         </div>
       </div>

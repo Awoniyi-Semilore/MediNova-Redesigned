@@ -1,3 +1,5 @@
+// src/components/profile/Profile.jsx
+
 import { useAuth } from '../../contexts/AuthContext'
 import { useTheme } from '../../contexts/ThemeContext'
 import { useProgress } from '../../contexts/ProgressContext'
@@ -14,22 +16,22 @@ export default function Profile() {
   const { isDark } = useTheme()
   const { streak, completedCount, overallProgress, avgScore, track, activeClass } = useProgress()
 
-  const displayName = currentUser?.displayName || currentUser?.email?.split('@')[0] || 'Doctor'
+  const displayName = currentUser?.displayName || currentUser?.email?.split('@')[0] || 'Learner'
   const themeClass = isDark ? styles.dark : styles.light
 
-  const activeTitle = activeClass ? `Class ${activeClass.id} Active` : 'Curriculum Starting'
-  
-  // Calculate relative rotation progress (e.g., progress within the current set of 5 classes)
+  const activeTitle = activeClass ? `Class ${activeClass.id} Active` : 'Getting Started'
+
+  // Rotation progress within current block of 5 classes
   const rotationProgress = completedCount % 5
   const rotationTarget = 5
 
   return (
     <div className={`${styles.page} ${themeClass}`}>
-      <TopBar backLabel="Dashboard" backPath="/dashboard" pageTitle="Staff Dossier · Confidential" />
+      <TopBar backLabel="Dashboard" backPath="/dashboard" pageTitle="My Learning Profile" />
 
       <ProfileHero
         name={displayName}
-        role={track === 'doctor' ? "Attending Physician" : "Head Nurse"}
+        role={track === 'doctor' ? "Medical Student" : "Nursing Student"}
         track={track === 'doctor' ? "Physician Track" : "Nursing Track"}
         activeClass={activeTitle}
         photoURL={currentUser?.photoURL}
@@ -49,28 +51,24 @@ export default function Profile() {
       />
 
       <div className={styles.body}>
-        <div className={styles.sectionLabel}>Clinical Performance Review</div>
+        <div className={styles.sectionLabel}>Performance Overview</div>
         <PerformanceReview
           name={displayName}
           simsThisPeriod={rotationProgress}
           simsTarget={rotationTarget}
-          simsUrgent={0} // To be linked to UrgentPages context later
-          urgentTarget={2}
           avgScore={avgScore}
         />
 
-        <div className={styles.sectionLabel}>Dossier Breakdown</div>
+        <div className={styles.sectionLabel}>Learning Progress</div>
         <ProgressBreakdown
           simsThisPeriod={rotationProgress}
           simsTarget={rotationTarget}
           avgScore={avgScore}
-          urgentDone={0}
-          urgentTotal={2}
           overallPct={overallProgress}
           streak={streak}
         />
 
-        <div className={styles.sectionLabel}>System Configuration</div>
+        <div className={styles.sectionLabel}>Account Settings</div>
         <AccountSettings currentUser={currentUser} />
       </div>
     </div>

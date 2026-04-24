@@ -1,3 +1,5 @@
+// src/components/onboarding/CardWelcome.jsx
+
 import styles from '../../styles/onboarding.module.css'
 
 export default function CardWelcome({ onNext }) {

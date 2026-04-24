@@ -1,4 +1,4 @@
-// curriculum.js - Main index file combining all level modules
+// src/data/curriculum.js - Main index file combining all level modules
 import { CLERKSHIP } from './clerkship.js'
 import { JUNIOR_RESIDENCY } from './junior_residency.js'
 import { SENIOR_RESIDENCY } from './senior_residency.js'
@@ -12,33 +12,33 @@ import { BOARD_CERTIFICATION } from './board_certification.js'
 export const LEVELS = [
   {
     id: "clerkship",
-    label: "Clerkship",
+    label: "Foundation Care",
     classRange: [1, 4],
-    tagline: "You just walked onto the ward. Learn to see before you act.",
+    tagline: "You just stepped into the birth centre. Learn to see before you touch.",
     simulationDesign: "clipboard",
     colorPool: ["#1565c0", "#0277bd", "#283593", "#00695c"],
   },
   {
     id: "junior_residency",
-    label: "Junior Residency",
+    label: "Antenatal Mastery",
     classRange: [5, 9],
-    tagline: "Common presentations. Independent management. The clock has started.",
+    tagline: "Common presentations. Independent care. The journey has begun.",
     simulationDesign: "monitor",
     colorPool: ["#2e7d32", "#388e3c", "#1b5e20", "#33691e"],
   },
   {
     id: "senior_residency",
-    label: "Senior Residency",
+    label: "Labour & Birth",
     classRange: [10, 14],
-    tagline: "High acuity. Competing priorities. Hesitation is not an option.",
+    tagline: "High acuity. Competing priorities. Every contraction counts.",
     simulationDesign: "whiteboard",
     colorPool: ["#e65100", "#bf360c", "#ff6f00", "#e64a19"],
   },
   {
     id: "fellowship",
-    label: "Fellowship",
+    label: "Complex Birth",
     classRange: [15, 18],
-    tagline: "Sub-specialty mastery. You are directing a team now.",
+    tagline: "Sub-specialty mastery. You are holding two lives in your hands now.",
     simulationDesign: "command_centre",
     colorPool: ["#6a1b9a", "#4a148c", "#880e4f", "#ad1457"],
   },
@@ -46,7 +46,7 @@ export const LEVELS = [
     id: "board_certification",
     label: "Board Certification",
     classRange: [19, 20],
-    tagline: "No hints. No guidance. Just a patient and everything you know.",
+    tagline: "No hints. No guidance. Just a woman in labour and everything you know.",
     simulationDesign: "blank_slate",
     colorPool: ["#b71c1c", "#7f0000", "#c62828"],
   },
@@ -86,4 +86,4 @@ export function getTotalClassCount() {
 
 export function getClassesByTrack(track) {
   return CURRICULUM.filter(c => c[track] && c[track].sims && c[track].sims.length > 0)
-};
+}

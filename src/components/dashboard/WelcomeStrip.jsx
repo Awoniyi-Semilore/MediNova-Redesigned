@@ -1,3 +1,5 @@
+// src/components/dashboard/WelcomeStrip.jsx
+
 import styles from '../../styles/dashboard.module.css'
 
 export default function WelcomeStrip({ name, track, activeClass }) {

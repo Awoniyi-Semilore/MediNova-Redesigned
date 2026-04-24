@@ -1,11 +1,12 @@
+// src/components/profile/ProgressBreakdown.jsx
+
 import styles from '../../styles/profile.module.css'
 
-export default function ProgressBreakdown({ simsThisPeriod, simsTarget, avgScore, urgentDone, urgentTotal, overallPct, streak }) {
+export default function ProgressBreakdown({ simsThisPeriod, simsTarget, avgScore, overallPct, streak }) {
   const bars = [
-    { name: 'Rotation Simulations', val: `${simsThisPeriod} / ${simsTarget}`, pct: Math.min(100, Math.round((simsThisPeriod / simsTarget) * 100)), color: styles.pfAmber },
+    { name: 'Block Progress', val: `${simsThisPeriod} / ${simsTarget}`, pct: Math.min(100, Math.round((simsThisPeriod / simsTarget) * 100)), color: styles.pfAmber },
     { name: 'Clinical Accuracy', val: `${avgScore}%`, pct: avgScore, color: styles.pfBlue },
-    { name: 'Urgent Response Rate', val: `${urgentDone} / ${urgentTotal}`, pct: urgentTotal > 0 ? Math.round((urgentDone / urgentTotal) * 100) : 0, color: styles.pfRed },
-    { name: 'Total Curriculum Progress', val: `${overallPct}%`, pct: overallPct, color: styles.pfGreen },
+    { name: 'Total Curriculum', val: `${overallPct}%`, pct: overallPct, color: styles.pfGreen },
     { name: 'Weekly Attendance', val: `${streak} / 7 days`, pct: Math.min(100, Math.round((streak / 7) * 100)), color: styles.pfBlue },
   ]
 
@@ -18,9 +19,9 @@ export default function ProgressBreakdown({ simsThisPeriod, simsTarget, avgScore
               <rect x="4" y="0" width="2" height="10"/><rect x="0" y="4" width="10" height="2"/>
             </svg>
           </div>
-          <div className={styles.chTitle}>Clinical Progress Breakdown</div>
+          <div className={styles.chTitle}>Learning Progress Breakdown</div>
         </div>
-        <span className={`${styles.chBadge} ${styles.badgeInfo}`}>Live Audit</span>
+        <span className={`${styles.chBadge} ${styles.badgeInfo}`}>Live</span>
       </div>
       <div className={styles.cardBody}>
         <div className={styles.progList}>

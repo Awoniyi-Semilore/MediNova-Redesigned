@@ -122,7 +122,7 @@ export { Icons }
 export default function SimulationPage() {
   const { classId } = useParams()
   const navigate = useNavigate()
-  const { track, classStatus, recordSimResult, unlockNextClass, classAttempts, classScore, results } = useProgress()
+  const { track, classStatus, recordSimResult, classAttempts, classScore, results } = useProgress()
 
   const cls = useMemo(() => {
     return CURRICULUM.find(c => c.id === Number(classId))
@@ -151,7 +151,18 @@ export default function SimulationPage() {
 
   const trackData = useMemo(() => {
     if (!cls) return null
-    return cls[track] || cls.doctor
+    const possibleKeys = [track, 'doctor', 'midwife', 'nurse', 'staff', 'intern']
+    for (const key of possibleKeys) {
+      if (cls[key] && cls[key].sims) {
+        return cls[key]
+      }
+    }
+    for (const key of Object.keys(cls)) {
+      if (cls[key]?.sims?.length > 0) {
+        return cls[key]
+      }
+    }
+    return null
   }, [cls, track])
 
   const sims = useMemo(() => trackData?.sims || [], [trackData])
@@ -218,21 +229,26 @@ export default function SimulationPage() {
     setPhase('opening')
   }, [cls?.id, currentSimIndex, currentSubsimIndex])
 
+  // In SimulationPage.jsx, REPLACE the handleSimDebriefContinue function:
+
   async function handleSimDebriefContinue() {
     const hasSubsims = currentSim?.subsims?.length > 0
     const moreSubsims = hasSubsims && currentSubsimIndex < (currentSim.subsims.length - 1)
     const moreSims = currentSimIndex < sims.length - 1
 
     if (moreSubsims) {
+      console.log('[SimPage] More subsims available, moving to next subsim')
       setCurrentSubsimIndex(s => s + 1)
       setCurrentSimAnswers([])
       setPhase('opening')
     } else if (moreSims) {
+      console.log('[SimPage] More sims available, moving to next sim')
       setCurrentSimIndex(s => s + 1)
       setCurrentSubsimIndex(0)
       setCurrentSimAnswers([])
       setPhase('opening')
     } else {
+      // FINAL SAVE
       if (isSaving) return
       setIsSaving(true)
       setError(null)
@@ -240,6 +256,8 @@ export default function SimulationPage() {
       const total = allAnswers.length
       const correct = allAnswers.filter(a => a.correct).length
       const finalScore = total > 0 ? Math.round((correct / total) * 100) : 0
+      
+      console.log('[SimPage] 🏁 Class complete! Final score:', finalScore, 'Total answers:', total, 'Correct:', correct)
       
       // Save to localStorage as backup
       const progressBackup = {
@@ -252,8 +270,10 @@ export default function SimulationPage() {
         synced: false
       }
       localStorage.setItem(`medinova_progress_${cls.id}`, JSON.stringify(progressBackup))
+      console.log('[SimPage] 💾 Local backup saved:', progressBackup)
       
       try {
+        console.log('[SimPage] 📤 Calling recordSimResult...')
         await recordSimResult({
           classId: cls.id,
           score: finalScore,
@@ -266,12 +286,11 @@ export default function SimulationPage() {
         progressBackup.synced = true
         localStorage.setItem(`medinova_progress_${cls.id}`, JSON.stringify(progressBackup))
         
-        await unlockNextClass(cls.id)
-        
         setSaveSuccess(true)
         setPhase('class_debrief')
+        console.log('[SimPage] ✅ Save successful! Moving to class_debrief')
       } catch (err) {
-        console.error('Save failed:', err)
+        console.error('[SimPage] ❌ Save failed:', err)
         setError("Failed to save results to cloud. Progress saved locally.")
         setPhase('class_debrief')
       } finally {

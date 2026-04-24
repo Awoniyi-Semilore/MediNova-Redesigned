@@ -471,6 +471,29 @@ dashboard.module.css */
 /* tc needs position relative for the glow */
 .tc { position: relative; }
 
+.hlBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  overflow: visible; /* 🔥 THIS FIXES CUT OFF */
+}
 
+.hlTooltip {
+  position: absolute;
+  z-index: 10000;
+  max-width: 260px;
+}
 
+.streakWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
 
+.sbNote {
+  font-size: 15px;
+  color: #0d2d5e;
+  opacity: 0.85;
+  padding-left: 6px;
+  line-height: 1.3;
+}
