@@ -1,124 +1,139 @@
-// src/components/dashboard/Dashboard.jsx
+// src/components/dashboard/TourHighlight.jsx
 
-import { useState, useEffect } from 'react'
-import { useAuth } from '../../contexts/AuthContext'
-import { useTheme } from '../../contexts/ThemeContext'
-import { useProgress } from '../../contexts/ProgressContext'
+import { useEffect, useRef, useState } from 'react'
 import styles from '../../styles/dashboard.module.css'
 
-// Components
-import TopBar from '../shared/TopBar'
-import WelcomeStrip from './WelcomeStrip'
-import StreakBar from './StreakBar'
-import VitalsRow from './VitalsRow'
-import WardMap from './WardMap'
-import ShiftBoard from './ShiftBoard'
-import CertificateCase from './CertificateCase'
-import UrgentPages from './UrgentPages'
-import WelcomeModal from './WelcomeModal'
-import TourHighlight from './TourHighlight'
+const HIGHLIGHTS = [
+  { id: 'streakBar', title: 'Login Streak & Vitals', body: 'Your gold stars show consecutive daily logins. The stat cards show live progress — classes done, average score, certificates.' },
+  { id: 'wardPanel', title: 'Ward Map', body: 'All clinical class floors at a glance. Green = completed, blue = active, yellow = next up, grey = locked.' },
+  { id: 'shiftPanel', title: 'Shift Board', body: 'Your detailed class list. The active class glows blue. Complete it to unlock the next one.' },
+]
 
-// ✅ FIXED: Key changed so tour shows on EVERY fresh login
-// We clear this on logout, so each new login = fresh tour
-const TOUR_KEY = 'mn_tour_session'
+export default function TourHighlight({ onEnd }) {
+  const [idx, setIdx] = useState(0)
+  const [box, setBox] = useState(null)
+  const [tip, setTip] = useState(null)
+  const tooltipRef = useRef(null)
 
-export default function Dashboard() {
-  const { currentUser } = useAuth()
-  const { isDark } = useTheme() 
-  const { activeClass, track, loading } = useProgress()
-  const [showModal, setShowModal] = useState(false)
-  const [showTour, setShowTour] = useState(false)
-
-  const displayName = currentUser?.displayName
-    || currentUser?.email?.split('@')[0]
-    || 'Doctor'
-
-  // ✅ FIXED: Show tour EVERY time dashboard mounts with no session flag
-  // This means: every login = tour shows. Logout clears the flag.
   useEffect(() => {
-    const sessionDone = sessionStorage.getItem(TOUR_KEY)
-    if (!sessionDone) {
-      setShowModal(true)
+    positionHighlight(idx)
+
+    const handleResize = () => positionHighlight(idx)
+    window.addEventListener('resize', handleResize)
+
+    return () => window.removeEventListener('resize', handleResize)
+  }, [idx])
+
+  function positionHighlight(i) {
+    const el = document.getElementById(HIGHLIGHTS[i].id)
+    const container = document.querySelector('[data-dashboard]')
+
+    if (!el || !container) {
+      if (i < HIGHLIGHTS.length - 1) setIdx(i + 1)
+      else onEnd()
+      return
     }
-  }, [])
 
-  function handleStartTour() {
-    setShowModal(false)
-    setTimeout(() => setShowTour(true), 300)
+    // ✅ FIXED: Scroll element into view so it's not off-screen on mobile
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+
+    const elRect = el.getBoundingClientRect()
+    const cRect = container.getBoundingClientRect()
+
+    const top = elRect.top - cRect.top - 4
+    const left = elRect.left - cRect.left - 4
+    const width = elRect.width + 8
+    const height = elRect.height + 8
+
+    setBox({ top, left, width, height })
+
+    // ✅ FIXED: Viewport-aware positioning with mobile clamping
+    const tooltipWidth = 260
+    const tooltipHeight = 140
+    const gap = 12
+
+    // Calculate available space in all directions
+    const spaceBelow = window.innerHeight - elRect.bottom
+    const spaceAbove = elRect.top
+    const spaceRight = window.innerWidth - elRect.right
+    const spaceLeft = elRect.left
+
+    let tipTop, tipLeft
+
+    // Decide vertical position: prefer below, but flip to above if no room
+    if (spaceBelow < tooltipHeight + gap && spaceAbove > tooltipHeight + gap) {
+      tipTop = top - tooltipHeight - gap
+    } else {
+      tipTop = top + height + gap
+    }
+
+    // Horizontal: center on element, but clamp to viewport edges
+    const idealLeft = left + (width / 2) - (tooltipWidth / 2)
+    tipLeft = Math.max(10, Math.min(idealLeft, window.innerWidth - tooltipWidth - 10))
+
+    // Final safety clamp for vertical (never off-screen)
+    tipTop = Math.max(10, Math.min(tipTop, window.innerHeight - tooltipHeight - 10))
+
+    setTip({
+      top: tipTop,
+      left: tipLeft,
+      width: tooltipWidth
+    })
   }
 
-  function handleSkipModal() {
-    setShowModal(false)
-    sessionStorage.setItem(TOUR_KEY, 'true')
+  function next() {
+    if (idx >= HIGHLIGHTS.length - 1) {
+      onEnd()
+      return
+    }
+    setIdx(i => i + 1)
   }
 
-  function handleEndTour() {
-    setShowTour(false)
-    sessionStorage.setItem(TOUR_KEY, 'true')
+  function skip() {
+    onEnd()
   }
 
-  const themeClass = isDark ? styles.dark : styles.light
-
-  const activeTitle = activeClass
-    ? `Class ${activeClass.id} — ${activeClass.title}`
-    : 'Residency Initializing...'
-
-  if (loading) return (
-    <div className={`${styles.app} ${themeClass}`} style={{
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-      minHeight: '100vh', fontFamily: 'Share Tech Mono, monospace',
-      color: '#1565c0'
-    }}>
-      <div className={styles.tbLiveDot} style={{ marginRight: '10px' }} />
-      UPDATING CLINICAL RECORDS...
-    </div>
-  )
+  const h = HIGHLIGHTS[idx]
 
   return (
-    <div className={`${styles.app} ${themeClass}`} data-dashboard>
-      <TopBar />
-
-      <div className={styles.bgStrip}>
-        <img
-          className={styles.bgImg}
-          src="/images/reception.jpeg"
-          alt="MediNova Reception"
-        />
-        <div className={styles.bgOverlay} />
-      </div>
-
-      <main className={styles.mainContent}>
-        <WelcomeStrip
-          name={displayName}
-          track={track === 'doctor' ? 'Physician Track' : 'Nurse Track'}
-          activeClass={activeTitle}
-        />
-
-        <StreakBar />
-
-        <VitalsRow />
-
-        <div className={styles.twoCol}>
-          <div className={styles.colLeft}>
-            <WardMap />
-          </div>
-
-          <div className={styles.colRight}>
-            <ShiftBoard />
-            <CertificateCase />
-          </div>
-        </div>
-      </main>
-
-      {showModal && (
-        <WelcomeModal
-          onStartTour={handleStartTour}
-          onSkip={handleSkipModal}
+    <div className={styles.hlBackdrop}>
+      {box && (
+        <div
+          className={styles.hlBox}
+          style={{ top: box.top, left: box.left, width: box.width, height: box.height }}
         />
       )}
 
-      {showTour && (
-        <TourHighlight onEnd={handleEndTour} />
+      {tip && (
+        <div
+          ref={tooltipRef}
+          className={styles.hlTooltip}
+          style={{ 
+            top: tip.top, 
+            left: tip.left, 
+            width: tip.width,
+            maxWidth: 'calc(100vw - 20px)'
+          }}
+        >
+          <div className={styles.hlTitle}>{h.title}</div>
+          <div className={styles.hlBody}>{h.body}</div>
+
+          <div className={styles.hlNav}>
+            <span className={styles.hlStep}>
+              {idx + 1} of {HIGHLIGHTS.length}
+            </span>
+
+            <div className={styles.hlBtns}>
+              <button className={styles.hlSkipBtn} onClick={skip}>
+                Skip
+              </button>
+
+              <button className={styles.hlNextBtn} onClick={next}>
+                {idx === HIGHLIGHTS.length - 1 ? 'Finish ✓' : 'Next →'}
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   )
