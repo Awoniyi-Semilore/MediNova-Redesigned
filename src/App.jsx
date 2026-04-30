@@ -14,6 +14,7 @@ import ClassDetail from './components/ward-map/ClassDetail'
 import SimulationPage from './components/simulation/SimulationPage'
 import OnboardingFlow from './components/onboarding/OnboardingFlow'
 import ProtectedRoute from './ProtectedRoute'
+import CreateUser from './pages/CreateUser'
 
 /* =========================
    FIREBASE-ONLY GUARD
@@ -93,6 +94,8 @@ export default function App() {
                       </ProtectedRoute>
                     }
                   />
+
+                  <Route path="/createnewuser" element={<CreateUser />} />
 
                   {/* CLASS DETAIL */}
                   <Route
